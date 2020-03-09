@@ -1,0 +1,914 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MinistreFinModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Activites">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type_ActiviteID" Type="int" Nullable="false" />
+          <Property Name="Nom_activ" Type="varchar" MaxLength="255" />
+          <Property Name="Objectif_activ" Type="varchar" MaxLength="255" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Agenda">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UtilisateurID" Type="int" Nullable="false" />
+          <Property Name="Nom_agenda" Type="varchar" MaxLength="255" />
+          <Property Name="Date_creation" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Agenda_Activites">
+          <Key>
+            <PropertyRef Name="AgendaID" />
+            <PropertyRef Name="ActivitesID" />
+          </Key>
+          <Property Name="AgendaID" Type="int" Nullable="false" />
+          <Property Name="ActivitesID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Articles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UtilisateurID" Type="int" Nullable="false" />
+          <Property Name="Titre_article" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="int" />
+          <Property Name="Contenu_article" Type="int" />
+          <Property Name="Image" Type="varchar" MaxLength="255" />
+          <Property Name="Url_video" Type="varchar" MaxLength="255" />
+          <Property Name="Date_creation" Type="datetime" />
+        </EntityType>
+        <EntityType Name="compte_rendu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActivitesID" Type="int" Nullable="false" />
+          <Property Name="Titre_cr" Type="varchar" MaxLength="255" />
+          <Property Name="Date_debut" Type="datetime" />
+          <Property Name="Date_fin" Type="datetime" />
+          <Property Name="Sujet1" Type="int" />
+          <Property Name="Sujet2" Type="int" />
+          <Property Name="Autre" Type="int" />
+          <Property Name="Statut" Type="bit" />
+        </EntityType>
+        <EntityType Name="Evenement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Titre_even" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="int" />
+          <Property Name="Image" Type="varchar" MaxLength="255" />
+          <Property Name="Date_debut" Type="datetime" />
+          <Property Name="Date_fin" Type="datetime" />
+          <Property Name="Statut" Type="bit" />
+        </EntityType>
+        <EntityType Name="groue_detail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Groupe_thematiqeID" Type="int" Nullable="false" />
+          <Property Name="UtilisateurID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Groupe_thematiqe">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom_groupe" Type="varchar" MaxLength="255" />
+          <Property Name="Date_createion" Type="datetime" />
+          <Property Name="Statut" Type="bit" />
+        </EntityType>
+        <EntityType Name="Initiatives">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UtilisateurID" Type="int" Nullable="false" />
+          <Property Name="Nom_init" Type="varchar" MaxLength="255" />
+          <Property Name="Statu_init" Type="bit" />
+          <Property Name="Date_debu" Type="datetime" />
+          <Property Name="Date_fin" Type="datetime" />
+          <Property Name="Objectifs_generaux" Type="varchar" MaxLength="255" />
+          <Property Name="Obgectifs_specifiques" Type="varchar" MaxLength="255" />
+          <Property Name="Description_court" Type="varchar" MaxLength="255" />
+          <Property Name="Description_detaillee" Type="varchar" MaxLength="255" />
+          <Property Name="Budget" Type="real" />
+          <Property Name="Approbateur" Type="varchar" MaxLength="255" />
+          <Property Name="Cofinancement" Type="varchar" MaxLength="255" />
+          <Property Name="Regions" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Programme">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UtilisateurID" Type="int" Nullable="false" />
+          <Property Name="Nom_prog" Type="varchar" MaxLength="255" />
+          <Property Name="Objectif_prog" Type="varchar" MaxLength="255" />
+          <Property Name="Date_debut" Type="datetime" />
+          <Property Name="Date_fin" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Projet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProgrammeID" Type="int" Nullable="false" />
+          <Property Name="Nom_projet" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="Objectif_projet" Type="varchar" MaxLength="255" />
+          <Property Name="Date_debut" Type="datetime" />
+          <Property Name="Date_fin" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Type_Activite">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom_type" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Utilisateur">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="255" />
+          <Property Name="Prenom" Type="varchar" MaxLength="255" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="Telephone" Type="varchar" MaxLength="255" />
+          <Property Name="Mot_passe" Type="varchar" MaxLength="255" />
+          <Property Name="Discriminator" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Utilisateur_Evenement2">
+          <Key>
+            <PropertyRef Name="UtilisateurID" />
+            <PropertyRef Name="EvenementID" />
+          </Key>
+          <Property Name="UtilisateurID" Type="int" Nullable="false" />
+          <Property Name="EvenementID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="avoir">
+          <End Role="Activites" Type="Self.Activites" Multiplicity="1" />
+          <End Role="compte_rendu" Type="Self.compte_rendu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="compte_rendu">
+              <PropertyRef Name="ActivitesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Class">
+          <End Role="Groupe_thematiqe" Type="Self.Groupe_thematiqe" Multiplicity="1" />
+          <End Role="groue_detail" Type="Self.groue_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groupe_thematiqe">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="groue_detail">
+              <PropertyRef Name="Groupe_thematiqeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Class2">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
+          <End Role="groue_detail" Type="Self.groue_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="groue_detail">
+              <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="contient">
+          <End Role="Programme" Type="Self.Programme" Multiplicity="1" />
+          <End Role="Projet" Type="Self.Projet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Programme">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Projet">
+              <PropertyRef Name="ProgrammeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="contient2">
+          <End Role="Agenda" Type="Self.Agenda" Multiplicity="1" />
+          <End Role="Agenda_Activites" Type="Self.Agenda_Activites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agenda">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agenda_Activites">
+              <PropertyRef Name="AgendaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="contient3">
+          <End Role="Activites" Type="Self.Activites" Multiplicity="1" />
+          <End Role="Agenda_Activites" Type="Self.Agenda_Activites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agenda_Activites">
+              <PropertyRef Name="ActivitesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="creer">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
+          <End Role="Agenda" Type="Self.Agenda" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agenda">
+              <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="creer2">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
+          <End Role="Programme" Type="Self.Programme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Programme">
+              <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="creer3">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
+          <End Role="Utilisateur_Evenement2" Type="Self.Utilisateur_Evenement2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Utilisateur_Evenement2">
+              <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="creer4">
+          <End Role="Evenement" Type="Self.Evenement" Multiplicity="1" />
+          <End Role="Utilisateur_Evenement2" Type="Self.Utilisateur_Evenement2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Evenement">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Utilisateur_Evenement2">
+              <PropertyRef Name="EvenementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="creer5">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
+          <End Role="Articles" Type="Self.Articles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Articles">
+              <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="creer6">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
+          <End Role="Initiatives" Type="Self.Initiatives" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Initiatives">
+              <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKActivites519089">
+          <End Role="Type_Activite" Type="Self.Type_Activite" Multiplicity="1" />
+          <End Role="Activites" Type="Self.Activites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Activite">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Activites">
+              <PropertyRef Name="Type_ActiviteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MinistreFinModelStoreContainer">
+          <EntitySet Name="Activites" EntityType="Self.Activites" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Agenda" EntityType="Self.Agenda" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Agenda_Activites" EntityType="Self.Agenda_Activites" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Articles" EntityType="Self.Articles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="compte_rendu" EntityType="Self.compte_rendu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Evenement" EntityType="Self.Evenement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="groue_detail" EntityType="Self.groue_detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Groupe_thematiqe" EntityType="Self.Groupe_thematiqe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Initiatives" EntityType="Self.Initiatives" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Programme" EntityType="Self.Programme" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projet" EntityType="Self.Projet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type_Activite" EntityType="Self.Type_Activite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Utilisateur" EntityType="Self.Utilisateur" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Utilisateur_Evenement2" EntityType="Self.Utilisateur_Evenement2" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="avoir" Association="Self.avoir">
+            <End Role="Activites" EntitySet="Activites" />
+            <End Role="compte_rendu" EntitySet="compte_rendu" />
+          </AssociationSet>
+          <AssociationSet Name="Class" Association="Self.Class">
+            <End Role="Groupe_thematiqe" EntitySet="Groupe_thematiqe" />
+            <End Role="groue_detail" EntitySet="groue_detail" />
+          </AssociationSet>
+          <AssociationSet Name="Class2" Association="Self.Class2">
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+            <End Role="groue_detail" EntitySet="groue_detail" />
+          </AssociationSet>
+          <AssociationSet Name="contient" Association="Self.contient">
+            <End Role="Programme" EntitySet="Programme" />
+            <End Role="Projet" EntitySet="Projet" />
+          </AssociationSet>
+          <AssociationSet Name="contient2" Association="Self.contient2">
+            <End Role="Agenda" EntitySet="Agenda" />
+            <End Role="Agenda_Activites" EntitySet="Agenda_Activites" />
+          </AssociationSet>
+          <AssociationSet Name="contient3" Association="Self.contient3">
+            <End Role="Activites" EntitySet="Activites" />
+            <End Role="Agenda_Activites" EntitySet="Agenda_Activites" />
+          </AssociationSet>
+          <AssociationSet Name="creer" Association="Self.creer">
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+            <End Role="Agenda" EntitySet="Agenda" />
+          </AssociationSet>
+          <AssociationSet Name="creer2" Association="Self.creer2">
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+            <End Role="Programme" EntitySet="Programme" />
+          </AssociationSet>
+          <AssociationSet Name="creer3" Association="Self.creer3">
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+            <End Role="Utilisateur_Evenement2" EntitySet="Utilisateur_Evenement2" />
+          </AssociationSet>
+          <AssociationSet Name="creer4" Association="Self.creer4">
+            <End Role="Evenement" EntitySet="Evenement" />
+            <End Role="Utilisateur_Evenement2" EntitySet="Utilisateur_Evenement2" />
+          </AssociationSet>
+          <AssociationSet Name="creer5" Association="Self.creer5">
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+            <End Role="Articles" EntitySet="Articles" />
+          </AssociationSet>
+          <AssociationSet Name="creer6" Association="Self.creer6">
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+            <End Role="Initiatives" EntitySet="Initiatives" />
+          </AssociationSet>
+          <AssociationSet Name="FKActivites519089" Association="Self.FKActivites519089">
+            <End Role="Type_Activite" EntitySet="Type_Activite" />
+            <End Role="Activites" EntitySet="Activites" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MinistreFinModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Activite">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type_ActiviteID" Type="Int32" Nullable="false" />
+          <Property Name="Nom_activ" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Objectif_activ" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="compte_rendu" Relationship="Self.avoir" FromRole="Activites" ToRole="compte_rendu" />
+          <NavigationProperty Name="Type_Activite" Relationship="Self.FKActivites519089" FromRole="Activites" ToRole="Type_Activite" />
+          <NavigationProperty Name="Agenda" Relationship="Self.Agenda_Activites" FromRole="Activites" ToRole="Agenda" />
+        </EntityType>
+        <EntityType Name="Agendum">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UtilisateurID" Type="Int32" Nullable="false" />
+          <Property Name="Nom_agenda" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Date_creation" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Utilisateur" Relationship="Self.creer" FromRole="Agenda" ToRole="Utilisateur" />
+          <NavigationProperty Name="Activites" Relationship="Self.Agenda_Activites" FromRole="Agenda" ToRole="Activites" />
+        </EntityType>
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UtilisateurID" Type="Int32" Nullable="false" />
+          <Property Name="Titre_article" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="Int32" />
+          <Property Name="Contenu_article" Type="Int32" />
+          <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Url_video" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Date_creation" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Utilisateur" Relationship="Self.creer5" FromRole="Articles" ToRole="Utilisateur" />
+        </EntityType>
+        <EntityType Name="compte_rendu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActivitesID" Type="Int32" Nullable="false" />
+          <Property Name="Titre_cr" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Date_debut" Type="DateTime" Precision="3" />
+          <Property Name="Date_fin" Type="DateTime" Precision="3" />
+          <Property Name="Sujet1" Type="Int32" />
+          <Property Name="Sujet2" Type="Int32" />
+          <Property Name="Autre" Type="Int32" />
+          <Property Name="Statut" Type="Boolean" />
+          <NavigationProperty Name="Activite" Relationship="Self.avoir" FromRole="compte_rendu" ToRole="Activites" />
+        </EntityType>
+        <EntityType Name="Evenement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Titre_even" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="Int32" />
+          <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Date_debut" Type="DateTime" Precision="3" />
+          <Property Name="Date_fin" Type="DateTime" Precision="3" />
+          <Property Name="Statut" Type="Boolean" />
+          <NavigationProperty Name="Utilisateurs" Relationship="Self.Utilisateur_Evenement2" FromRole="Evenement" ToRole="Utilisateur" />
+        </EntityType>
+        <EntityType Name="groue_detail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Groupe_thematiqeID" Type="Int32" Nullable="false" />
+          <Property Name="UtilisateurID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Groupe_thematiqe" Relationship="Self.Class" FromRole="groue_detail" ToRole="Groupe_thematiqe" />
+          <NavigationProperty Name="Utilisateur" Relationship="Self.Class2" FromRole="groue_detail" ToRole="Utilisateur" />
+        </EntityType>
+        <EntityType Name="Groupe_thematiqe">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom_groupe" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Date_createion" Type="DateTime" Precision="3" />
+          <Property Name="Statut" Type="Boolean" />
+          <NavigationProperty Name="groue_detail" Relationship="Self.Class" FromRole="Groupe_thematiqe" ToRole="groue_detail" />
+        </EntityType>
+        <EntityType Name="Initiative">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UtilisateurID" Type="Int32" Nullable="false" />
+          <Property Name="Nom_init" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Statu_init" Type="Boolean" />
+          <Property Name="Date_debu" Type="DateTime" Precision="3" />
+          <Property Name="Date_fin" Type="DateTime" Precision="3" />
+          <Property Name="Objectifs_generaux" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Obgectifs_specifiques" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description_court" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description_detaillee" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Budget" Type="Single" />
+          <Property Name="Approbateur" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Cofinancement" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Regions" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Utilisateur" Relationship="Self.creer6" FromRole="Initiatives" ToRole="Utilisateur" />
+        </EntityType>
+        <EntityType Name="Programme">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UtilisateurID" Type="Int32" Nullable="false" />
+          <Property Name="Nom_prog" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Objectif_prog" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Date_debut" Type="DateTime" Precision="3" />
+          <Property Name="Date_fin" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Projets" Relationship="Self.contient" FromRole="Programme" ToRole="Projet" />
+          <NavigationProperty Name="Utilisateur" Relationship="Self.creer2" FromRole="Programme" ToRole="Utilisateur" />
+        </EntityType>
+        <EntityType Name="Projet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProgrammeID" Type="Int32" Nullable="false" />
+          <Property Name="Nom_projet" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Objectif_projet" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Date_debut" Type="DateTime" Precision="3" />
+          <Property Name="Date_fin" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Programme" Relationship="Self.contient" FromRole="Projet" ToRole="Programme" />
+        </EntityType>
+        <EntityType Name="Type_Activite">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom_type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Activites" Relationship="Self.FKActivites519089" FromRole="Type_Activite" ToRole="Activites" />
+        </EntityType>
+        <EntityType Name="Utilisateur">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Prenom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Mot_passe" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Discriminator" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Agenda" Relationship="Self.creer" FromRole="Utilisateur" ToRole="Agenda" />
+          <NavigationProperty Name="Articles" Relationship="Self.creer5" FromRole="Utilisateur" ToRole="Articles" />
+          <NavigationProperty Name="groue_detail" Relationship="Self.Class2" FromRole="Utilisateur" ToRole="groue_detail" />
+          <NavigationProperty Name="Initiatives" Relationship="Self.creer6" FromRole="Utilisateur" ToRole="Initiatives" />
+          <NavigationProperty Name="Programmes" Relationship="Self.creer2" FromRole="Utilisateur" ToRole="Programme" />
+          <NavigationProperty Name="Evenements" Relationship="Self.Utilisateur_Evenement2" FromRole="Utilisateur" ToRole="Evenement" />
+        </EntityType>
+        <Association Name="avoir">
+          <End Role="Activites" Type="Self.Activite" Multiplicity="1" />
+          <End Role="compte_rendu" Type="Self.compte_rendu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="compte_rendu">
+              <PropertyRef Name="ActivitesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKActivites519089">
+          <End Role="Type_Activite" Type="Self.Type_Activite" Multiplicity="1" />
+          <End Role="Activites" Type="Self.Activite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Activite">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Activites">
+              <PropertyRef Name="Type_ActiviteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="creer">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
+          <End Role="Agenda" Type="Self.Agendum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agenda">
+              <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="creer5">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
+          <End Role="Articles" Type="Self.Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Articles">
+              <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Class">
+          <End Role="Groupe_thematiqe" Type="Self.Groupe_thematiqe" Multiplicity="1" />
+          <End Role="groue_detail" Type="Self.groue_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groupe_thematiqe">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="groue_detail">
+              <PropertyRef Name="Groupe_thematiqeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Class2">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
+          <End Role="groue_detail" Type="Self.groue_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="groue_detail">
+              <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="creer6">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
+          <End Role="Initiatives" Type="Self.Initiative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Initiatives">
+              <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="contient">
+          <End Role="Programme" Type="Self.Programme" Multiplicity="1" />
+          <End Role="Projet" Type="Self.Projet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Programme">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Projet">
+              <PropertyRef Name="ProgrammeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="creer2">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
+          <End Role="Programme" Type="Self.Programme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Programme">
+              <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Agenda_Activites">
+          <End Role="Agenda" Type="Self.Agendum" Multiplicity="*" />
+          <End Role="Activites" Type="Self.Activite" Multiplicity="*" />
+        </Association>
+        <Association Name="Utilisateur_Evenement2">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="*" />
+          <End Role="Evenement" Type="Self.Evenement" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="MinistreFinEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Activites" EntityType="Self.Activite" />
+          <EntitySet Name="Agenda" EntityType="Self.Agendum" />
+          <EntitySet Name="Articles" EntityType="Self.Article" />
+          <EntitySet Name="compte_rendu" EntityType="Self.compte_rendu" />
+          <EntitySet Name="Evenements" EntityType="Self.Evenement" />
+          <EntitySet Name="groue_detail" EntityType="Self.groue_detail" />
+          <EntitySet Name="Groupe_thematiqe" EntityType="Self.Groupe_thematiqe" />
+          <EntitySet Name="Initiatives" EntityType="Self.Initiative" />
+          <EntitySet Name="Programmes" EntityType="Self.Programme" />
+          <EntitySet Name="Projets" EntityType="Self.Projet" />
+          <EntitySet Name="Type_Activite" EntityType="Self.Type_Activite" />
+          <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateur" />
+          <AssociationSet Name="avoir" Association="Self.avoir">
+            <End Role="Activites" EntitySet="Activites" />
+            <End Role="compte_rendu" EntitySet="compte_rendu" />
+          </AssociationSet>
+          <AssociationSet Name="FKActivites519089" Association="Self.FKActivites519089">
+            <End Role="Type_Activite" EntitySet="Type_Activite" />
+            <End Role="Activites" EntitySet="Activites" />
+          </AssociationSet>
+          <AssociationSet Name="creer" Association="Self.creer">
+            <End Role="Utilisateur" EntitySet="Utilisateurs" />
+            <End Role="Agenda" EntitySet="Agenda" />
+          </AssociationSet>
+          <AssociationSet Name="creer5" Association="Self.creer5">
+            <End Role="Utilisateur" EntitySet="Utilisateurs" />
+            <End Role="Articles" EntitySet="Articles" />
+          </AssociationSet>
+          <AssociationSet Name="Class" Association="Self.Class">
+            <End Role="Groupe_thematiqe" EntitySet="Groupe_thematiqe" />
+            <End Role="groue_detail" EntitySet="groue_detail" />
+          </AssociationSet>
+          <AssociationSet Name="Class2" Association="Self.Class2">
+            <End Role="Utilisateur" EntitySet="Utilisateurs" />
+            <End Role="groue_detail" EntitySet="groue_detail" />
+          </AssociationSet>
+          <AssociationSet Name="creer6" Association="Self.creer6">
+            <End Role="Utilisateur" EntitySet="Utilisateurs" />
+            <End Role="Initiatives" EntitySet="Initiatives" />
+          </AssociationSet>
+          <AssociationSet Name="contient" Association="Self.contient">
+            <End Role="Programme" EntitySet="Programmes" />
+            <End Role="Projet" EntitySet="Projets" />
+          </AssociationSet>
+          <AssociationSet Name="creer2" Association="Self.creer2">
+            <End Role="Utilisateur" EntitySet="Utilisateurs" />
+            <End Role="Programme" EntitySet="Programmes" />
+          </AssociationSet>
+          <AssociationSet Name="Agenda_Activites" Association="Self.Agenda_Activites">
+            <End Role="Agenda" EntitySet="Agenda" />
+            <End Role="Activites" EntitySet="Activites" />
+          </AssociationSet>
+          <AssociationSet Name="Utilisateur_Evenement2" Association="Self.Utilisateur_Evenement2">
+            <End Role="Utilisateur" EntitySet="Utilisateurs" />
+            <End Role="Evenement" EntitySet="Evenements" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MinistreFinModelStoreContainer" CdmEntityContainer="MinistreFinEntities">
+          <EntitySetMapping Name="Activites">
+            <EntityTypeMapping TypeName="MinistreFinModel.Activite">
+              <MappingFragment StoreEntitySet="Activites">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Type_ActiviteID" ColumnName="Type_ActiviteID" />
+                <ScalarProperty Name="Nom_activ" ColumnName="Nom_activ" />
+                <ScalarProperty Name="Objectif_activ" ColumnName="Objectif_activ" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Agenda">
+            <EntityTypeMapping TypeName="MinistreFinModel.Agendum">
+              <MappingFragment StoreEntitySet="Agenda">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UtilisateurID" ColumnName="UtilisateurID" />
+                <ScalarProperty Name="Nom_agenda" ColumnName="Nom_agenda" />
+                <ScalarProperty Name="Date_creation" ColumnName="Date_creation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Articles">
+            <EntityTypeMapping TypeName="MinistreFinModel.Article">
+              <MappingFragment StoreEntitySet="Articles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UtilisateurID" ColumnName="UtilisateurID" />
+                <ScalarProperty Name="Titre_article" ColumnName="Titre_article" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Contenu_article" ColumnName="Contenu_article" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Url_video" ColumnName="Url_video" />
+                <ScalarProperty Name="Date_creation" ColumnName="Date_creation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="compte_rendu">
+            <EntityTypeMapping TypeName="MinistreFinModel.compte_rendu">
+              <MappingFragment StoreEntitySet="compte_rendu">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ActivitesID" ColumnName="ActivitesID" />
+                <ScalarProperty Name="Titre_cr" ColumnName="Titre_cr" />
+                <ScalarProperty Name="Date_debut" ColumnName="Date_debut" />
+                <ScalarProperty Name="Date_fin" ColumnName="Date_fin" />
+                <ScalarProperty Name="Sujet1" ColumnName="Sujet1" />
+                <ScalarProperty Name="Sujet2" ColumnName="Sujet2" />
+                <ScalarProperty Name="Autre" ColumnName="Autre" />
+                <ScalarProperty Name="Statut" ColumnName="Statut" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Evenements">
+            <EntityTypeMapping TypeName="MinistreFinModel.Evenement">
+              <MappingFragment StoreEntitySet="Evenement">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Titre_even" ColumnName="Titre_even" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Date_debut" ColumnName="Date_debut" />
+                <ScalarProperty Name="Date_fin" ColumnName="Date_fin" />
+                <ScalarProperty Name="Statut" ColumnName="Statut" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="groue_detail">
+            <EntityTypeMapping TypeName="MinistreFinModel.groue_detail">
+              <MappingFragment StoreEntitySet="groue_detail">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Groupe_thematiqeID" ColumnName="Groupe_thematiqeID" />
+                <ScalarProperty Name="UtilisateurID" ColumnName="UtilisateurID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groupe_thematiqe">
+            <EntityTypeMapping TypeName="MinistreFinModel.Groupe_thematiqe">
+              <MappingFragment StoreEntitySet="Groupe_thematiqe">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nom_groupe" ColumnName="Nom_groupe" />
+                <ScalarProperty Name="Date_createion" ColumnName="Date_createion" />
+                <ScalarProperty Name="Statut" ColumnName="Statut" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Initiatives">
+            <EntityTypeMapping TypeName="MinistreFinModel.Initiative">
+              <MappingFragment StoreEntitySet="Initiatives">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UtilisateurID" ColumnName="UtilisateurID" />
+                <ScalarProperty Name="Nom_init" ColumnName="Nom_init" />
+                <ScalarProperty Name="Statu_init" ColumnName="Statu_init" />
+                <ScalarProperty Name="Date_debu" ColumnName="Date_debu" />
+                <ScalarProperty Name="Date_fin" ColumnName="Date_fin" />
+                <ScalarProperty Name="Objectifs_generaux" ColumnName="Objectifs_generaux" />
+                <ScalarProperty Name="Obgectifs_specifiques" ColumnName="Obgectifs_specifiques" />
+                <ScalarProperty Name="Description_court" ColumnName="Description_court" />
+                <ScalarProperty Name="Description_detaillee" ColumnName="Description_detaillee" />
+                <ScalarProperty Name="Budget" ColumnName="Budget" />
+                <ScalarProperty Name="Approbateur" ColumnName="Approbateur" />
+                <ScalarProperty Name="Cofinancement" ColumnName="Cofinancement" />
+                <ScalarProperty Name="Regions" ColumnName="Regions" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Programmes">
+            <EntityTypeMapping TypeName="MinistreFinModel.Programme">
+              <MappingFragment StoreEntitySet="Programme">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UtilisateurID" ColumnName="UtilisateurID" />
+                <ScalarProperty Name="Nom_prog" ColumnName="Nom_prog" />
+                <ScalarProperty Name="Objectif_prog" ColumnName="Objectif_prog" />
+                <ScalarProperty Name="Date_debut" ColumnName="Date_debut" />
+                <ScalarProperty Name="Date_fin" ColumnName="Date_fin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projets">
+            <EntityTypeMapping TypeName="MinistreFinModel.Projet">
+              <MappingFragment StoreEntitySet="Projet">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ProgrammeID" ColumnName="ProgrammeID" />
+                <ScalarProperty Name="Nom_projet" ColumnName="Nom_projet" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Objectif_projet" ColumnName="Objectif_projet" />
+                <ScalarProperty Name="Date_debut" ColumnName="Date_debut" />
+                <ScalarProperty Name="Date_fin" ColumnName="Date_fin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Type_Activite">
+            <EntityTypeMapping TypeName="MinistreFinModel.Type_Activite">
+              <MappingFragment StoreEntitySet="Type_Activite">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nom_type" ColumnName="Nom_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Utilisateurs">
+            <EntityTypeMapping TypeName="MinistreFinModel.Utilisateur">
+              <MappingFragment StoreEntitySet="Utilisateur">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Mot_passe" ColumnName="Mot_passe" />
+                <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Agenda_Activites" TypeName="MinistreFinModel.Agenda_Activites" StoreEntitySet="Agenda_Activites">
+            <EndProperty Name="Agenda">
+              <ScalarProperty Name="ID" ColumnName="AgendaID" />
+            </EndProperty>
+            <EndProperty Name="Activites">
+              <ScalarProperty Name="ID" ColumnName="ActivitesID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Utilisateur_Evenement2" TypeName="MinistreFinModel.Utilisateur_Evenement2" StoreEntitySet="Utilisateur_Evenement2">
+            <EndProperty Name="Utilisateur">
+              <ScalarProperty Name="ID" ColumnName="UtilisateurID" />
+            </EndProperty>
+            <EndProperty Name="Evenement">
+              <ScalarProperty Name="ID" ColumnName="EvenementID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

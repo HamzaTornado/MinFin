@@ -1,0 +1,184 @@
+﻿@model Data.Initiative
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Initiatives</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UtilisateurID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UtilisateurID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom_init)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom_init)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Statu_init)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Statu_init)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_debu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_debu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_fin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_fin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Objectifs_generaux)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Objectifs_generaux)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Obgectifs_specifiques)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Obgectifs_specifiques)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description_court)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description_court)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description_detaillee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description_detaillee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Budget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Budget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Approbateur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Approbateur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cofinancement)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cofinancement)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Regions)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Regions)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<article>
+    <header>
+        <div class="post-thumbnail">
+            
+        </div>
+        <h2 class="entry-title"> @Html.DisplayFor(model => model.Nom_init)</h2>
+        <p class="author">
+            @Html.DisplayFor(model => model.Utilisateur.Nom) @Html.DisplayFor(model => model.Utilisateur.Prenom)<br />
+            <i class="fa fa-calendar"></i>
+            debut @Html.DisplayFor(model => model.Date_debu)) <span>/</span>Fin  @Html.DisplayFor(model => model.Date_debu)<a href=""><strong>@Html.DisplayFor(model => model.Statu_init)</strong></a> <span><br /></span> Region :<a href=""><strong>@Html.DisplayFor(model => model.Regions)</strong></a> <span>/</span> 3 <a href=""><strong>COMMENTS</strong></a>
+        </p>
+    </header>
+    <div class="post_content">
+        <p>Sed posuere malesuada ante, a gravida ipsum congue id. Cras tempus libero sit amet mauris blandit laoreet. Vestibulum ac enim vel tellus pharetra pellentesque vitae vitae lacus. Etiam consequat hendrerit congue. Proin commodo metus ac augue adipiscing, ac aliquet eros posuere. Donec dignissim ullamcorper cursus. Cras eget quam volutpat, luctus nunc vel, euismod felis. Nunc ultrices euismod consequat. Suspendisse id augue ut diam pharetra ultrices blandit sed lectus.</p>
+        <blockquote>Cras tempus libero sit amet mauris blandit laoreet. Vestibulum ac enim vel tellus pharetra pellentesque vitae vitae lacus.</blockquote>
+        <p>Sed posuere malesuada ante, a gravida ipsum congue id. Cras tempus libero sit amet mauris blandit laoreet. Vestibulum ac enim vel tellus pharetra pellentesque vitae vitae lacus. Etiam consequat hendrerit congue. Proin commodo metus ac augue adipiscing, ac aliquet eros posuere. Donec dignissim ullamcorper cursus. Cras eget quam volutpat, luctus nunc vel, euismod felis. Nunc ultrices euismod consequat. Suspendisse id augue ut diam pharetra ultrices blandit sed lectus.</p>
+        <p>Sed posuere malesuada ante, a gravida ipsum congue id. Cras tempus libero sit amet mauris blandit laoreet. Vestibulum ac enim vel tellus pharetra pellentesque vitae vitae lacus. Etiam consequat hendrerit congue. Proin commodo metus ac augue adipiscing, ac aliquet eros posuere. Donec dignissim ullamcorper cursus. Cras eget quam volutpat, luctus nunc vel, euismod felis. Nunc ultrices euismod consequat. Suspendisse id augue ut diam pharetra ultrices blandit sed lectus.</p>
+        <h1>h1 Corpboot heading</h1>
+        <h2>h2 Corpboot heading</h2>
+        <h3>h3 Corpboot heading</h3>
+        <h4>h4 Corpboot heading</h4>
+        <h5>h5 Corpboot heading</h5>
+        <h6>h6 Corpboot heading</h6>
+        <p>Sed posuere malesuada ante, a gravida ipsum congue id. Cras tempus libero sit amet mauris blandit laoreet. Vestibulum ac enim vel tellus pharetra pellentesque vitae vitae lacus. Etiam consequat hendrerit congue. Proin commodo metus ac augue adipiscing, ac aliquet eros posuere. Donec dignissim ullamcorper cursus. Cras eget quam volutpat, luctus nunc vel, euismod felis. Nunc ultrices euismod consequat. Suspendisse id augue ut diam pharetra ultrices blandit sed lectus.</p>
+    </div>
+    <!-- Tags -->
+  
+    <!-- Author bio -->
+    <div class="media author-bio">
+        <a class="avatar" href="#">
+            <img class="media-object" src="http://placehold.it/64x64/BDC3C7/ffffff" alt="Author">
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading">John Doe</h4>
+            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-inline socialstaff social-author">
+                        <li>
+                            <a href="" target="_blank" title="Facebook"><i class="fa fa-facebook-square"></i></a>
+                        </li>
+                        <li>
+                            <a href="" target="_blank" title="Twitter"><i class="fa fa-twitter-square"></i></a>
+                        </li>
+                        <li>
+                            <a href="" target="_blank" title="Google Plus"><i class="fa fa-google-plus-square"></i></a>
+                        </li>
+                        <li>
+                            <a href="" target="_blank" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="text-right">
+                        <a class="view-all" href="" rel="author"><i class="fa fa-angle-right"></i> View all posts by John Doe</a>
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Data.Initiative>
+
+@{
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<div class="container">
+    @Html.ActionLink("Create New", "Create", null,new { @class ="btn btn-info float-right mb-3"})
+</div>
+<table class="table">
+    <tr>
+        <th>
+            <label>Nom Initiative</label>
+        </th>
+        <th>
+            <label>Statu </label>
+        </th>
+        <th>
+            <label>Date Début </label>        
+        </th>
+        <th>
+            <label>Date Fin </label>          
+        </th>
+        <th>
+            <label>Objectif Généraux </label>           
+        </th>
+        <th>
+            <label>Budget</label>           
+        </th>
+        <th>
+            <label>Approbateur</label>     
+        </th>
+        <th>
+            <label>Regions</label>        
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Nom_init)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Statu_init)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_debu)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_fin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Objectifs_generaux)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Budget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Approbateur)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Regions)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
