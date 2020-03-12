@@ -65,6 +65,13 @@ namespace MinisitreFin.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Nom")]
+        public string Nom { get; set; }
+        [Required]
+        [Display(Name = "Prenom")]
+        public string Prenom { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

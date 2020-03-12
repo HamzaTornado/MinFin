@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Data.Evenement>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Titre_even)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date_debut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date_fin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Statut)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Titre_even)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Image)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_debut)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_fin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Statut)
+        </td>
+        <td>
+           
+           
+
+                @if (item.Statut.Value)
+                {
+                    @Html.ActionLink("Active", "changeStatu", "Evenements", new {id=item.ID,statu=!item.Statut.Value })
+                }
+                else
+                {
+                    @Html.ActionLink("Deasactive", "changeStatu", "Evenements", new { id = item.ID, statu = !item.Statut.Value })
+                }
+            
+            
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+        </td>
+    </tr>
+}
+
+</table>

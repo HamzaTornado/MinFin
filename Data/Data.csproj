@@ -59,7 +59,22 @@
     <Compile Include="Article.cs">
       <DependentUpon>MF.tt</DependentUpon>
     </Compile>
+    <Compile Include="AspNetRole.cs">
+      <DependentUpon>MF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>MF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserClaim.cs">
+      <DependentUpon>MF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserLogin.cs">
+      <DependentUpon>MF.tt</DependentUpon>
+    </Compile>
     <Compile Include="compte_rendu.cs">
+      <DependentUpon>MF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>MF.tt</DependentUpon>
     </Compile>
     <Compile Include="Evenement.cs">
@@ -123,6 +138,7 @@
       <DependentUpon>MF.edmx</DependentUpon>
       <LastGenOutput>MF.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="MF.edmx.sql" />
     <Content Include="MF.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MF.edmx</DependentUpon>

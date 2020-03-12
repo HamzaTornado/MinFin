@@ -167,9 +167,11 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivitesController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\EvenementsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InitiativesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProgrammesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -186,7 +188,25 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\sb-admin-2.css" />
     <Content Include="Content\css\sb-admin-2.min.css" />
+    <Content Include="Content\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\img\effet.png" />
+    <Content Include="Content\img\logo-MF.jpg" />
     <Content Include="Content\img\undraw_posting_photo.svg" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery-ui.structure.css" />
+    <Content Include="Content\jquery-ui.theme.css" />
+    <Content Include="Scripts\datatables\dataTables.bootstrap4.css" />
+    <Content Include="Scripts\datatables\dataTables.bootstrap4.js" />
+    <Content Include="Scripts\datatables\dataTables.bootstrap4.min.css" />
+    <Content Include="Scripts\datatables\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\datatables\jquery.dataTables.js" />
+    <Content Include="Scripts\datatables\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\js\demo\chart-area-demo.js" />
     <Content Include="Scripts\js\demo\chart-bar-demo.js" />
     <Content Include="Scripts\js\demo\chart-pie-demo.js" />
@@ -1995,12 +2015,23 @@
     <Content Include="Views\Initiatives\Details.cshtml" />
     <Content Include="Views\Initiatives\Edit.cshtml" />
     <Content Include="Views\Initiatives\Index.cshtml" />
-    <Content Include="Views\Dashboard\dashboard.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Programmes\Create.cshtml" />
+    <Content Include="Views\Programmes\Delete.cshtml" />
+    <Content Include="Views\Programmes\Details.cshtml" />
+    <Content Include="Views\Programmes\Edit.cshtml" />
+    <Content Include="Views\Programmes\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\Evenements\Create.cshtml" />
+    <Content Include="Views\Evenements\Delete.cshtml" />
+    <Content Include="Views\Evenements\Details.cshtml" />
+    <Content Include="Views\Evenements\Edit.cshtml" />
+    <Content Include="Views\Evenements\Index.cshtml" />
+    <Content Include="Views\BDF\test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Admin\" />
-    <Folder Include="Views\BDF\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

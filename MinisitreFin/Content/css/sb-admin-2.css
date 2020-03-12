@@ -13,7 +13,14 @@
  primary #1a51bb
  secendary #02bec4
  */
-
+.bg-login-image {
+    background: url('../img/logo-MF.jpg') !important;
+    background-position-x: 0% !important;
+    background-position-y: 0% !important;
+    background-size: auto !important;
+    background-position: center !important;
+    background-size: cover !important;
+}
 
 :root {
   --blue: #02bec4;

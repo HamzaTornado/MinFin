@@ -20,23 +20,23 @@
     <div class="form-group">
         <label class="control-label col-md-2">Nom Initiative</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Nom_init, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Nom_init, new { htmlAttributes = new { @class = "form-control", required = "required"} })
             @Html.ValidationMessageFor(model => model.Nom_init, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
-        <label class="control-label col-md-2">Nom U</label>
+    <div class="form-group" hidden="hidden">
+        
         <div class="col-md-10">
-            @Html.DropDownList("UtilisateurID", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.UtilisateurID, "", new { @class = "text-danger" })
+            @Html.Hidden("UtilisateurID", 1)
+            
         </div>
     </div>
-    <div class="form-group">
-        <label class="control-label col-md-2">Statu</label>
+    <div class="form-group" hidden="hidden">
+        <label class="control-label col-md-2"></label>
         <div class="col-md-10">
             <div class="checkbox">
-                @Html.EditorFor(model => model.Statu_init)
-                @Html.ValidationMessageFor(model => model.Statu_init, "", new { @class = "text-danger" })
+                @Html.Hidden("Statu_init",0)
+                
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Date Début</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Date_debu, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Date_debu, new { htmlAttributes = new { @class = "form-control",@placeholder="AAAA/MM/JJ", required = "required" } })
             @Html.ValidationMessageFor(model => model.Date_debu, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -52,7 +52,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Date Fin</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Date_fin, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Date_fin, new { htmlAttributes = new { @class = "form-control", required = "required" } })
             @Html.ValidationMessageFor(model => model.Date_fin, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -60,15 +60,16 @@
     <div class="form-group">
         <label class="control-label col-md-2">Objectif Généraux</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Objectifs_generaux, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Objectifs_generaux, "", new { @class = "text-danger" })
+            @Html.TextAreaFor(model => model.Objectifs_generaux, new{ @class = "form-control" ,@cols="60", required = "required" })
+            
+            @Html.ValidationMessageFor(model => model.Objectifs_generaux, "", new { @class = "text-danger", required = "required" })
         </div>
     </div>
 
     <div class="form-group">
         <label class="control-label col-md-2">Objectif Specifique</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Obgectifs_specifiques, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.TextAreaFor(model => model.Obgectifs_specifiques, new { @class = "form-control", @cols = "60", required = "required" })
             @Html.ValidationMessageFor(model => model.Obgectifs_specifiques, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -76,7 +77,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Description Court</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Description_court, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.TextAreaFor(model => model.Description_court, new { @class = "form-control", @cols = "60" ,required= "required" })
             @Html.ValidationMessageFor(model => model.Description_court, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -84,7 +85,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Description Détaillée</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Description_detaillee, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.TextAreaFor(model => model.Description_detaillee, new { @class = "form-control", @cols = "60",@rows="6", required = "required" })
             @Html.ValidationMessageFor(model => model.Description_detaillee, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -92,7 +93,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Budget</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Budget, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Budget, new { htmlAttributes = new { @class = "form-control", required = "required" } })
             @Html.ValidationMessageFor(model => model.Budget, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -100,7 +101,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Approbateur</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Approbateur, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Approbateur, new { htmlAttributes = new { @class = "form-control", required = "required" } })
             @Html.ValidationMessageFor(model => model.Approbateur, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -108,7 +109,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Cofinancement</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Cofinancement, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Cofinancement, new { htmlAttributes = new { @class = "form-control", required = "required" } })
             @Html.ValidationMessageFor(model => model.Cofinancement, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -116,21 +117,21 @@
     <div class="form-group">
         <label class="control-label col-md-2">Region</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Regions, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Regions, new { htmlAttributes = new { @class = "form-control", required = "required" } })
             @Html.ValidationMessageFor(model => model.Regions, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+            <button type="submit" value="Create" class="btn btn-default">Create</button>
         </div>
     </div>
 </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", null, new {@class="btn btn-primary"})
 </div>
 
 
