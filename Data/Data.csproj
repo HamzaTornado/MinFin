@@ -71,6 +71,9 @@
     <Compile Include="AspNetUserLogin.cs">
       <DependentUpon>MF.tt</DependentUpon>
     </Compile>
+    <Compile Include="AspNetUserRole.cs">
+      <DependentUpon>MF.tt</DependentUpon>
+    </Compile>
     <Compile Include="compte_rendu.cs">
       <DependentUpon>MF.tt</DependentUpon>
     </Compile>
@@ -80,6 +83,9 @@
     <Compile Include="Evenement.cs">
       <DependentUpon>MF.tt</DependentUpon>
     </Compile>
+    <Compile Include="Evenement1.cs">
+      <DependentUpon>MF.tt</DependentUpon>
+    </Compile>
     <Compile Include="groue_detail.cs">
       <DependentUpon>MF.tt</DependentUpon>
     </Compile>
@@ -87,6 +93,9 @@
       <DependentUpon>MF.tt</DependentUpon>
     </Compile>
     <Compile Include="Initiative.cs">
+      <DependentUpon>MF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Membre_group.cs">
       <DependentUpon>MF.tt</DependentUpon>
     </Compile>
     <Compile Include="MF.Context.cs">
@@ -111,6 +120,9 @@
       <DependentUpon>MF.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>MF.tt</DependentUpon>
+    </Compile>
     <Compile Include="Type_Activite.cs">
       <DependentUpon>MF.tt</DependentUpon>
     </Compile>
@@ -138,7 +150,6 @@
       <DependentUpon>MF.edmx</DependentUpon>
       <LastGenOutput>MF.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="MF.edmx.sql" />
     <Content Include="MF.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MF.edmx</DependentUpon>

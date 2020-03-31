@@ -1,0 +1,130 @@
+﻿@model MinisitreFin.Models.Initiatives
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Initiative</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom_init)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom_init)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Statu_init)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Statu_init)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_debu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_debu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_fin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_fin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Objectifs_generaux)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Objectifs_generaux)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Obgectifs_specifiques)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Obgectifs_specifiques)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description_court)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description_court)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description_detaillee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description_detaillee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Budget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Budget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Approbateur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Approbateur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cofinancement)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cofinancement)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Regions)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Regions)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilisateur.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Utilisateur.UserId)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

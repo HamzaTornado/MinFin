@@ -1,0 +1,49 @@
+﻿@model MinisitreFin.Models.Groupe_thematiqe
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Groupe_thematiqe</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom_groupe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom_groupe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_createion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_createion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Statut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Statut)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

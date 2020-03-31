@@ -1,0 +1,240 @@
+﻿@model MinisitreFin.Models.GroupeNameMemnersModel
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Consulte";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+<link href="~/Content/Groupe.css" rel="stylesheet" />
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-9">
+            <div class=" d-flex align-items-center p-3  text-white-50 bg-gradient-success rounded shadow-sm">
+                <img class="mr-3" src="~/AppImg/logo-MF.jpg" alt="" width="48" height="48">
+                <div class="lh-100">
+                    <h6 class="mb-0 text-white lh-100">@Html.DisplayFor(model => Model.nomGroupe)</h6>
+                    <small>@Html.DisplayFor(model => Model.dateGroupe)</small>
+                </div>
+
+
+            </div>
+        </div> @{
+            var currentId = User.Identity.GetUserId();
+            var idAgenda = Model.idagenda;
+        }
+        @if (Model.CreatedById == currentId)
+        {
+            <div class="col-3">
+                <div class="align-items-center p-3  text-white-50 bg-gradient-success rounded shadow-sm">
+                    @if (Model.agendaExiste != Model.IDG)
+                    {
+                        <a href="@Url.Action("AjouterAgenda", new { id = Model.IDG })" class="text-white">
+                            Ajouter Une Agenda <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#" role="button" class="text-white" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Ajouter une Activite</a><br />
+                        <a href="@Url.Action("AgendaActivites","Activites",new{AgID=Model.idagenda})" role="button" class="text-white"> <i class="fa fa-calendar"></i> Votre Agenda</a>
+                        <a href="@Url.Action("Edit","Agenda",new { id=Model.idagenda})"><i class="fa fa-edit text-white"></i></a>
+                        
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="my-3 p-3 bg-white rounded shadow-sm">
+                <h6 class="border-bottom border-gray pb-2 mb-0">Les Membres du Groupe</h6>
+                @foreach (var a in Model.Memebers)
+                {
+                    <div class="container">
+                        <div class="media text-muted pt-3">
+                            <img class="bd-placeholder-img mr-2 rounded" src="~/AppImg/male.png" width="32" height="32" />
+                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                <strong class="d-block text-gray-dark">@Html.DisplayFor(model => a.nameUser)</strong>
+                                @Html.DisplayFor(model => a.emailUser)
+                            </p>
+                        </div>
+
+
+                    </div>
+                }
+                @*<small class="d-block text-right mt-3">
+                        <a href="#">All updates</a>
+                    </small>*@
+            </div>
+        </div>
+
+        @if (Model.CreatedById == currentId)
+        {
+            <div class="col-6">
+                <div class="my-3 p-3 bg-white rounded shadow-sm">
+                    <h6 class="border-bottom border-gray pb-2 mb-0">Ajouter un Membre</h6>
+                    @using (Html.BeginForm("add", "MembreGroup", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <input name="GroupId" id="GroupId" value="@Model.IDG" hidden="hidden" />
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Sélectionner</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("MembreId", null, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Ajouter" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @*<small class="d-block text-right mt-3">
+                            <a href="#">All updates</a>
+                        </small>*@
+                </div>
+            </div>
+        }
+    </div>
+
+
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <h6 class="border-bottom border-gray pb-2 mb-0">Partager un Document avec le groupe</h6>
+        @using (Html.BeginForm("addtextfile", "Groupe", new { id = Model.IDG }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label class="col-form-label">Texte Descriptif</label>
+                <textarea name="Text" id="Text" rows="3" class="form-control" required></textarea>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Fichier</label>
+                <input type="file" name="file" id="file" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <button type="submit" value="Upload File" class="btn btn-success"> <i class="fa fa-share-alt-square"> </i> Partager</button>
+            </div>
+        }
+    </div>
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <h6 class="border-bottom border-gray pb-2 mb-0">les Documents de Groupe</h6>
+        @foreach (var b in Model.MemebersFiles)
+        {
+
+            <div class="container">
+                <div class="media text-muted pt-3">
+                    <img class="bd-placeholder-img mr-2 rounded" src="~/AppImg/male.png" width="32" height="32" />
+                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <strong class="d-block text-gray-dark">@Html.DisplayFor(model => b.nameUser)</strong>
+                        @Html.DisplayFor(model => b.emailUser)
+                    </p>
+                    <small class="d-block text-right mt-3">
+                        <a href="#">@Html.DisplayFor(model => b.datecreation)</a>
+                    </small>
+                </div>
+
+                <p>
+                    <label>Documents : </label>
+                    <small class="text-right mt-3">
+
+                        @Html.DisplayFor(model => b.fichier)
+                        <a href="@Url.Action("Telecharger",new { file = b.fichier })" target="_blank">Télécharger</a>
+                    </small><br />
+
+                <p class="">
+                    <label>Texte Descriptif :</label>  @Html.DisplayFor(model => b.Text)
+                </p>
+                </p>
+
+
+            </div>
+
+
+        }
+        @*<small class="d-block text-right mt-3">
+                <a href="#">All updates</a>
+            </small>*@
+    </div>
+
+</main>
+
+<script>
+    $(document).ready(function () {
+        $("#FormAct").trigger("reset");
+    });
+   
+</script>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Activite</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            @using (Html.BeginForm("CreateActivite","Activites", new { id = Model.IDG }, FormMethod.Post,new {@id="FormAct" }))
+            {
+                @Html.AntiForgeryToken()
+            <div class="modal-body">
+                
+                    
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label class="control-label ">Nom D'activite</label>
+                        <div class="">
+
+                            <input id="Nom_activ" name="Nom_activ" class="form-control" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label ">Type d'activite</label>
+                        <div class="">
+                            @Html.DropDownList("Type_ActiviteID", null, htmlAttributes: new { @class = "form-control" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label ">Objectif d'activite</label>
+                        <div class="">
+
+                            <input id="Objectif_activ" name="Objectif_activ" class="form-control" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label ">Date </label>
+                        <div class="">
+
+                            <input id="date" name="date" type="date" class="form-control" required />
+                        </div>
+                    </div>
+                    <input id="AgendaID" name="AgendaID" value="@Model.idagenda" hidden="hidden" />
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Ajouter" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+                @*<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Send message</button>
+                </div>*@
+          
+                    }
+
+
+                
+                
+            </div>
+    </div>
+</div>

@@ -1,0 +1,449 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" href="~/RootAssets/assets/img/favicon.png">
+    <title>Ministère de l’Economie et des Finances</title>
+
+    <!-- CSS
+    ===============================================================-->
+    <!-- Bootstrap Core CSS -->
+    <link href="~/RootAssets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Icons -->
+    <link href="~/RootAssets/assets/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Flex Slider -->
+    <link rel="stylesheet" href="~/RootAssets/assets/css/flexslider.css" />
+    <!-- Template CSS -->
+    <link href="~/RootAssets/assets/css/main.css" id="theme" rel="stylesheet" />
+    <!-- Animation -->
+    <link href="~/RootAssets/assets/css/animate.min.css" rel="stylesheet" />
+    <!-- Slick Carousel -->
+
+    <link href="~/RootAssets/assets/css/slick.css" rel="stylesheet" />
+
+    <!-- Select Style -->
+    <link href="~/RootAssets/assets/css/bootstrap-select.min.css" rel="stylesheet" />
+
+    <!-- JAVASCRIPT
+    ===============================================================-->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- PRELOADER
+    ===============================================================-->
+    <div id="preloader">
+        <div class="cssload-container">
+            <div class="cssload-double-torus"></div>
+        </div>
+    </div>
+
+    <!-- NAVBAR
+    ===============================================================-->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand " href="index.html"><img class="navbar-default-img" src="assets/img/logoMF.jpg" alt="Logo"></a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">About Us <i class="fa fa-angle-down small"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="about.html">About Us 1</a></li>
+                            <li><a href="about-2.html">About Us 2</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="services.html">Services</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Portfolio <i class="fa fa-angle-down small"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="portfolio.html">Default</a></li>
+                            <li><a href="portfolio-images.html">Images Lightbox</a></li>
+                            <li><a href="portfolio-iframes.html">Iframes Lightbox</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <i class="fa fa-angle-down small"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="blog.html">Blog Right Sidebar</a></li>
+                            <li><a href="blog-left.html">Blog Left Sidebar</a></li>
+                            <li><a href="blogpost.html">Single Right Sidebar</a></li>
+                            <li><a href="blogpost-left.html">Single Left Sidebar</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="elements.html">Elements</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact <i class="fa fa-angle-down small"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="contact.html">Contact Option 1</a></li>
+                            <li><a href="contact-simple.html">Contact Option 2</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- BACKGROUND SLIDER
+    ===============================================================-->
+    <!-- FLEXISLIDER -->
+    <header class="container-fluid intro-slider">
+        <div class="bg-slider-wrapper">
+            <div id="bg-slider" class="flexslider bg-slider">
+                <ul class="slides">
+                    <li class="slide slide-1"></li>
+                    <li class="slide slide-2"></li>
+                    <li class="slide slide-3"></li>
+                </ul>
+            </div>
+        </div>
+        <!-- HOME PROMO -->
+        <section class="home-promo">
+            <div class="text-center wow">
+                <h2 class="titlepro">
+
+                    <span class="middle">Ministère <strong>de l’Economie et des Finances</strong></span>
+                    <span class="bottom">Ministère de l’Economie et des Finances</span>
+                </h2>
+            </div>
+        </section>
+    </header>
+    <section class="bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title-r">
+                        <h2>ACTUALITÉS</h2>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="slick-carousel" id="news">
+                      
+                    </div><!-- /news carousel -->
+                </div>
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </section>
+
+    <section class="bg-white">
+        <!-- CORPORATE -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                        <h2>Corporate Services</h2>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 wow fadeIn" data-wow-duration="1200ms" data-wow-delay="100ms">
+                    <img src="http://placehold.it/800x300/BDC3C7/ffffff" alt="Services" class="img-responsive img-center">
+                    <p class="mt15">Sed posuere malesuada ante, a gravida ipsum congue id. Cras tempus libero sit amet mauris blandit laoreet. Vestibulum ac enim vel tellus pharetra pellentesque vitae vitae lacus. Etiam consequat hendrerit congue. Proin commodo metus ac augue adipiscing, ac aliquet eros posuere. Donec dignissim ullamcorper cursus. Cras eget quam volutpat, luctus nunc vel, euismod felis.</p>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="row wow fadeInRight" data-wow-duration="600ms" data-wow-delay="100ms">
+                        <div class="col-xs-2 text-center">
+                            <i class="fa fa-code fa-4x ico-services"></i>
+                        </div>
+                        <div class="col-xs-10 servdesc">
+                            <h3>Web Development</h3>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur scelerisque metus at metus tristique tincidunt.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row wow fadeInRight" data-wow-duration="600ms" data-wow-delay="200ms">
+                        <div class="col-xs-2 text-center">
+                            <i class="fa fa-mobile fa-5x ico-services"></i>
+                        </div>
+                        <div class="col-xs-10 servdesc">
+                            <h3>Responsive Design</h3>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur scelerisque metus at metus tristique tincidunt.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row wow fadeInRight" data-wow-duration="600ms" data-wow-delay="300ms">
+                        <div class="col-xs-2 text-center">
+                            <i class="fa fa-html5 fa-4x ico-services"></i>
+                        </div>
+                        <div class="col-xs-10 servdesc">
+                            <h3>Bootstrap Templates</h3>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur scelerisque metus at metus tristique tincidunt.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ABOUT US -->
+    <section class="bg-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="title">
+                        <h2>WEB TV</h2>
+                    </div>
+                </div>
+                <!-- VIDEO -->
+                <div class="col-sm-12 col-md-6">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe src="https://player.vimeo.com/video/183131568?title=0&byline=0&portrait=0&rel=0" allowfullscreen></iframe>
+                    </div>
+                    <div class="visible-xs-block visible-sm-block pt20"></div>
+                </div>
+                <!-- DESCRIPTION -->
+                <div class="col-sm-12 col-md-6">
+                    <div class="blognews">
+                        <a href="about.html" class="mb20">
+                            <div class="item-img-wrap">
+                                <img src="http://placehold.it/820x260/BDC3C7/ffffff" class="img-responsive" alt="template">
+                                <div class="item-img-overlay">
+                                    <div class="about">
+                                        <span class="btn btn-transparent-sm"><i class="fa fa-plus"></i> Read more</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <p><strong>Lorem ipsum</strong> dolor sit amet, consectetur adipiscing elit. Phasellus interdum erat libero, pulvinar tincidunt leo consectetur eget. Curabitur lacinia pellentesque tempor. Ut euismod condimentum velit en gravida. Cras nec tellus eget urna facilisis scelerisque vitae et sapien. Nulla vitae adipiscing nisi leo consectetur eget <a href="about.html">vitae et sapien</a>.</p>
+                </div>
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </section><!-- /section About Us -->
+    <!-- NEWS -->
+    <!-- /section News -->
+    <!-- HOME CONTENT
+    ===============================================================-->
+    <!-- PRINCIPAL SERVICES -->
+    <section class="bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-3 text-center home-icons">
+                    <i class="fa fa-line-chart wow fadeInUp" data-wow-delay="20ms"></i>
+                    <div>
+                        <h4>Blazing Fast</h4>
+                        <h5>Quisque eu ante at tortor imperdiet gravida nec sed turpis phasellus.</h5>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 text-center home-icons">
+                    <i class="fa fa-tablet wow fadeInUp" data-wow-delay="40ms"></i>
+                    <div>
+                        <h4>Full Responsive</h4>
+                        <h5>Quisque eu ante at tortor imperdiet gravida nec sed turpis phasellus.</h5>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 text-center home-icons">
+                    <i class="fa fa-code wow fadeInUp" data-wow-delay="60ms"></i>
+                    <div>
+                        <h4>Friendly Code</h4>
+                        <h5>Quisque eu ante at tortor imperdiet gravida nec sed turpis phasellus.</h5>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 text-center home-icons">
+                    <i class="fa fa-suitcase wow fadeInUp" data-wow-delay="80ms"></i>
+                    <div>
+                        <h4>Ideal for Business</h4>
+                        <h5>Quisque eu ante at tortor imperdiet gravida nec sed turpis phasellus.</h5>
+                    </div>
+                </div>
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </section><!-- /section Principal Services -->
+    <!-- BUY NOW -->
+    <section class="bg-buy parallax process-rounded" data-stellar-background-ratio="0.5">
+        <div class="container-fluid">
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h1 class="intro-text mt30 wow fadeInUp">
+                        A Clean Template for Corporate Websites
+                    </h1>
+                    <p class="lead mt30">Quisque eu ante at tortor imperdiet gravida nec sed turpis phasellus augue augue.</p>
+                    <p><a href="" class="btn btn-default btn-primary-corp-big"><i class="fa fa-shopping-cart le"></i> Buy now with PayPal!</a></p>
+                </div>
+            </div><!-- /row -->
+        </div><!-- /container-fluid -->
+    </section><!-- /section Buy Now with Parallax -->
+    <!-- CLIENTS -->
+    <section class="bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                        <h2>Les Initiatives</h2>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="slick-carousel" id="clients">
+                        <div><a href=""><iframe class="iframe-size" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe></a></div>
+                        <div><a href=""><iframe class="iframe-size" src="https://www.youtube.com/embed/HircY8Gjh8E"></iframe></a></div>
+                        <div><a href=""><img src="http://placehold.it/400x220/BDC3C7/ffffff" alt="Client"></a></div>
+                    </div>
+                </div>
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </section><!-- /section Clients -->
+    <!-- FOOTER
+    ===============================================================-->
+    <footer>
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-widget col-sm-12 col-md-4">
+                        <h3>Contactez-Nous</h3>
+                        
+                        <ul class="list-unstyled">
+                            <li>
+                                <i class="fa fa-map-marker"></i>Bd. Med V. Quartier Administratif Rabat - Chellah
+                            </li>
+                            <li class="number"><i class="fa fa-phone"></i> 05 37.67.75.01</li>
+                            <li><i class="fa fa-fax"></i> 05 37.67.75.26</li>
+                            <li><i class="fa fa-envelope-o"></i> internet@finances.gov.ma</li>
+                        </ul>
+                        <div class="visible-xs-block visible-sm-block pt20"></div>
+                    </div>
+                    <div class="footer-widget col-sm-6 col-md-4">
+                        <h3>Photo Gallery</h3>
+                        <a href="http://placehold.it/900x600/BDC3C7/ffffff" class="gallery" title="Photo Gallery 1">
+                            <img src="http://placehold.it/70x50/BDC3C7/ffffff" alt="Gallery thumbnail">
+                        </a>
+                        <a href="http://placehold.it/900x600/BDC3C7/ffffff" class="gallery" title="Photo Gallery 2">
+                            <img src="http://placehold.it/70x50/BDC3C7/ffffff" alt="Gallery thumbnail">
+                        </a>
+                        <a href="http://placehold.it/900x600/BDC3C7/ffffff" class="gallery" title="Photo Gallery 3">
+                            <img src="http://placehold.it/70x50/BDC3C7/ffffff" alt="Gallery thumbnail">
+                        </a>
+                        <a href="http://placehold.it/900x600/BDC3C7/ffffff" class="gallery" title="Photo Gallery 4">
+                            <img src="http://placehold.it/70x50/BDC3C7/ffffff" alt="Gallery thumbnail">
+                        </a>
+                        <a href="http://placehold.it/900x600/BDC3C7/ffffff" class="gallery" title="Photo Gallery 5">
+                            <img src="http://placehold.it/70x50/BDC3C7/ffffff" alt="Gallery thumbnail">
+                        </a>
+                        <a href="http://placehold.it/900x600/BDC3C7/ffffff" class="gallery" title="Photo Gallery 6">
+                            <img src="http://placehold.it/70x50/BDC3C7/ffffff" alt="Gallery thumbnail">
+                        </a>
+                        <a href="http://placehold.it/900x600/BDC3C7/ffffff" class="gallery" title="Photo Gallery 7">
+                            <img src="http://placehold.it/70x50/BDC3C7/ffffff" alt="Gallery thumbnail">
+                        </a>
+                        <a href="http://placehold.it/900x600/BDC3C7/ffffff" class="gallery" title="Photo Gallery 8">
+                            <img src="http://placehold.it/70x50/BDC3C7/ffffff" alt="Gallery thumbnail">
+                        </a>
+                        <a href="http://placehold.it/900x600/BDC3C7/ffffff" class="gallery" title="Photo Gallery 9">
+                            <img src="http://placehold.it/70x50/BDC3C7/ffffff" alt="Gallery thumbnail">
+                        </a>
+                        <a href="http://placehold.it/900x600/BDC3C7/ffffff" class="gallery" title="Photo Gallery 10">
+                            <img src="http://placehold.it/70x50/BDC3C7/ffffff" alt="Gallery thumbnail">
+                        </a>
+                        <a href="http://placehold.it/900x600/BDC3C7/ffffff" class="gallery" title="Photo Gallery 11">
+                            <img src="http://placehold.it/70x50/BDC3C7/ffffff" alt="Gallery thumbnail">
+                        </a>
+                        <a href="http://placehold.it/900x600/BDC3C7/ffffff" class="gallery" title="Photo Gallery 12">
+                            <img src="http://placehold.it/70x50/BDC3C7/ffffff" alt="Gallery thumbnail">
+                        </a>
+                        <div class="visible-xs-block visible-sm-block pt20"></div>
+                    </div>
+                    <div class="footer-widget col-sm-6 col-md-4">
+                        <h3>
+                            Ministère de l'Économie et des Finances
+                            Maroc
+                        </h3>
+                        
+                        <p class="newsletter-desc"> Le Ministère de l'Économie et des Finances est le ministère marocain, chargé de la politique économique et financière du Maroc. Le siège du ministère est situé à Rabat, au niveau du Boulevard Mohammed V, à proximité immédiate du Palais Royal. Le ministre actuel des Finances Mohamed Benchaâboun.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 social">
+                        <ul class="list-inline social">
+                            <li>
+                                <a href="" target="_blank">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" target="_blank">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" target="_blank">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" target="_blank">
+                                    <i class="fa fa-youtube"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" target="_blank">
+                                    <i class="fa fa-instagram"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 credits">
+                        <p>&copy; Ministère de l’Economie et des Finances 2020. All Rights Reserved.</p>
+                        <p class="small">
+                            <i class="fa fa-angle-right"></i>
+                            Developed by: <a href="http://www.it6.ma/" target="_blank">IT6 Consulting</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--back to top-->
+        <a href="#" class="scrollToTop" id="scrollToTop"><i class="fa fa-angle-up"></i></a>
+    </footer>
+
+    <!-- JAVASCRIPT
+    ===============================================================-->
+    <!-- JQuery -->
+    <script src="~/RootAssets/assets/js/jquery-1.12.4.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/RootAssets/js/bootstrap.min.js"></script>
+    <!-- Vanillabox -->
+    <script src="~/RootAssets/assets/js/jquery.vanillabox-0.1.7.min.js"></script>
+    <!-- Slick Carousel -->
+    <script src="~/RootAssets/assets/js/slick.min.js"></script>
+    <!-- Select Style -->
+    <script src="~/RootAssets/assets/js/bootstrap-select.min.js"></script>
+    <!-- Flexslider -->
+    <script src="~/RootAssets/assets/js/jquery.flexslider-min.js"></script>
+    <!-- Placeholder for IE9 -->
+    <script src="~/RootAssets/assets/js/jquery.placeholder.min.js"></script>
+    <!-- Parallax -->
+    <script src="~/RootAssets/assets/js/jquery.stellar.min.js"></script>
+    <!-- Parallax -->
+    <script src="~/RootAssets/assets/js/jquery.stellar.min.js"></script>
+    <!-- Animation -->
+    <script src="~/RootAssets/assets/js/wow.min.js"></script>
+    <!-- Main -->
+    <script src="~/RootAssets/assets/js/main.js"></script>
+</body>
+</html>

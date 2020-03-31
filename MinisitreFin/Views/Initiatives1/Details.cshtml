@@ -1,0 +1,125 @@
+﻿@model MinisitreFin.Models.Initiatives
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Initiative</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Nom Initiative
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom_init)
+        </dd>
+
+        <dt>
+            Statu
+        </dt>
+
+        <dd>
+            @if (Model.Statu_init.Value)
+            {
+                <h6>Active</h6>
+            }
+            else
+            {
+                <h6>Desactive</h6>
+            }
+
+        </dd>
+
+        <dt>
+            Date Debut
+        </dt>
+
+        <dd>
+            @Html.FormatValue("yyy-MM-dd", Model.Date_debu.Value.Date.ToString("yyy-MM-dd"))
+        </dd>
+
+        <dt>
+            Date Fin
+        </dt>
+
+        <dd>
+            @Html.FormatValue("yyy-MM-dd", Model.Date_fin.Value.Date.ToString("yyy-MM-dd"))
+        </dd>
+
+        <dt>
+            Objectifs Generaux
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Objectifs_generaux)
+        </dd>
+
+        <dt>
+            Objectifs Specifiques
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Obgectifs_specifiques)
+        </dd>
+
+        <dt>
+            Description Court
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Description_court)
+        </dd>
+
+        <dt>
+            Description Detaillee
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Description_detaillee)
+        </dd>
+
+        <dt>
+            Budget
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Budget)
+        </dd>
+
+        <dt>
+            Approbateur
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Approbateur)
+        </dd>
+
+        <dt>
+            Cofinancement
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cofinancement)
+        </dd>
+
+        <dt>
+            Region
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Regions)
+        </dd>
+
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Modifier", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Retour à la liste", "Index")
+</p>

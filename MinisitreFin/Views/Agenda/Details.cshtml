@@ -1,0 +1,43 @@
+﻿@model MinisitreFin.Models.Agenda
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Agenda</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom_agenda)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom_agenda)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_creation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_creation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Groupe_thematiqe.Nom_groupe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Groupe_thematiqe.Nom_groupe)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

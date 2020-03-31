@@ -1,31 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Data;
+using Microsoft.AspNet.Identity;
+using MinisitreFin.Models;
+
 namespace MinisitreFin.Controllers
 {
     [Authorize]
     public class DashboardController : Controller
     {
-        private MinistreFinEntities db = new MinistreFinEntities();
+        private MinistreFinEntitiesDB db = new MinistreFinEntitiesDB();
+        
         // GET: Dashboard
-        [Authorize]
+        
         public ActionResult Index()
         {
-
-            var initiative = db.Initiatives.ToList().Count();
-            var evenement = db.Evenements.ToList().Count();
-            var activete = db.Activites.ToList().Count();
-            var programme = db.Programmes.ToList().Count();
-            ViewData["initiative"] = initiative;
-            ViewData["evenement"] = evenement;
-            ViewData["programme"] = programme;
-            return View();
+            var currentId = User.Identity.GetUserId();
+            var x = db.Utilisateur.FirstOrDefault(p => p.UserId == currentId);
+            if (x.Statu==false)
+            {
+                Session.Clear();
+                Session[currentId] = null;
+                Session.Abandon();
+                ViewBag.MessageAC = "Vous n'avez pas encore activé";
+                return RedirectToAction("Login", "Account"); 
+            }
+            else
+            {
+                var initiative = db.Initiatives.ToList().Count();
+                var evenement = db.Evenements.ToList().Count();
+                var projet = db.Projet.ToList().Count();
+                ViewData["initiative"] = initiative;
+                ViewData["evenement"] = evenement;
+                ViewData["projet"] = projet;
+                return View();
+                
+            }
         }
 
     }

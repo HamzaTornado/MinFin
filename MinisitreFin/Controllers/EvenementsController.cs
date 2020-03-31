@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Data;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using MinisitreFin.Models;
 
 namespace MinisitreFin.Controllers
 {
+    [ValidateInput(false)]
+    [Authorize]
     public class EvenementsController : Controller
     {
-        private MinistreFinEntities db = new MinistreFinEntities();
+        private MinistreFinEntitiesDB db = new MinistreFinEntitiesDB();
 
         // GET: Evenements
         public ActionResult Index()
@@ -27,12 +33,12 @@ namespace MinisitreFin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Evenement evenement = db.Evenements.Find(id);
-            if (evenement == null)
+            Evenements evenement1 = db.Evenements.Find(id);
+            if (evenement1 == null)
             {
                 return HttpNotFound();
             }
-            return View(evenement);
+            return View(evenement1);
         }
 
         // GET: Evenements/Create
@@ -42,20 +48,25 @@ namespace MinisitreFin.Controllers
         }
 
         // POST: Evenements/Create
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Titre_even,Description,Image,Date_debut,Date_fin,Statut")] Evenement evenement)
+        public ActionResult Create(Evenements evenement1,HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
             {
-                db.Evenements.Add(evenement);
+                var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
+                Image.SaveAs(path);
+                evenement1.Image = Image.FileName;
+                evenement1.Statut = false;
+                db.Evenements.Add(evenement1);
                 db.SaveChanges();
+                //file.SaveAs(path);
                 return RedirectToAction("Index");
             }
 
-            return View(evenement);
+            return View(evenement1);
         }
 
         // GET: Evenements/Edit/5
@@ -65,37 +76,35 @@ namespace MinisitreFin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Evenement evenement = db.Evenements.Find(id);
-            if (evenement == null)
+            Evenements evenement1 = db.Evenements.Find(id);
+            if (evenement1 == null)
             {
                 return HttpNotFound();
             }
-            return View(evenement);
+            return View(evenement1);
         }
+
         // POST: Evenements/Edit/5
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Titre_even,Description,Image,Date_debut,Date_fin,Statut")] Evenement evenement)
+        public ActionResult Edit([Bind(Include = "ID,Titre_even,Description,Image,Date_debut,Date_fin,Statut")] Evenements evenement1)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(evenement).State = EntityState.Modified;
+                db.Entry(evenement1).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(evenement);
+            return View(evenement1);
         }
-        [HttpPatch]
-        public ActionResult ChangeStatu(int id,bool statu)
+        [HttpPost]
+        public ActionResult Createimg()
         {
-            Evenement evenement = db.Evenements.Find(id);
-                evenement.Statut = statu;
-                db.Evenements.Attach(evenement);
-                db.Entry(evenement).Property(e => e.Statut).IsModified = true;
-                db.SaveChanges();
-            return View(evenement);
+            Evenements eve = new Evenements();
+            
+            return View();
         }
         // GET: Evenements/Delete/5
         public ActionResult Delete(int? id)
@@ -104,21 +113,32 @@ namespace MinisitreFin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Evenement evenement = db.Evenements.Find(id);
-            if (evenement == null)
+            Evenements evenement1 = db.Evenements.Find(id);
+            if (evenement1 == null)
             {
                 return HttpNotFound();
             }
-            return View(evenement);
+            return View(evenement1);
         }
-
+        [Authorize(Roles = "Admin")]
+        public ActionResult UpdateStatu(int id)
+        {
+            Evenements ev = db.Evenements.Find(id);
+            ev.Statut = !ev.Statut.Value;
+            db.Evenements.Attach(ev);
+            db.Entry(ev).State = EntityState.Modified;
+            db.SaveChanges();
+            
+            return RedirectToAction("Index");
+        }
         // POST: Evenements/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Evenement evenement = db.Evenements.Find(id);
-            db.Evenements.Remove(evenement);
+            
+            Evenements evenement1 = db.Evenements.Find(id);
+            db.Evenements.Remove(evenement1);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

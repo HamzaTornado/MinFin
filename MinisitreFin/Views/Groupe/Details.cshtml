@@ -1,0 +1,38 @@
+﻿@model MinisitreFin.Models.Groupe_thematiqe
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Groupe Thematiqe</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Nom De Groupe
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.Nom_groupe)
+        </dd>
+
+        <dt>
+            Date Creation
+        </dt>
+        
+        <dd>
+            @Html.DisplayFor(model => model.Date_createion)
+        </dd>
+        <dd>
+            @ViewData["nbrmember"]
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Modifier", "Edit", new { id = Model.ID }, new { @class = "btn btn-sm btn-outline-info" })
+    @Html.ActionLink("Retour à la liste", "Index", new { @class = "btn btn-sm btn-outline-warning" })
+</p>

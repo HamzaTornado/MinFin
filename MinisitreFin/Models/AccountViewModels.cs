@@ -58,23 +58,31 @@ namespace MinisitreFin.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Se Souvenir de Mon Compte ?")]
         public bool RememberMe { get; set; }
     }
 
     public class RegisterViewModel
     {
         [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
         [Display(Name = "Nom")]
         public string Nom { get; set; }
+
         [Required]
         [Display(Name = "Prenom")]
         public string Prenom { get; set; }
 
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Telephone")]
+        public string Telephone { get; set; }
+        [Required]
+        [Display(Name = "Institution")]
+        public string institution { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

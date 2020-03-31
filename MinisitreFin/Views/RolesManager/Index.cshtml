@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MinisitreFin.Models.AspNetUserRoles>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Définir les Rôle", "Create")
+</p>
+<table class="table">
+    <tr>
+
+        <th>
+            Utilisateur
+        </th>
+        <th>
+            Role
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUsers.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetRoles.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) 
+        </td>
+    </tr>
+}
+
+</table>

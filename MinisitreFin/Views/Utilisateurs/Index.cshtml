@@ -1,0 +1,84 @@
+﻿@model IEnumerable<MinisitreFin.Models.Utilisateur>
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+<p>
+    @Html.ActionLink("Ajouter Un Content Manager", "AddCM")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prenom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Institution)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Statu)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Prenom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Institution)
+        </td>
+        <td>
+            @if (User.IsInRole("Admin"))
+            {
+                <form action="/Utilisateurs/UpdateStatu/@item.ID" method="post">
+                    @Html.AntiForgeryToken()
+                    @{
+                        if (item.Statu.Value)
+                        {
+                            <input type="submit" value="Active" class="btn text-success" />
+                        }
+                        else
+                        {
+                            <input type="submit" value="Desactive" class="btn text-danger" />
+                        }
+                    }
+                </form>
+            }
+            else
+            {
+                if (item.Statu.Value)
+                {
+                    <small class="text-success">Active </small>
+                }
+                else
+                {
+                    <small class="text-danger">Desactive </small>
+                }
+            }
+
+        </td>
+        <td>
+            @Html.ActionLink("Modifier", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Détailles", "Details", new { id = item.ID }) |
+
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,21 @@
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            GroupeNameMemnersModel GNM = new GroupeNameMemnersModel();
+            List<GroupeMembersDetailsModel> LGMDM = new List<GroupeMembersDetailsModel>();
+            if (db.Groupe_thematiqe.FirstOrDefault(p => p.ID == id).Membre_group.ToList() != null)
+            {
+                
+                var groupMembers = db.Groupe_thematiqe.FirstOrDefault(p => p.ID == id).Membre_group.ToList();
+                foreach (var a in groupMembers)
+                {
+                    GroupeMembersDetailsModel GMDM = new GroupeMembersDetailsModel();
+                    GMDM.nameUser = a.Utilisateur.Nom;
+                    LGMDM.Add(GMDM);
+                }
+                GNM.nomGroupe = db.Groupe_thematiqe.FirstOrDefault(p => p.ID == id).Nom_groupe;
+                GNM.Memebers = LGMDM;
+            }
+            return View(GNM);

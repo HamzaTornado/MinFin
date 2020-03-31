@@ -1,0 +1,36 @@
+﻿@model MinisitreFin.Models.Membre_group
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+
+<h2>Details</h2>
+
+<div>
+    <h4>Membre_group</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Groupe_thematiqe.Nom_groupe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Groupe_thematiqe.Nom_groupe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilisateur.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Utilisateur.UserId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

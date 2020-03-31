@@ -1,53 +1,81 @@
 ﻿@model MinisitreFin.Models.RegisterViewModel
 @{
     ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutRegistre.cshtml";
 }
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+            <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+            <div class="col-lg-7">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Inscription</h1>
+                        <h1 class="h4 text-gray-900 mb-4">Créer et gérer Votre Espace</h1>
+                    </div>
 
-<h2>@ViewBag.Title.</h2>
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "user", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Nom, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Nom, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Prenom, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Prenom, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
-}
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Nom, new { @class = "form-control form-control-user", placeholder = "Nom", required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Prenom, new { @class = "form-control form-control-user", placeholder = "Prenom", required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-user", placeholder = "Email", required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.institution, new { @class = "form-control form-control-user", placeholder = "Indiquer votre Institution", required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-user", @type = "tel", placeholder = "Numéro Téléphone", required = "required" })
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                @Html.TextBoxFor(m => m.Password, new { @class = "form-control form-control-user", placeholder = "Mot de Passe", @type = "password", required = "required" })
+
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control form-control-user", placeholder = "Confirmer Mot de Passe", @type = "password", required = "required" })
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-primary btn-user btn-block" value="Créer un compte" />
+
+                    }
+                    <hr>
+                    <div class="text-center">
+                        <a class="small" href="#">Forgot Password?</a>
+                    </div>
+                    <div class="text-center">
+                        <a class="small" href="/Dashboard">Already have an account? Login!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .bg-register-image {
+        background-image: url('../../Content/img/logo-MF.jpg') !important;
+        background-position-x: 0% !important;
+        background-position-y: 0% !important;
+        background-size: auto !important;
+        background-position: center !important;
+        background-size: cover !important;
+    }
+    
+    .bg-gradient-primary {
+        background: url('../../Content/img/effet.png');
+        background-position-x: 0% !important;
+        background-position-y: 0% !important;
+        background-size: auto !important;
+        background-position: center !important;
+        background-size: cover !important;
+    }
+</style>

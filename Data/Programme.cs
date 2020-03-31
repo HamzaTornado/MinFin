@@ -14,12 +14,6 @@ namespace Data
     
     public partial class Programme
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Programme()
-        {
-            this.Projets = new HashSet<Projet>();
-        }
-    
         public int ID { get; set; }
         public int UtilisateurID { get; set; }
         public string Nom_prog { get; set; }
@@ -29,8 +23,6 @@ namespace Data
         public string Donateur { get; set; }
         public Nullable<double> budget { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Projet> Projets { get; set; }
         public virtual Utilisateur Utilisateur { get; set; }
     }
 }

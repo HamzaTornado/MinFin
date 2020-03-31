@@ -1,0 +1,78 @@
+﻿@model MinisitreFin.Models.GroupeIndex
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+<h2>Liste de groupes</h2>
+
+
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            @if (Model != null)
+            {
+                foreach (var item in Model.GML)
+                {
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <a href="@Url.Action("Consulte","Groupe",new {id=item.ID })">
+                                <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="~/AppImg/logo-MF.jpg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail" />
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    @Html.DisplayFor(modelItem => item.Nom_groupe) /
+                                <small class="text-muted">
+                                    @Html.FormatValue("yyy-MM-dd", item.Date_createion.Value.Date.ToString("yyy-MM-dd"))
+                                </small>
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    @{ var currentId = User.Identity.GetUserId();}
+                                    @if (item.CreatedByIdString == currentId)
+                                    {
+                                        @Html.ActionLink("Modifier", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-info" })
+                                    }
+
+                                    @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-warning" })
+
+                                </div>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <form action="/Groupe/UpdateStatu/@item.ID" method="post">
+                                        @Html.AntiForgeryToken()
+                                        @{
+                                            if (item.Statut.Value)
+                                            {
+                                                <input type="submit" value="Active" class="btn btn-sm btn-outline-success" />
+                                            }
+                                            else
+                                            {
+                                                <input type="submit" value="Desactive" class="btn btn-sm btn-outline-danger" />
+                                            }
+                                        }
+                                    </form>
+                                }
+                                else
+                                {
+                                    if (item.Statut.Value)
+                                    {
+                                        <small class="text-success">Active </small>
+                                    }
+                                    else
+                                    {
+                                        <small class="text-danger">Desactive </small>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+
+        </div>
+    </div>
+</div>

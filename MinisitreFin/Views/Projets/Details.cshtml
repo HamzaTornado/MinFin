@@ -1,0 +1,72 @@
+﻿@model MinisitreFin.Models.Projet
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Détails</h2>
+
+<div>
+    <h4>Projet</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Nom de Projet
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom_projet)
+        </dd>
+        <dt>
+            Objectif de Projet
+        </dt>
+        <dd>
+            @Html.Raw(Model.Objectif_projet)
+        </dd>
+        <dt>
+            Description
+        </dt>
+        <dd>
+            @Html.Raw(Model.Description)
+
+        </dd>
+
+        <dt>
+            Nom de Projet
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Objectif_projet)
+        </dd>
+
+        <dt>
+            Date Debut
+        </dt>
+
+        <dd>
+            @Html.FormatValue("yyy-MM-dd", Model.Date_debut.Value.Date.ToString("yyy-MM-dd"))
+        </dd>
+
+        <dt>
+            Date Fin
+        </dt>
+
+        <dd>
+            @Html.FormatValue("yyy-MM-dd", Model.Date_fin.Value.Date.ToString("yyy-MM-dd"))
+        </dd>
+
+        <dt>
+            Nom De l'initiative
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Initiatives.Nom_init)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Modifier", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Retour à la liste", "Index")
+</p>

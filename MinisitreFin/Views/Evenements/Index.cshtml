@@ -1,77 +1,85 @@
-﻿@model IEnumerable<Data.Evenement>
+﻿@model IEnumerable<MinisitreFin.Models.Evenements>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
 }
 
-<h2>Index</h2>
+<h2>List Evenements</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Ajouter", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Titre_even)
+            Titre d'evenemet
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            Description
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Image)
+            Date Dubet
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date_debut)
+            Date Fin
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date_fin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Statut)
+            Statut
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Titre_even)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Image)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date_debut)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date_fin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Statut)
-        </td>
-        <td>
-           
-           
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titre_even)
+            </td>
+            <td>
+                @Html.Raw(item.Description)
+            </td>
+            <td>
+                @Html.FormatValue("yyy-MM-dd", item.Date_debut.Value.Date.ToString("yyy-MM-dd"))
+            </td>
+            <td>
 
-                @if (item.Statut.Value)
+                @Html.FormatValue("yyy-MM-dd", item.Date_fin.Value.Date.ToString("yyy-MM-dd"))
+            </td>
+            <td>
+                @if (User.IsInRole("Admin"))
                 {
-                    @Html.ActionLink("Active", "changeStatu", "Evenements", new {id=item.ID,statu=!item.Statut.Value })
+                <form action="/Evenements/UpdateStatu/@item.ID" method="post">
+                    @Html.AntiForgeryToken()
+                    @{
+                        if (item.Statut.Value)
+                        {
+                            <input type="submit" value="Active" class="btn text-success" />
+                        }
+                        else
+                        {
+                            <input type="submit" value="Desactive" class="btn text-danger" />
+                        }
+                    }
+                </form>
                 }
                 else
                 {
-                    @Html.ActionLink("Deasactive", "changeStatu", "Evenements", new { id = item.ID, statu = !item.Statut.Value })
+                    if (item.Statut.Value)
+                    {
+                        <h6>Active</h6>
+                    }
+                    else
+                    {
+                        <h6>Desactive</h6>
+                    }
                 }
-            
-            
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-        </td>
-    </tr>
-}
-
+                
+            </td>
+            <td>
+                @Html.ActionLink("Modifier", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            </td>
+        </tr>
+    }
 </table>

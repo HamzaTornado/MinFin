@@ -5,10 +5,18 @@
     {
     @Html.AntiForgeryToken()
 
-
 <li class="nav-item dropdown no-arrow">
     <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        @User.Identity.Name
+        @if (User.IsInRole("Admin"))
+        {
+        <span>Admin Système</span>
+        }
+        else if (User.IsInRole("BDF"))
+        {
+            <span>Bailleurs de Fonds</span>
+        }
+        else
+        {<span>Content Manager</span>}
     </a>
     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
         <a class="dropdown-item" href="#">

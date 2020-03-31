@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MinisitreFin.Models.Activites>
+
+@{
+    ViewBag.Title = "AgendaActivites";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+<h2>Activites de Groupe</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Nom </th>
+            <th scope="col">Objectif</th>
+            <th scope="col">Type</th>
+            <th scope="col">Statu</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.FormatValue("yyy-MM-dd", item.Date.Value.Date.ToString("yyy-MM-dd"))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom_activ)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Objectif_activ)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type_Activite.Nom_type)
+                </td>
+                <td>
+                    @if (item.statu.Value)
+                    {
+                        <h6 class="text-success">Validé</h6>
+                    }
+                    else
+                    {
+                        <h6 class="text-warning">en coure de validation ...</h6>
+                    }
+                </td>
+                <td>
+                    @*@Html.ActionLink("Modifier", "Edit", new { id = item.ID }) |*@
+                    @Html.ActionLink("Details", "Details", new { id = item.ID })
+                    <a href="@Url.Action("index","Groupe")">Retour à la list</a>
+                    @Html.ActionLink("Compte Rendu","Create","CompteRendu", new { id = item.ID },null)
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

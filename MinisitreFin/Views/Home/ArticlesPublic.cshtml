@@ -1,0 +1,53 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+
+@model IPagedList<MinisitreFin.Models.Articles>
+
+@{
+    ViewBag.Title = "ArticlesPublic";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+<div class="container">
+    <div id="content" class="row">
+        <div class="col-md-12">
+            <div class="title">
+                <h2>Articles</h2>
+            </div>
+        </div>
+        <!-- MAIN -->
+        <div id="main" class="col-md-8" role="main">
+            @foreach (var item in Model)
+            {
+                <article class="blognews">
+                    <a href="@Url.Action("Details","Home", new { id = item.ID })" class="mt5 mb15">
+                        <div class="item-img-wrap">
+                            <img src="~/AppImg/@Html.DisplayFor(modelItem => item.Image)" class="img-responsive" alt="template">
+                            <div class="item-img-overlay">
+                                <div class="news">
+                                    <span class="btn btn-transparent-sm"><i class="fa fa-plus"></i>Voire Plus</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <h4>@Html.DisplayFor(modelItem => item.Titre_article)</h4>
+                    <p>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </p>
+                    <p class="author">
+                        <i class="fa fa-calendar"></i>
+                        @Html.FormatValue("yyy-MM-dd", item.Date_creation.Value.Date.ToString("yyy-MM-dd"))
+                        <span>/</span>
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "corp-tooltip" })
+                    </p>
+                </article>
+            }
+            @Html.PagedListPager(Model, page => Url.Action("ArticlesPublic", new { page }))
+            <!-- Pagination -->
+
+            <div class="visible-xs-block visible-sm-block pt20"></div>
+        </div><!-- /main -->
+
+
+    </div><!-- /row -->
+</div><!-- /container -->

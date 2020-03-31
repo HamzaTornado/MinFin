@@ -18,14 +18,19 @@ namespace Data
         public Groupe_thematiqe()
         {
             this.groue_detail = new HashSet<groue_detail>();
+            this.Membre_group = new HashSet<Membre_group>();
         }
     
         public int ID { get; set; }
+        public int CreatedById { get; set; }
         public string Nom_groupe { get; set; }
         public Nullable<System.DateTime> Date_createion { get; set; }
         public Nullable<bool> Statut { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<groue_detail> groue_detail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Membre_group> Membre_group { get; set; }
+        public virtual Utilisateur Utilisateur { get; set; }
     }
 }

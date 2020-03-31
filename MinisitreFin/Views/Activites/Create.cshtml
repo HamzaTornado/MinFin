@@ -1,11 +1,11 @@
-﻿@model Data.Activite
+﻿@model MinisitreFin.Models.Activites
 
 @{
     ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
 }
 
 <h2>Create</h2>
-
 
 @using (Html.BeginForm()) 
 {
@@ -26,7 +26,6 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Nom_activ, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                
                 @Html.EditorFor(model => model.Nom_activ, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Nom_activ, "", new { @class = "text-danger" })
             </div>
@@ -43,8 +42,26 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @placeholder="AAAA/MM/JJ"} })
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.statu, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.statu)
+                    @Html.ValidationMessageFor(model => model.statu, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AgendaID, "AgendaID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("AgendaID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AgendaID, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -59,7 +76,3 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

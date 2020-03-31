@@ -25,22 +25,26 @@ namespace Data
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<Activite> Activites { get; set; }
         public virtual DbSet<Agendum> Agenda { get; set; }
         public virtual DbSet<Article> Articles { get; set; }
-        public virtual DbSet<compte_rendu> compte_rendu { get; set; }
-        public virtual DbSet<Evenement> Evenements { get; set; }
-        public virtual DbSet<groue_detail> groue_detail { get; set; }
-        public virtual DbSet<Groupe_thematiqe> Groupe_thematiqe { get; set; }
-        public virtual DbSet<Initiative> Initiatives { get; set; }
-        public virtual DbSet<Programme> Programmes { get; set; }
-        public virtual DbSet<Projet> Projets { get; set; }
-        public virtual DbSet<Type_Activite> Type_Activite { get; set; }
-        public virtual DbSet<Utilisateur> Utilisateurs { get; set; }
-        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<compte_rendu> compte_rendu { get; set; }
+        public virtual DbSet<Evenement> Evenements { get; set; }
+        public virtual DbSet<Evenement1> Evenements1 { get; set; }
+        public virtual DbSet<groue_detail> groue_detail { get; set; }
+        public virtual DbSet<Groupe_thematiqe> Groupe_thematiqe { get; set; }
+        public virtual DbSet<Initiative> Initiatives { get; set; }
+        public virtual DbSet<Membre_group> Membre_group { get; set; }
+        public virtual DbSet<Programme> Programmes { get; set; }
+        public virtual DbSet<Projet> Projets { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Type_Activite> Type_Activite { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
+        public virtual DbSet<Utilisateur> Utilisateurs { get; set; }
     }
 }

@@ -25,8 +25,8 @@ namespace Data
         public string Nom_agenda { get; set; }
         public Nullable<System.DateTime> Date_creation { get; set; }
     
-        public virtual Utilisateur Utilisateur { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Activite> Activites { get; set; }
+        public virtual Utilisateur Utilisateur { get; set; }
     }
 }

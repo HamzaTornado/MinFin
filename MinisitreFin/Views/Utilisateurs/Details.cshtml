@@ -1,0 +1,70 @@
+﻿@model MinisitreFin.Models.Utilisateur
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Détailles</h2>
+<div>
+    <h4>Utilisateur</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Prenom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Prenom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Institution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Institution)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Telephone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telephone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Statu)
+        </dt>
+
+        <dd>
+            @if (Model.Statu.Value)
+            {
+                <h6>Active</h6>
+            }
+            else
+            {
+                <h6>Desactive</h6>
+            }
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Modifier", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Retour à la liste", "Index")
+</p>

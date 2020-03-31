@@ -1,0 +1,43 @@
+﻿@model MinisitreFin.Models.Membre_group
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Membre_group</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Groupe_thematiqe.Nom_groupe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Groupe_thematiqe.Nom_groupe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilisateur.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Utilisateur.UserId)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

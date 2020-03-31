@@ -6,21 +6,27 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Data;
+using MinisitreFin.Models;
 
 namespace MinisitreFin.Controllers
 {
+    [Authorize]
     public class ActivitesController : Controller
     {
-        private MinistreFinEntities db = new MinistreFinEntities();
+        private MinistreFinEntitiesDB db = new MinistreFinEntitiesDB();
 
         // GET: Activites
         public ActionResult Index()
         {
-            var activites = db.Activites.Include(a => a.Type_Activite);
+            var activites = db.Activites.Include(a => a.Type_Activite).Include(a => a.Agenda);
             return View(activites.ToList());
         }
+        public ActionResult AgendaActivites(int AgID)
+        {
+            var activites = db.Activites.Where(a => a.AgendaID == AgID).ToList();
 
+            return View(activites);
+        }
         // GET: Activites/Details/5
         public ActionResult Details(int? id)
         {
@@ -28,7 +34,7 @@ namespace MinisitreFin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Activite activites = db.Activites.Find(id);
+            Activites activites = db.Activites.Find(id);
             if (activites == null)
             {
                 return HttpNotFound();
@@ -40,24 +46,27 @@ namespace MinisitreFin.Controllers
         public ActionResult Create()
         {
             ViewBag.Type_ActiviteID = new SelectList(db.Type_Activite, "ID", "Nom_type");
+            ViewBag.AgendaID = new SelectList(db.Agenda, "ID", "Nom_agenda");
             return View();
         }
 
         // POST: Activites/Create
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Type_ActiviteID,Nom_activ,Objectif_activ,Date")] Activite activites)
+        public ActionResult CreateActivite(Activites activites,int? id)
         {
             if (ModelState.IsValid)
             {
+                activites.statu = false;
                 db.Activites.Add(activites);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Consulte", "Groupe", new { id });
             }
 
             ViewBag.Type_ActiviteID = new SelectList(db.Type_Activite, "ID", "Nom_type", activites.Type_ActiviteID);
+            ViewBag.AgendaID = new SelectList(db.Agenda, "ID", "Nom_agenda", activites.AgendaID);
             return View(activites);
         }
 
@@ -68,21 +77,22 @@ namespace MinisitreFin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Activite activites = db.Activites.Find(id);
+            Activites activites = db.Activites.Find(id);
             if (activites == null)
             {
                 return HttpNotFound();
             }
             ViewBag.Type_ActiviteID = new SelectList(db.Type_Activite, "ID", "Nom_type", activites.Type_ActiviteID);
+            ViewBag.AgendaID = new SelectList(db.Agenda, "ID", "Nom_agenda", activites.AgendaID);
             return View(activites);
         }
 
         // POST: Activites/Edit/5
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Type_ActiviteID,Nom_activ,Objectif_activ,Date")] Activite activites)
+        public ActionResult Edit([Bind(Include = "ID,Type_ActiviteID,Nom_activ,Objectif_activ,Date,statu,AgendaID")] Activites activites)
         {
             if (ModelState.IsValid)
             {
@@ -91,6 +101,7 @@ namespace MinisitreFin.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Type_ActiviteID = new SelectList(db.Type_Activite, "ID", "Nom_type", activites.Type_ActiviteID);
+            ViewBag.AgendaID = new SelectList(db.Agenda, "ID", "Nom_agenda", activites.AgendaID);
             return View(activites);
         }
 
@@ -101,7 +112,7 @@ namespace MinisitreFin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Activite activites = db.Activites.Find(id);
+            Activites activites = db.Activites.Find(id);
             if (activites == null)
             {
                 return HttpNotFound();
@@ -114,7 +125,7 @@ namespace MinisitreFin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Activite activites = db.Activites.Find(id);
+            Activites activites = db.Activites.Find(id);
             db.Activites.Remove(activites);
             db.SaveChanges();
             return RedirectToAction("Index");

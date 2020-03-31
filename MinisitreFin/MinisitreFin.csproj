@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -26,6 +27,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,9 +49,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -166,28 +176,128 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivitesController.cs" />
+    <Compile Include="Controllers\AgendaController.cs" />
+    <Compile Include="Controllers\ArticlesController.cs" />
+    <Compile Include="Controllers\CompteRenduController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\EvenementsController.cs" />
+    <Compile Include="Controllers\GroupeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\InitiativesController.cs" />
+    <Compile Include="Controllers\Initiatives1Controller.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\ProgrammesController.cs" />
+    <Compile Include="Controllers\MembreGroupController.cs" />
+    <Compile Include="Controllers\ProjetsController.cs" />
+    <Compile Include="Controllers\RolesManagerController.cs" />
+    <Compile Include="Controllers\RootController.cs" />
+    <Compile Include="Controllers\UtilisateursController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003091027177_InitialCreate.cs" />
+    <Compile Include="Migrations\202003091027177_InitialCreate.Designer.cs">
+      <DependentUpon>202003091027177_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Activites.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActivitesAgenda.cs" />
+    <Compile Include="Models\Agenda.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CompteRenduActivite.cs" />
+    <Compile Include="Models\GroupeIndex.cs" />
+    <Compile Include="Models\GroupeMembersDetailsModel.cs" />
+    <Compile Include="Models\GroupeNameMemnersModel.cs" />
+    <Compile Include="Models\GroupFilesModel.cs" />
+    <Compile Include="ViewModels\AllGroupDetailsViewModel.cs" />
+    <Compile Include="Models\Articles.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetRoles.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaims.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogins.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserRoles.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\compte_rendu.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Data.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Data.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Data.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Data.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Data.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\emailGroup.cs" />
+    <Compile Include="Models\Evenements.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\groue_detail.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupeModel.cs" />
+    <Compile Include="Models\Groupe_thematiqe.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Initiatives.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Membre_group.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Projet.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Type_Activite.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Utilisateur.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Utilisateur_Evenement2.cs">
+      <DependentUpon>Data.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AppImg\act7.jpg" />
+    <Content Include="AppImg\Idarati_MAPSv2.png" />
+    <Content Include="AppImg\intro_r2_c2.png" />
+    <Content Include="AppImg\male.png" />
+    <Content Include="AppImg\Services-domainesv2.png" />
+    <Content Include="AppImg\Services-fiscauxv2.png" />
+    <Content Include="AppImg\user.png" />
+    <Content Include="Content\Agendacss\style.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\sb-admin-2.css" />
     <Content Include="Content\css\sb-admin-2.min.css" />
+    <Content Include="Content\Groupe.css" />
     <Content Include="Content\images\ui-icons_444444_256x240.png" />
     <Content Include="Content\images\ui-icons_555555_256x240.png" />
     <Content Include="Content\images\ui-icons_777620_256x240.png" />
@@ -196,10 +306,109 @@
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\img\effet.png" />
     <Content Include="Content\img\logo-MF.jpg" />
-    <Content Include="Content\img\undraw_posting_photo.svg" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.structure.css" />
     <Content Include="Content\jquery-ui.theme.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Models\Data.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Data.edmx</DependentUpon>
+      <LastGenOutput>Data.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Data.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Data.edmx</DependentUpon>
+      <LastGenOutput>Data.cs</LastGenOutput>
+    </Content>
+    <Content Include="RootAssets\assets\css\animate.min.css" />
+    <Content Include="RootAssets\assets\css\bootstrap-select.min.css" />
+    <Content Include="RootAssets\assets\css\flexslider.css" />
+    <Content Include="RootAssets\assets\css\font-awesome.css" />
+    <Content Include="RootAssets\assets\css\font-awesome.min.css" />
+    <Content Include="RootAssets\assets\css\main-amber.css" />
+    <Content Include="RootAssets\assets\css\main-aqua.css" />
+    <Content Include="RootAssets\assets\css\main-brown.css" />
+    <Content Include="RootAssets\assets\css\main-cyan.css" />
+    <Content Include="RootAssets\assets\css\main-deep-orange.css" />
+    <Content Include="RootAssets\assets\css\main-deep-purple.css" />
+    <Content Include="RootAssets\assets\css\main-garden.css" />
+    <Content Include="RootAssets\assets\css\main-green.css" />
+    <Content Include="RootAssets\assets\css\main-indigo.css" />
+    <Content Include="RootAssets\assets\css\main-lilac.css" />
+    <Content Include="RootAssets\assets\css\main-lime.css" />
+    <Content Include="RootAssets\assets\css\main-pink.css" />
+    <Content Include="RootAssets\assets\css\main-purple.css" />
+    <Content Include="RootAssets\assets\css\main-red.css" />
+    <Content Include="RootAssets\assets\css\main.css" />
+    <Content Include="RootAssets\assets\css\preloader.css" />
+    <Content Include="RootAssets\assets\css\slick.css" />
+    <Content Include="RootAssets\assets\css\vanillabox.css" />
+    <Content Include="RootAssets\assets\fonts\flexslider-icon.svg" />
+    <Content Include="RootAssets\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="RootAssets\assets\img\act3.jpg" />
+    <Content Include="RootAssets\assets\img\act7.jpg" />
+    <Content Include="RootAssets\assets\img\avatar.jpg" />
+    <Content Include="RootAssets\assets\img\banner2.jpg" />
+    <Content Include="RootAssets\assets\img\close0%402x.png" />
+    <Content Include="RootAssets\assets\img\close0.png" />
+    <Content Include="RootAssets\assets\img\close1%402x.png" />
+    <Content Include="RootAssets\assets\img\close1.png" />
+    <Content Include="RootAssets\assets\img\error%402x.png" />
+    <Content Include="RootAssets\assets\img\error.png" />
+    <Content Include="RootAssets\assets\img\favicon.png" />
+    <Content Include="RootAssets\assets\img\home-parallax.jpg" />
+    <Content Include="RootAssets\assets\img\loading%402x.gif" />
+    <Content Include="RootAssets\assets\img\loading.gif" />
+    <Content Include="RootAssets\assets\img\logo-amber.png" />
+    <Content Include="RootAssets\assets\img\logo-aqua.png" />
+    <Content Include="RootAssets\assets\img\logo-brown.png" />
+    <Content Include="RootAssets\assets\img\logo-cyan.png" />
+    <Content Include="RootAssets\assets\img\logo-deep-orange.png" />
+    <Content Include="RootAssets\assets\img\logo-deep-purple.png" />
+    <Content Include="RootAssets\assets\img\logo-garden.png" />
+    <Content Include="RootAssets\assets\img\logo-green.png" />
+    <Content Include="RootAssets\assets\img\logo-indigo.png" />
+    <Content Include="RootAssets\assets\img\logo-lilac.png" />
+    <Content Include="RootAssets\assets\img\logo-lime.png" />
+    <Content Include="RootAssets\assets\img\logo-pink.png" />
+    <Content Include="RootAssets\assets\img\logo-purple.png" />
+    <Content Include="RootAssets\assets\img\logo-red.png" />
+    <Content Include="RootAssets\assets\img\logo.png" />
+    <Content Include="RootAssets\assets\img\logoMF.jpg" />
+    <Content Include="RootAssets\assets\img\map.png" />
+    <Content Include="RootAssets\assets\img\next0%402x.png" />
+    <Content Include="RootAssets\assets\img\next0.png" />
+    <Content Include="RootAssets\assets\img\next1%402x.png" />
+    <Content Include="RootAssets\assets\img\next1.png" />
+    <Content Include="RootAssets\assets\img\prev0%402x.png" />
+    <Content Include="RootAssets\assets\img\prev0.png" />
+    <Content Include="RootAssets\assets\img\prev1%402x.png" />
+    <Content Include="RootAssets\assets\img\prev1.png" />
+    <Content Include="RootAssets\assets\js\bootstrap-select.min.js" />
+    <Content Include="RootAssets\assets\js\form-validation.js" />
+    <Content Include="RootAssets\assets\js\html5shiv.min.js" />
+    <Content Include="RootAssets\assets\js\jquery-1.12.4.min.js" />
+    <Content Include="RootAssets\assets\js\jquery.flexslider-min.js" />
+    <Content Include="RootAssets\assets\js\jquery.mixitup.min.js" />
+    <Content Include="RootAssets\assets\js\jquery.placeholder.min.js" />
+    <Content Include="RootAssets\assets\js\jquery.stellar.min.js" />
+    <Content Include="RootAssets\assets\js\jquery.vanillabox-0.1.7.min.js" />
+    <Content Include="RootAssets\assets\js\main.js" />
+    <Content Include="RootAssets\assets\js\respond.min.js" />
+    <Content Include="RootAssets\assets\js\slick.min.js" />
+    <Content Include="RootAssets\assets\js\waypoints.min.js" />
+    <Content Include="RootAssets\assets\js\wow.min.js" />
+    <Content Include="RootAssets\assets\videos\videoframe.jpg" />
+    <Content Include="RootAssets\css\bootstrap.css" />
+    <Content Include="RootAssets\css\bootstrap.min.css" />
+    <Content Include="RootAssets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="RootAssets\js\bootstrap.js" />
+    <Content Include="RootAssets\js\bootstrap.min.js" />
+    <Content Include="RootAssets\js\npm.js" />
+    <Content Include="Scripts\Agendajs\script.js" />
+    <Content Include="Scripts\Agenda\jquery-ui.min.js" />
+    <Content Include="Scripts\Agenda\script.js" />
+    <Content Include="Scripts\Agenda\style.css" />
     <Content Include="Scripts\datatables\dataTables.bootstrap4.css" />
     <Content Include="Scripts\datatables\dataTables.bootstrap4.js" />
     <Content Include="Scripts\datatables\dataTables.bootstrap4.min.css" />
@@ -1957,6 +2166,55 @@
     <Content Include="Content\vendor\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="Scripts\jquery\jquery.min.map" />
     <Content Include="Scripts\jquery\jquery.slim.min.map" />
+    <EntityDeploy Include="Models\Data.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Data.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Data.edmx.diagram">
+      <DependentUpon>Data.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\MinisitreFin20200314071339 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\MinisitreFin20200316103612 - Web Deploy.pubxml" />
+    <Content Include="RootAssets\assets\fonts\flexslider-icon.eot" />
+    <Content Include="RootAssets\assets\fonts\flexslider-icon.ttf" />
+    <Content Include="RootAssets\assets\fonts\flexslider-icon.woff" />
+    <Content Include="RootAssets\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="RootAssets\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="RootAssets\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="RootAssets\assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="RootAssets\assets\fonts\FontAwesome.otf" />
+    <Content Include="RootAssets\assets\prepros.cfg" />
+    <Content Include="RootAssets\assets\sass\main-amber.scss" />
+    <Content Include="RootAssets\assets\sass\main-aqua.scss" />
+    <Content Include="RootAssets\assets\sass\main-brown.scss" />
+    <Content Include="RootAssets\assets\sass\main-cyan.scss" />
+    <Content Include="RootAssets\assets\sass\main-deep-orange.scss" />
+    <Content Include="RootAssets\assets\sass\main-deep-purple.scss" />
+    <Content Include="RootAssets\assets\sass\main-garden.scss" />
+    <Content Include="RootAssets\assets\sass\main-green.scss" />
+    <Content Include="RootAssets\assets\sass\main-indigo.scss" />
+    <Content Include="RootAssets\assets\sass\main-lilac.scss" />
+    <Content Include="RootAssets\assets\sass\main-lime.scss" />
+    <Content Include="RootAssets\assets\sass\main-pink.scss" />
+    <Content Include="RootAssets\assets\sass\main-purple.scss" />
+    <Content Include="RootAssets\assets\sass\main-red.scss" />
+    <Content Include="RootAssets\assets\sass\main.scss" />
+    <Content Include="RootAssets\assets\sass\_helpers.scss" />
+    <Content Include="RootAssets\assets\sass\_images.scss" />
+    <Content Include="RootAssets\assets\sass\_mixins.scss" />
+    <Content Include="RootAssets\assets\sass\_preloader.scss" />
+    <Content Include="RootAssets\assets\sass\_responsive.scss" />
+    <Content Include="RootAssets\assets\sass\_rtl-compatible.scss" />
+    <Content Include="RootAssets\assets\sass\_slick-theme.scss" />
+    <Content Include="RootAssets\assets\sass\_template.scss" />
+    <Content Include="RootAssets\assets\sass\_vanillabox.scss" />
+    <Content Include="RootAssets\css\bootstrap.css.map" />
+    <Content Include="RootAssets\css\bootstrap.min.css.map" />
+    <Content Include="RootAssets\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="RootAssets\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="RootAssets\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="RootAssets\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Properties\PublishProfiles\MinisitreFin20200320071840 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1968,6 +2226,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\tinymce.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2004,33 +2263,86 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Activites\Create.cshtml" />
-    <Content Include="Views\Activites\Delete.cshtml" />
-    <Content Include="Views\Activites\Details.cshtml" />
-    <Content Include="Views\Activites\Edit.cshtml" />
-    <Content Include="Views\Activites\Index.cshtml" />
     <Content Include="Views\Shared\_dashboardAdmin.cshtml" />
-    <Content Include="Views\Initiatives\Create.cshtml" />
-    <Content Include="Views\Initiatives\Delete.cshtml" />
-    <Content Include="Views\Initiatives\Details.cshtml" />
-    <Content Include="Views\Initiatives\Edit.cshtml" />
-    <Content Include="Views\Initiatives\Index.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
-    <Content Include="Views\Programmes\Create.cshtml" />
-    <Content Include="Views\Programmes\Delete.cshtml" />
-    <Content Include="Views\Programmes\Details.cshtml" />
-    <Content Include="Views\Programmes\Edit.cshtml" />
-    <Content Include="Views\Programmes\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\Agenda1\Index.cshtml" />
+    <Content Include="Views\Groupe\Create.cshtml" />
+    <Content Include="Views\Groupe\Delete.cshtml" />
+    <Content Include="Views\Groupe\Details.cshtml" />
+    <Content Include="Views\Groupe\Edit.cshtml" />
+    <Content Include="Views\Groupe\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutRegistre.cshtml" />
+    <Content Include="Views\Projets\Create.cshtml" />
+    <Content Include="Views\Projets\Delete.cshtml" />
+    <Content Include="Views\Projets\Details.cshtml" />
+    <Content Include="Views\Projets\Edit.cshtml" />
+    <Content Include="Views\Projets\Index.cshtml" />
+    <Content Include="Views\Initiatives1\Create.cshtml" />
+    <Content Include="Views\Initiatives1\Delete.cshtml" />
+    <Content Include="Views\Initiatives1\Details.cshtml" />
+    <Content Include="Views\Initiatives1\Edit.cshtml" />
+    <Content Include="Views\Initiatives1\Index.cshtml" />
     <Content Include="Views\Evenements\Create.cshtml" />
     <Content Include="Views\Evenements\Delete.cshtml" />
     <Content Include="Views\Evenements\Details.cshtml" />
     <Content Include="Views\Evenements\Edit.cshtml" />
     <Content Include="Views\Evenements\Index.cshtml" />
-    <Content Include="Views\BDF\test.cshtml" />
+    <Content Include="Views\Evenements\UpdateStatu.cshtml" />
+    <Content Include="Views\Utilisateurs\Create.cshtml" />
+    <Content Include="Views\Utilisateurs\Delete.cshtml" />
+    <Content Include="Views\Utilisateurs\Details.cshtml" />
+    <Content Include="Views\Utilisateurs\Edit.cshtml" />
+    <Content Include="Views\Utilisateurs\Index.cshtml" />
+    <Content Include="Views\Activites\Create.cshtml" />
+    <Content Include="Views\Activites\Delete.cshtml" />
+    <Content Include="Views\Activites\Details.cshtml" />
+    <Content Include="Views\Activites\Edit.cshtml" />
+    <Content Include="Views\Activites\Index.cshtml" />
+    <Content Include="Views\Articles\Create.cshtml" />
+    <Content Include="Views\Articles\Delete.cshtml" />
+    <Content Include="Views\Articles\Details.cshtml" />
+    <Content Include="Views\Articles\Edit.cshtml" />
+    <Content Include="Views\Articles\Index.cshtml" />
+    <Content Include="Views\Root\Index.cshtml" />
+    <Content Include="Views\Root\ArticleList.cshtml" />
+    <Content Include="Views\Home\Details.cshtml" />
+    <Content Include="Views\RolesManager\Create.cshtml" />
+    <Content Include="Views\RolesManager\Delete.cshtml" />
+    <Content Include="Views\RolesManager\Details.cshtml" />
+    <Content Include="Views\RolesManager\Edit.cshtml" />
+    <Content Include="Views\RolesManager\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutSite.cshtml" />
+    <Content Include="Views\Shared\_NavbarSite.cshtml" />
+    <Content Include="Views\Home\EvenementsPublic.cshtml" />
+    <Content Include="Views\Home\DetailsEvent.cshtml" />
+    <Content Include="Views\Home\ArticlesPublic.cshtml" />
+    <Content Include="Views\MembreGroup\Create.cshtml" />
+    <Content Include="Views\MembreGroup\Delete.cshtml" />
+    <Content Include="Views\MembreGroup\Details.cshtml" />
+    <Content Include="Views\MembreGroup\Edit.cshtml" />
+    <Content Include="Views\Groupe\Consulte.cshtml" />
+    <Content Include="Views\MembreGroup\Index.cshtml" />
+    <Content Include="Views\Agenda\Create.cshtml" />
+    <Content Include="Views\Agenda\Delete.cshtml" />
+    <Content Include="Views\Agenda\Details.cshtml" />
+    <Content Include="Views\Agenda\Edit.cshtml" />
+    <Content Include="Views\Agenda\Index.cshtml" />
+    <Content Include="Views\Groupe\AjouterAgenda.cshtml" />
+    <Content Include="Views\Groupe\InviteGroupe.cshtml" />
+    <Content Include="Views\Activites\AgendaActivites.cshtml" />
+    <Content Include="Views\CompteRendu\Create.cshtml" />
+    <Content Include="Views\CompteRendu\Delete.cshtml" />
+    <Content Include="Views\CompteRendu\Details.cshtml" />
+    <Content Include="Views\CompteRendu\Edit.cshtml" />
+    <Content Include="Views\CompteRendu\Index.cshtml" />
+    <Content Include="Views\Utilisateurs\AddCM.cshtml" />
+    <Content Include="Views\Account\AddCM.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AppDocuments\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Img\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
@@ -2047,16 +2359,20 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data\Data.csproj">
-      <Project>{dee38326-7e06-4e0a-80e1-20199b7aec31}</Project>
-      <Name>Data</Name>
-    </ProjectReference>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202003091027177_InitialCreate.resx">
+      <DependentUpon>202003091027177_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

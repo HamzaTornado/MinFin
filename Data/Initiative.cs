@@ -14,6 +14,12 @@ namespace Data
     
     public partial class Initiative
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Initiative()
+        {
+            this.Projets = new HashSet<Projet>();
+        }
+    
         public int ID { get; set; }
         public int UtilisateurID { get; set; }
         public string Nom_init { get; set; }
@@ -29,6 +35,8 @@ namespace Data
         public string Cofinancement { get; set; }
         public string Regions { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Projet> Projets { get; set; }
         public virtual Utilisateur Utilisateur { get; set; }
     }
 }

@@ -1,0 +1,41 @@
+﻿@model MinisitreFin.Models.RegisterViewModel
+@{
+    ViewBag.Title = "AddCM";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Ajouter un Content Manager</h2>
+@using (Html.BeginForm("AddCM", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.Nom, new { @class = "form-control form-control-user", placeholder = "Nom", required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.Prenom, new { @class = "form-control form-control-user", placeholder = "Prenom", required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-user", placeholder = "Email", required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.institution, new { @class = "form-control form-control-user", @type = "tel", placeholder = "Indiquer votre Institution", required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-user", @type = "tel", placeholder = "Numéro Téléphone", required = "required" })
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            @Html.TextBoxFor(m => m.Password, new { @class = "form-control form-control-user", placeholder = "Mot de Passe", @type = "password", required = "required" })
+
+        </div>
+        <div class="col-sm-6">
+            @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control form-control-user", placeholder = "Confirmer Mot de Passe", @type = "password", required = "required" })
+        </div>
+    </div>
+    <input type="submit" class="btn btn-primary btn-user btn-block" value="Créer un compte" />
+
+}
+

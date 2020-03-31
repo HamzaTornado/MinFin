@@ -10,10 +10,12 @@
     <!-- Custom fonts for this template-->
     <link href="~/Content/vendor/fontawesome-free/css/all.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <script src="~/Scripts/jquery/jquery.min.js"></script>
     <!-- Custom styles for this template-->
     <link href="~/Content/css/sb-admin-2.min.css" rel="stylesheet" />
 
     <link href="~/Content/css/sb-admin-2.css" rel="stylesheet" />
+    <script src="https://cdn.tiny.cloud/1/6hrqheuud1b2gndk39ybxg3857eno403gj9mfbzgzsmr149t/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -44,30 +46,51 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#admin" aria-expanded="true" aria-controls="admin">
                     <i class="fas fa-money-check-alt"></i>
-                    <span>Admin System</span>
+                    @if ( User.IsInRole("Admin"))
+                    {
+                        <span>Admin System</span>
+                    }
+                    else if (User.IsInRole("BDF"))
+                    {
+                        <span>Bailleurs de Fonds</span>
+                    }
+                    else {<span>Content Manager</span> }
                 </a>
                 <div id="admin" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Getion</h6>
                         @if (User.IsInRole("Admin"))
-                        {
-                            <a class="collapse-item" href="#">Bailleurs de Fonds</a>
-                            <a class="collapse-item" href="#">Groupes THEMATIQUES</a>
-                            <a class="collapse-item" href="#">Réunions</a>
+                        {<h6 class="collapse-header">Getion</h6>
+                            <a class="collapse-item" href="/Utilisateurs">Bailleurs de Fonds</a>
+                            <a class="collapse-item" href="/Groupe">Groupes THEMATIQUES</a>
+                            <a class="collapse-item" href="/Initiatives1">Initiatives</a>
+                            <a class="collapse-item" href="/RolesManager">Gestionnaire de Rôles</a>
+                            <a class="collapse-item" href="/Projets">Projets</a>
+                            <a class="collapse-item" href="/Evenements">Evenements</a>
+                            <a class="collapse-item" href="/Articles">Articles</a>
                         }
-                        <a class="collapse-item" href="Programmes">Programme</a>
-                        <a class="collapse-item" href="Initiatives">Initiatives</a>
+                        else if (User.IsInRole("BDF"))
+                        {
+                                <h6 class="collapse-header"> <i class="fas fa-users"> </i>  Groupes THEMATIQUES</h6>
+                                <a class="collapse-item" href="/Groupe">Votre Groupe</a>
+                                <a class="collapse-item" href="/Groupe/InviteGroupe">Invite Groupe</a>
+                                <a class="collapse-item" href="/Projets">Projets</a>
+                                <a class="collapse-item" href="/Initiatives1">Initiatives</a>
+                                <a class="collapse-item" href="/Agenda">Agenda</a>
+                                }
+                                else
+                                {
+                                <a class="collapse-item" href="/Articles"> Articles</a>
+                                <a class="collapse-item" href="/Evenements">Evenements</a>
+                                }
 
-
-                    </div>
-                </div>
+                            </div>
+                        </div>
             </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->
             <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+            
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -146,7 +169,7 @@
                 <footer class="sticky-footer bg-white">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; MEF 2019</span>
+                            <span>Copyright &copy; MEF @DateTime.Now.Year</span>
                         </div>
                     </div>
                 </footer>
@@ -181,17 +204,13 @@
             </div>
         </div>
         <!-- Bootstrap core JavaScript-->
-        <script src="~/Scripts/jquery/jquery.min.js"></script>
+       
         <script src="~/Scripts/bootstrap/js/bootstrap.bundle.min.js"></script>
         <!-- Core plugin JavaScript-->
         <script src="~/Scripts/jquery-easing/jquery.easing.min.js"></script>
 
         <!-- Custom scripts for all pages-->
-
-
-
-
         <script src="~/Scripts/js/sb-admin-2.min.js"></script>
-
+        
 </body>
 </html>

@@ -1,0 +1,75 @@
+//Mixins
+@mixin border-radius($args) {
+    -webkit-border-radius: $args;
+    -khtml-border-radius: $args;
+    -moz-border-radius: $args;
+    -ms-border-radius: $args;
+    border-radius: $args;
+}
+
+@mixin box-shadow($args) {
+    -webkit-box-shadow: $args;
+    -khtml-box-shadow: $args;
+    -moz-box-shadow: $args;
+    -ms-box-shadow: $args;
+    box-shadow: $args;
+}
+
+@mixin opacity($opacity) {
+    opacity: $opacity;
+    -khtml-opacity: $opacity;
+    -moz-opacity: $opacity;
+    $opacity-ie: $opacity * 100;
+    filter: alpha(opacity=$opacity-ie);
+}
+
+@mixin transition($args) {
+    -webkit-transition: $args;
+    -moz-transition: $args;
+    -ms-transition: $args;
+    -o-transition: $args;
+    transition: $args;
+}
+
+@mixin transform($args) {
+    -webkit-transform: $args;
+    -moz-transform: $args;
+    -ms-transform: $args;
+    -o-transform: $args;
+    transform: $args;
+}
+
+@mixin transform-origin($args) {
+    -webkit-transform: $args;
+    -moz-transform: $args;
+    -ms-transform: $args;
+    -o-transform: $args;
+    transform: $args;
+}
+
+@mixin background-size($args) {
+    -webkit-background-size: $args;
+    -moz-background-size: $args;
+    -o-background-size: $args;
+    background-size: $args;
+}
+
+@mixin background-clip($args) {
+    -webkit-background-size: $args;
+    -moz-background-size: $args;
+    -o-background-size: $args;
+    background-size: $args;
+}
+
+@mixin box-sizing($args) {
+    -webkit-box-sizing: $args;
+    -moz-box-sizing: $args;
+    -o-box-sizing: $args;
+    box-sizing: $args;
+}
+
+@mixin grayscale($value) {
+    -webkit-filter: grayscale($value);
+    -moz-filter: grayscale($value);
+    filter: grayscale($value);
+}

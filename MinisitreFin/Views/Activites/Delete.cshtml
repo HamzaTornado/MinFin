@@ -1,7 +1,8 @@
-﻿@model Data.Activite
+﻿@model MinisitreFin.Models.Activites
 
 @{
     ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
 }
 
 <h2>Delete</h2>
@@ -36,11 +37,27 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.statu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.statu)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Type_Activite.Nom_type)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Type_Activite.Nom_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Agenda.Nom_agenda)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Agenda.Nom_agenda)
         </dd>
 
     </dl>

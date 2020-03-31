@@ -1,0 +1,40 @@
+﻿@model MinisitreFin.Models.Evenements
+@{
+    ViewBag.Title = "DetailsEvent";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+<div class="container">
+    <div id="content" class="row">
+        <div class="col-md-12">
+            <div class="title">
+                <h2>Evénements</h2>
+            </div>
+        </div>
+        <!-- MAIN -->
+        <div id="main" class="col-md-8" role="main">
+            <article>
+                <header>
+                    <div class="post-thumbnail">
+                        <img src="~/AppImg/@Html.DisplayFor(model => model.Image)" alt="@Html.DisplayFor(model => model.Image)">
+                    </div>
+                    <h2 class="entry-title"><a href="#"> @Html.DisplayFor(model => model.Titre_even)</a></h2>
+                    <p class="author">
+                        <i class="fa fa-calendar"></i>
+                        <strong>Début </strong> @Html.FormatValue("yyy-MM-dd", Model.Date_debut.Value.Date.ToString("yyy-MM-dd")) <span> / </span>  <strong> Fin </strong> @Html.FormatValue("yyy-MM-dd", Model.Date_debut.Value.Date.ToString("yyy-MM-dd"))<span>.</span>
+                    </p>
+                </header>
+                <div class="post_content">
+                    <p>@Html.DisplayFor(model => model.Description)</p>
+                </div>
+            </article>
+            @Html.ActionLink("Liste des Evenements", "EvenementsPublic")
+            <hr>
+
+            <div class="visible-xs-block visible-sm-block pt20"></div>
+        </div><!-- /main -->
+    </div><!-- /row -->
+</div><!-- /container -->
+@*<p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+</p>*@

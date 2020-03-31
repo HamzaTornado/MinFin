@@ -1,0 +1,271 @@
+/*
+ * Vanillabox
+ * (C) 2013 cocopon.
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+.vnbx * {
+    @include box-sizing(content-box);
+}
+
+.vnbx-mask {
+    left: 0;
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    z-index: 1050;
+}
+
+.vnbx-frame {
+    position: absolute;
+}
+
+.vnbx-button {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+
+.vnbx-prev,
+.vnbx-next {
+    visibility: hidden;
+}
+
+.vnbx-group .vnbx-prev,
+.vnbx-group .vnbx-next {
+    visibility: visible;
+}
+
+.vnbx-pager {
+    visibility: hidden;
+}
+
+.vnbx-group .vnbx-pager {
+    visibility: visible;
+}
+
+.vnbx-content {
+    display: block;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+}
+
+.vnbx-content > img {
+    vertical-align: middle;
+}
+
+.vnbx-content > iframe {
+    border-width: 0;
+    vertical-align: middle;
+}
+
+.vnbx-ios .vnbx-content {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.vnbx-ios .vnbx-content > iframe {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.vnbx-empty {
+    height: 200px;
+    width: 240px;
+}
+
+.vnbx-loading,
+.vnbx-error {
+    height: 200px;
+    width: 240px;
+}
+
+.vnbx-loading > img,
+.vnbx-loading > iframe,
+.vnbx-error > img,
+.vnbx-error > iframe {
+    display: none;
+    height: 200px;
+    width: 240px;
+}
+
+.vnbx-mask {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.vnbx-frame {
+    padding-top: 32px;
+}
+
+.vnbx-button {
+    position: absolute;
+}
+
+.vnbx-button.vnbx-disabled {
+    display: none;
+}
+
+.vnbx-close {
+    background: none;
+    height: 40px;
+    right: -5px;
+    top: 0;
+    width: 10px;    
+    &:after {
+        display: inline-block;
+        position: absolute;
+        left: -28px;
+        top: 0;
+        padding: 5px;
+        font-family: $font_icons;
+        font-size: 20px;
+        content:"\f00d";
+        color: #999;
+        border: 0;
+        @include opacity(0.7);
+        @include transition(all 200ms ease-in-out);
+    }
+    &:hover::after {
+        @include opacity(0.9);
+        color: $color4;
+        cursor: pointer;
+    }
+}
+
+.vnbx-prev,
+.vnbx-next {
+    height: 100%;
+    margin-top: 16px;
+    top: 0;
+    width: 44px;
+}
+
+.vnbx-prev {
+    background: none;
+    left: -40px;
+    &:after {
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-top: -35px;
+        padding: 10px 20px;
+        font-family: $font_icons;
+        font-size: 50px;
+        content:"\f104";
+        color: #fff;
+        border: 0;
+        @include opacity(0.7);
+        @include transition(all 200ms ease-in-out);
+    }
+    &:hover::after {
+       @include opacity(0.9);
+        cursor: pointer;
+    }
+}
+
+.vnbx-next {
+    background: none;
+    right: -40px;
+    &:after {
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -35px;
+        padding: 10px 20px;
+        font-family: $font_icons;
+        font-size: 50px;
+        content:"\f105";
+        color: #fff;
+        border: 0;
+        @include opacity(0.7);
+        @include transition(all 200ms ease-in-out);
+    }
+    &:hover::after {
+       @include opacity(0.9);
+       cursor: pointer;
+    }
+}
+
+.vnbx-label {
+    font-family: sans-serif;
+    font-size: 1em;
+    position: absolute;
+}
+
+.vnbx-title {
+    background-color: #fff;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    font-family: $font1;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    color: $color6;
+    height: 40px;
+    left: 0;
+    line-height: 40px;
+    overflow: hidden;
+    text-align: left;
+    top: 0;
+    padding-left: 12px;
+    width: 100%;
+    @include box-sizing(border-box);
+}
+
+.vnbx-close-button-enabled .vnbx-title {
+    padding-right: 40px;
+}
+
+.vnbx-pager {
+    background: #fff;
+    bottom: 0;
+    color: $color4;
+    font-size: 90%;
+    height: 30px;
+    left: 0;
+    line-height: 30px;
+    text-align: center;
+    width: 100%;
+}
+
+.vnbx-container {
+    background-color: #fff;
+    text-align: center;
+    border: solid 7px #fff;
+    overflow: hidden;
+    position: relative;
+}
+
+.vnbx-loading {
+    background-image: url('../img/loading.gif');
+    background-position: center 45%;
+    background-repeat: no-repeat;
+    background-size: 32px;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+    .vnbx-loading {
+        background-image: url('../img/loading@2x.gif');
+    }
+}
+
+.vnbx-error {
+    &:after {
+        display: inline-block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -17px;
+        margin-top: -35px;
+        font-family: $font_icons;
+        font-size: 40px;
+        content:"\f057";
+        color: #999;
+    }
+}

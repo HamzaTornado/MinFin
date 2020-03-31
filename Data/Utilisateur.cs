@@ -20,27 +20,34 @@ namespace Data
             this.Agenda = new HashSet<Agendum>();
             this.Articles = new HashSet<Article>();
             this.groue_detail = new HashSet<groue_detail>();
+            this.Groupe_thematiqe = new HashSet<Groupe_thematiqe>();
             this.Initiatives = new HashSet<Initiative>();
+            this.Membre_group = new HashSet<Membre_group>();
             this.Programmes = new HashSet<Programme>();
             this.Evenements = new HashSet<Evenement>();
         }
     
         public int ID { get; set; }
+        public string UserId { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
         public string Email { get; set; }
         public string Telephone { get; set; }
-        public string Mot_passe { get; set; }
-        public string Discriminator { get; set; }
+        public Nullable<bool> Statu { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agendum> Agenda { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Article> Articles { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<groue_detail> groue_detail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Groupe_thematiqe> Groupe_thematiqe { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Initiative> Initiatives { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Membre_group> Membre_group { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Programme> Programmes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

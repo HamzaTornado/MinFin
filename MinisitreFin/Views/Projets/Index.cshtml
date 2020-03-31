@@ -1,0 +1,63 @@
+﻿@model IEnumerable<MinisitreFin.Models.Projet >
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>List des Projets</h2>
+
+<p>
+    @Html.ActionLink("Ajouter un Projet", "Create",null,new {@class= "btn btn-info float-right mb-3" })
+</p>
+<table class="table ">
+    <tr class="btn-success">
+        <th>
+            Nom De Projet
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Objectif Projet
+        </th>
+        <th>
+            Date Debut
+        </th>
+        <th>
+            Date Fin
+        </th>
+        <th>
+            Nom Initiative
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nom_projet)
+        </td>
+        <td>  
+            @Html.Raw(item.Description)
+        </td>
+        <td>       
+            @Html.Raw(item.Objectif_projet)
+        </td>
+        <td>   
+            @Html.FormatValue("yyy-MM-dd", item.Date_debut.Value.Date.ToString("yyy-MM-dd"))
+        </td>
+        <td>
+            @Html.FormatValue("yyy-MM-dd", item.Date_fin.Value.Date.ToString("yyy-MM-dd"))
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Initiatives.Nom_init)
+        </td>
+        <td>
+            @Html.ActionLink("Modifier", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) 
+        </td>
+    </tr>
+}
+
+</table>

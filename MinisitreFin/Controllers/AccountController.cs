@@ -5,16 +5,19 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Helpers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MinisitreFin.Models;
+using System.Web.Security;
 
 namespace MinisitreFin.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private MinistreFinEntitiesDB context = new MinistreFinEntitiesDB();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -84,7 +87,7 @@ namespace MinisitreFin.Controllers
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
+                case SignInStatus.Failure:    
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
@@ -155,15 +158,45 @@ namespace MinisitreFin.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    Utilisateur modelUser = new Models.Utilisateur();
+                    modelUser.Nom = model.Nom;
+                    modelUser.Prenom = model.Prenom;
+                    modelUser.Email = model.Email;
+                    modelUser.Institution = model.institution;
+
+                    var x = context.AspNetUsers.Where(p => p.Email == model.Email).First();
+                    modelUser.UserId = x.Id;
+                    modelUser.Telephone = model.Telephone;
+                    modelUser.Statu = false;
+                    context.Utilisateur.Add(modelUser);
+                    context.SaveChanges();
+                    //// Send Password in Gmail/////////// 
+                    string recipient = model.Email;
+                    string subject = "MEF Espace Mot de Passe";
+                    string body = "Bonjour,<br>Merci pour l'intérêt que vous témoignez envers l'espace MEF Maroc.<br>  Votre Inscription est en cours de Validation.Vous pourrez accéder à votre espace en tant que bénéficiaire dès que votre compte sera validée.Pour cela, vous devrez utiliser votre email : " + model.Email + " comme login et le password suivant:<strong> " + model.Password + " </strong>  Votre compte vous donne accès aux fonctionnalités réservées aux participants à  l'espace MEF<br>Vous pourrez à tout moment modifier votre mot de passe  à partir de votre espace personnel.<br> Pour tout besoin,<br> vous pouvez nous contacter via l'email suivant: MEF@contact.com";
+                    WebMail.SmtpServer = "smtp.gmail.com";
+                    WebMail.SmtpPort = 587;
+                    WebMail.SmtpUseDefaultCredentials = false;
+                    WebMail.EnableSsl = true;
+                    WebMail.UserName = "meftestmail@gmail.com";
+                    WebMail.Password = "MinFin1234";
+                    WebMail.Send(to: recipient, subject: subject, body: body, isBodyHtml: true);
+                    ///////////////////////////////
+                    AspNetUserRoles userRoles = new AspNetUserRoles();
+                    userRoles.RoleId = "2";
+                    userRoles.UserId = x.Id;
+                    context.AspNetUserRoles.Add(userRoles);
+                    context.SaveChanges();
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Dashboard");
+                    return RedirectToAction("Login", "Account");
                 }
                 AddErrors(result);
             }
@@ -171,7 +204,51 @@ namespace MinisitreFin.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddCM(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
+                    Utilisateur modelUser = new Models.Utilisateur();
+                    modelUser.Nom = model.Nom;
+                    modelUser.Prenom = model.Prenom;
+                    modelUser.Email = model.Email;
+                    modelUser.Institution = model.institution;
+
+                    var x = context.AspNetUsers.Where(p => p.Email == model.Email).First();
+                    modelUser.UserId = x.Id;
+                    modelUser.Telephone = model.Telephone;
+                    modelUser.Statu = false;
+                    context.Utilisateur.Add(modelUser);
+                    context.SaveChanges();
+                   
+                    AspNetUserRoles userRoles = new AspNetUserRoles();
+                    userRoles.RoleId = "3";
+                    userRoles.UserId = x.Id;
+                    context.AspNetUserRoles.Add(userRoles);
+                    context.SaveChanges();
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return RedirectToAction("index", "Utilisateurs", null);
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

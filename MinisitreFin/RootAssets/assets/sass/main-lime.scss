@@ -1,0 +1,116 @@
+/*!
+Template Name: Corpboot
+Template URI: http://www.templatespremium.net/corpboot/
+Description: Corporate HTML5 Template based on twitter bootstrap.
+Version: 2.1
+Author: Rafael Memmel
+Author URI: http://www.rafamemmel.com
+===========================================================================================
+Table of Content
+===========================================================================================
+01. FONTS
+02. PRELOADER
+03. GENERAL
+    * Global styles
+    * Tables
+    * Breadcrumb
+    * Nav-tabs
+    * Nav-about-carousel
+    * Nav-wizard
+    * Helpers
+04. NAVBAR
+    * Bootstrap navbar
+05. SLIDER
+    * Slider and background slider
+    * Static background image and background video
+    * Text promo section
+06. HOME
+    * Intro text and icons
+    * News
+07. SLICK CAROUSEL
+    * Clients logos
+	* About carousel
+	* Slick theme
+    * Icons
+    * Arrows
+    * Dots
+08. ABOUT & SERVICES
+    * Progress bar
+    * Panel - Accordion
+    * Skills
+    * Team
+    * Facts
+    * Services
+09. PORTFOLIO
+    * Single porfolio and filters
+    * Images with zoom and hover effect
+    * Vanillabox (lightbox)
+    * Call to action
+10. PRICING
+    * Pricing tables
+11. BLOG
+    * Main
+    * Post
+    * Posts navigation
+    * Sidebar
+    * Comments
+12. CONTACT & GENERAL FORMS
+    * Contact info and map canvas
+    * General forms and buttons
+    * Alerts
+13. FOOTER
+    * Footer top
+    * Footer bottom
+    * Back to top
+14. RESPONSIVE
+	* If the minimum width is
+	* If the maximum width is
+	* If the minimum width and the maximum width is
+15. SPECIAL CSS FOR RTL LAYOUTS
+    * General
+    * Home slider button
+    * Lightbox
+    * Bootstrap
+    * Pricing
+    * Contact
+    * Blog
+    * Nav-wizard
+    * Navbar
+    * Footer
+*/
+
+// 00. VARIABLES
+//-----------------------------------------------------------------------------------------
+
+//Colors
+$color1 : #F9FBE7;
+$color2 : #C0CA33;
+$color3 : #AFB42B;
+$color4 : #9E9D24;
+$color5 : #756D20;
+$color6 : darken($color5, 2.5%);
+$body-bg-color: #FDFEFE;
+
+//Alert colors
+$danger-color: #D6433B;
+$warning-color: #EE8707;
+$success-color: #2EA566;
+$info-color: #1CA5D2;
+
+//Social colors
+$color_facebook: #3B5998;
+$color_twitter: #00ACED;
+$color_google: #D34836;
+$color_pinterest: #CB2027;
+$color_flickr: #FF0084;
+$color_linkedin: #007BB6;
+$color_instagram: #125688;
+
+//Import background images
+@import 'images';
+
+//Import Mixins
+@import 'mixins';
+
+//Import Template styles
+@import 'template';

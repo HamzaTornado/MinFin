@@ -1,0 +1,62 @@
+﻿@model MinisitreFin.Models.Groupe_thematiqe
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Modifier</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
+
+    
+    <div class="form-group">
+        <label class="control-label col-md-2"> Nom De Groupe</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Nom_groupe, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Nom_groupe, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group" hidden="hidden">
+        <label class="control-label col-md-2"> </label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CreatedById, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.CreatedById, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" hidden="hidden">
+        <label class="control-label col-md-2">Date De Creation</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Date_createion, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Date_createion, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group" hidden="hidden">
+        @Html.LabelFor(model => model.Statut, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Statut)
+                @Html.ValidationMessageFor(model => model.Statut, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Modifier" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

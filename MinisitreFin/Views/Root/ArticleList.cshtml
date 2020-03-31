@@ -1,0 +1,32 @@
+﻿@model IEnumerable<MinisitreFin.Models.Articles>
+
+    @foreach (var item in Model)
+    {
+        <!-- Post -->
+       <div>
+            <article class="blognews">
+                <a href="blogpost.html" class="mt5 mb15">
+                    <div class="item-img-wrap">
+                        <img src="~/AppImg/@Html.DisplayFor(modelItem => item.Image)" class="img-responsive" alt="template">
+                        <div class="item-img-overlay">
+                            <div class="news">
+                                <span class="btn btn-transparent-sm"><i class="fa fa-plus"></i>Voire Plus</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <h4><a href="blogpost.html">@Html.DisplayFor(modelItem => item.Titre_article)</a></h4>
+                <p>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </p>
+                <p class="author">
+                    <i class="fa fa-calendar"></i>
+                    @Html.FormatValue("yyy-MM-dd", item.Date_creation.Value.Date.ToString("yyy-MM-dd"))
+                     <span>/</span>
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "corp-tooltip" })
+                </p>
+            </article>
+        </div><!-- /item - post -->
+        <!-- Post -->
+    }
+
