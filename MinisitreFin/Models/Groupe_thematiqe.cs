@@ -28,12 +28,12 @@ namespace MinisitreFin.Models
         public Nullable<System.DateTime> Date_createion { get; set; }
         public Nullable<bool> Statut { get; set; }
     
-        public virtual Utilisateur Utilisateur { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Membre_group> Membre_group { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<groue_detail> groue_detail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agenda> Agenda { get; set; }
+        public virtual Utilisateur Utilisateur { get; set; }
     }
 }

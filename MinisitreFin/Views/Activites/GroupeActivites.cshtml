@@ -1,0 +1,79 @@
+﻿@model IEnumerable<MinisitreFin.Models.Activites>
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "AgendaActivites";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+<h2>Activites de Groupe - Agenda :@ViewData["Agenda"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Nom </th>
+            <th scope="col">Objectif</th>
+            <th scope="col">Type</th>
+            <th scope="col">Statu</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.FormatValue("yyy-MM-dd", item.Date.Value.Date.ToString("yyy-MM-dd"))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom_activ)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Objectif_activ)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type_Activite.Nom_type)
+
+                </td>
+                <td>
+                    @{
+                        var createID = Convert.ToString(ViewData["IDCreate"]);
+                    }
+                    @if (User.Identity.GetUserId() == createID)
+                    {
+                        <form action="@Url.Action("UpdateStatu","Activites",new {id=item.ID, idgroupe=ViewData["idgroupe"], IDCreate=createID })" method="post">
+                            @Html.AntiForgeryToken()
+                            @{
+                                if (item.statu.Value)
+                                {
+                                    <input type="submit" value="Activé" class="btn btn-sm btn-outline-success" />
+                                }
+                                else
+                                {
+                                    <input type="submit" value="Desactivé" class="btn btn-sm btn-outline-danger" />
+                                }
+                            }
+                        </form>
+                    }
+                    else
+                    {
+                        if (item.statu.Value)
+                        {
+                            <h6 class="text-success">Validé</h6>
+                        }
+                        else
+                        {
+                            <h6 class="text-warning">en coure de validation ...</h6>
+                        }
+                    }
+                </td>
+                <td>
+                    @*@Html.ActionLink("Modifier", "Edit", new { id = item.ID }) |*@
+                    @Html.ActionLink("Details", "Details", new { id = item.ID ,idgroupe= ViewData["idgroupe"], IDCreate= ViewData["IDCreate"] })
+                    @*<a href="@Url.Action("index","Groupe")">Retour à la list</a>*@
+                    @Html.ActionLink("Comptes Rendus", "ActiviteCRS", "CompteRendu", new { idAct = item.ID, idgroupe = ViewData["idgroupe"], IDCreate = ViewData["IDCreate"] }, null)/
+                    @Html.ActionLink("+ CR", "Create", "CompteRendu", new { id = item.ID, idgroupe = ViewData["idgroupe"], IDCreate=ViewData["IDCreate"]}, null)
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

@@ -9,5 +9,6 @@ namespace MinisitreFin.Models
     {
         public List<Groupe_thematiqe> GTHL { get; set; }
         public List<GroupeModel> GML { get; set; }
+
     }
 }

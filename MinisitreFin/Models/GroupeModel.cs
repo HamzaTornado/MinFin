@@ -13,5 +13,7 @@ namespace MinisitreFin.Models
         public DateTime? Date_createion { get; set; }
         public bool? Statut { get; set; }
         public string CreatedByIdString { get; set; }
+
+        public int ActCount { get; set; }
     }
 }

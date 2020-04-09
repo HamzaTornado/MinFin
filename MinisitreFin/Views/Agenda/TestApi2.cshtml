@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "TestApi2";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+
+<link href="~/Content/Adenda2/core/main.css" rel="stylesheet" />
+<link href="~/Content/Adenda2/daygrid/main.css" rel="stylesheet" />
+<link href="~/Content/Adenda2/timegrid/main.css" rel="stylesheet" />
+<link href="~/Content/Adenda2/list/main.css" rel="stylesheet" />
+<script src="~/Content/Adenda2/core/main.js"></script>
+@*<script src="~/Content/Adenda2/interaction/main.js"></script>*@
+<script src="~/Content/Adenda2/daygrid/main.js"></script>
+<script src="~/Content/Adenda2/timegrid/main.js"></script>
+<script src="~/Content/Adenda2/list/main.js"></script>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: ['dayGrid', 'timeGrid', 'list', 'interaction'],
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+            },
+            defaultDate: new Date(),
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: {
+                url: "http://localhost:53970/Agenda/AllEvents/@ViewData["idagenda"]",
+                failure: function () {
+                    alert('Makhdamch line');
+                }
+            }
+        });
+
+        calendar.render();
+    });
+
+</script>
+<style>
+
+    
+
+    #calendar {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    .fc-title{
+        color:white;
+    }
+</style>
+
+<body>
+
+    <div id='calendar'></div>
+
+</body>
+

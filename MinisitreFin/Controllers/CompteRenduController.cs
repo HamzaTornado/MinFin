@@ -22,7 +22,13 @@ namespace MinisitreFin.Controllers
             var compte_rendu = db.compte_rendu.Include(c => c.Activites);
             return View(compte_rendu.ToList());
         }
-
+        public ActionResult ActiviteCRS(int? idAct ,int idgroupe, string IDCreate)
+        {
+            var compte_rendu = db.compte_rendu.Where(c => c.Activites.ID== idAct);
+            ViewData["idgroupe"] = idgroupe;
+            ViewData["IDCreate"] = IDCreate;
+            return View(compte_rendu.ToList());
+        }
         // GET: CompteRendu/Details/5
         public ActionResult Details(int? id)
         {
@@ -37,11 +43,28 @@ namespace MinisitreFin.Controllers
             }
             return View(compte_rendu);
         }
+        public ActionResult DetailsCR(int? id,int? idgroupe)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            compte_rendu compte_rendu = db.compte_rendu.Find(id);
+            if (compte_rendu == null)
+            {
+                return HttpNotFound();
+            }
+            ViewData["idgroupe"] = idgroupe;
+            return View(compte_rendu);
+        }
 
         // GET: CompteRendu/Create
-        public ActionResult Create(int? id)
+        public ActionResult Create(int? id,int? idgroupe, string IDCreate)
         {
             ViewBag.ActivitesID = new SelectList(db.Activites.Where(a=>a.ID==id), "ID", "Nom_activ");
+            ViewData["idActivite"] = id;
+            ViewData["idgroupe"] = idgroupe;
+            ViewData["IDCreate"] = IDCreate;
             return View();
         }
 
@@ -57,7 +80,7 @@ namespace MinisitreFin.Controllers
                 compte_rendu.Statut = false;
                 db.compte_rendu.Add(compte_rendu);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("index","Groupe",null);
             }
 
             ViewBag.ActivitesID = new SelectList(db.Activites, "ID", "Nom_activ", compte_rendu.ActivitesID);
@@ -65,7 +88,7 @@ namespace MinisitreFin.Controllers
         }
 
         // GET: CompteRendu/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, int idgroupe,int? idAct)
         {
             if (id == null)
             {
@@ -77,6 +100,8 @@ namespace MinisitreFin.Controllers
                 return HttpNotFound();
             }
             ViewBag.ActivitesID = new SelectList(db.Activites, "ID", "Nom_activ", compte_rendu.ActivitesID);
+            ViewData["idgroupe"] = idgroupe;
+            ViewData["idActivite"] = idAct;
             return View(compte_rendu);
         }
 
@@ -85,7 +110,7 @@ namespace MinisitreFin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit( compte_rendu compte_rendu)
+        public ActionResult Edit( compte_rendu compte_rendu, int? idgroupe, string IDCreate)
         {
             if (ModelState.IsValid)
             {
@@ -93,12 +118,22 @@ namespace MinisitreFin.Controllers
                 compte_rendu.Statut = compte_rendu.Statut;
                 db.Entry(compte_rendu).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("GroupeActivites", "Activites", new { idgroupe, IDCreate });
             }
             ViewBag.ActivitesID = new SelectList(db.Activites, "ID", "Nom_activ", compte_rendu.ActivitesID);
             return View(compte_rendu);
         }
-
+        public ActionResult UpdateStatu(int id,int? idAct, int? idgroupe, string IDCreate)
+        {
+            compte_rendu cr = db.compte_rendu.Find(id);
+            cr.Statut = !cr.Statut.Value;
+            db.compte_rendu.Attach(cr);
+            db.Entry(cr).State = EntityState.Modified;
+            db.SaveChanges();
+            ViewData["idgroupe"] = idgroupe;
+            ViewData["IDCreate"] = IDCreate;
+            return RedirectToAction("ActiviteCRS", "CompteRendu", new { idAct ,idgroupe, IDCreate });
+        }
         // GET: CompteRendu/Delete/5
         public ActionResult Delete(int? id)
         {

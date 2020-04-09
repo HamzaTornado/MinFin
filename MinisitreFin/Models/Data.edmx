@@ -149,10 +149,10 @@
           <Property Name="Statu_init" Type="bit" />
           <Property Name="Date_debu" Type="datetime" />
           <Property Name="Date_fin" Type="datetime" />
-          <Property Name="Objectifs_generaux" Type="varchar" MaxLength="255" />
-          <Property Name="Obgectifs_specifiques" Type="varchar" MaxLength="255" />
-          <Property Name="Description_court" Type="varchar" MaxLength="255" />
-          <Property Name="Description_detaillee" Type="varchar" MaxLength="255" />
+          <Property Name="Objectifs_generaux" Type="text" />
+          <Property Name="Obgectifs_specifiques" Type="text" />
+          <Property Name="Description_court" Type="text" />
+          <Property Name="Description_detaillee" Type="text" />
           <Property Name="Budget" Type="real" />
           <Property Name="Approbateur" Type="varchar" MaxLength="255" />
           <Property Name="Cofinancement" Type="varchar" MaxLength="255" />
@@ -197,6 +197,7 @@
           <Property Name="Telephone" Type="varchar" MaxLength="255" />
           <Property Name="Statu" Type="bit" />
           <Property Name="Institution" Type="varchar" MaxLength="255" />
+          <Property Name="CM" Type="bit" />
         </EntityType>
         <EntityType Name="Utilisateur_Evenement2">
           <Key>
@@ -570,7 +571,7 @@
           <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="AspNetUserRoles" Relationship="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserRoles" />
-          <NavigationProperty Name="Utilisateur" Relationship="Self.FK_FKUserId" FromRole="AspNetUsers" ToRole="Utilisateur" />
+          <NavigationProperty Name="Utilisateur" Relationship="MinistreFinModel.FK_FKUserId" FromRole="AspNetUsers" ToRole="Utilisateur" />
         </EntityType>
         <EntityType Name="Groupe_thematiqe">
           <Key>
@@ -581,31 +582,10 @@
           <Property Name="Nom_groupe" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Date_createion" Type="DateTime" Precision="3" />
           <Property Name="Statut" Type="Boolean" />
-          <NavigationProperty Name="Utilisateur" Relationship="Self.FK_admin" FromRole="Groupe_thematiqe" ToRole="Utilisateur" />
           <NavigationProperty Name="Membre_group" Relationship="MinistreFinModel.FK_FKGroupId" FromRole="Groupe_thematiqe" ToRole="Membre_group" />
           <NavigationProperty Name="groue_detail" Relationship="MinistreFinModel.Class" FromRole="Groupe_thematiqe" ToRole="groue_detail" />
           <NavigationProperty Name="Agenda" Relationship="MinistreFinModel.creer" FromRole="Groupe_thematiqe" ToRole="Agenda" />
-        </EntityType>
-        <EntityType Name="Initiatives">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UtilisateurID" Type="Int32" Nullable="false" />
-          <Property Name="Nom_init" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Statu_init" Type="Boolean" />
-          <Property Name="Date_debu" Type="DateTime" Precision="3" />
-          <Property Name="Date_fin" Type="DateTime" Precision="3" />
-          <Property Name="Objectifs_generaux" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Obgectifs_specifiques" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Description_court" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Description_detaillee" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Budget" Type="Single" />
-          <Property Name="Approbateur" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Cofinancement" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Regions" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Projet" Relationship="Self.contient" FromRole="Initiatives" ToRole="Projet" />
-          <NavigationProperty Name="Utilisateur" Relationship="Self.creer6" FromRole="Initiatives" ToRole="Utilisateur" />
+          <NavigationProperty Name="Utilisateur" Relationship="MinistreFinModel.FK_admin" FromRole="Groupe_thematiqe" ToRole="Utilisateur" />
         </EntityType>
         <EntityType Name="Projet">
           <Key>
@@ -618,7 +598,7 @@
           <Property Name="Objectif_projet" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Date_debut" Type="DateTime" Precision="3" />
           <Property Name="Date_fin" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Initiatives" Relationship="Self.contient" FromRole="Projet" ToRole="Initiatives" />
+          <NavigationProperty Name="Initiatives" Relationship="MinistreFinModel.contient" FromRole="Projet" ToRole="Initiatives" />
         </EntityType>
         <EntityType Name="Type_Activite">
           <Key>
@@ -628,25 +608,6 @@
           <Property Name="Nom_type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Activites" Relationship="MinistreFinModel.FKActivites519089" FromRole="Type_Activite" ToRole="Activites" />
         </EntityType>
-        <EntityType Name="Utilisateur">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Nom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Prenom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Telephone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Statu" Type="Boolean" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_FKUserId" FromRole="Utilisateur" ToRole="AspNetUsers" />
-          <NavigationProperty Name="Groupe_thematiqe" Relationship="Self.FK_admin" FromRole="Utilisateur" ToRole="Groupe_thematiqe" />
-          <NavigationProperty Name="Initiatives" Relationship="Self.creer6" FromRole="Utilisateur" ToRole="Initiatives" />
-          <NavigationProperty Name="Utilisateur_Evenement2" Relationship="Self.creer3" FromRole="Utilisateur" ToRole="Utilisateur_Evenement2" />
-          <NavigationProperty Name="Membre_group" Relationship="MinistreFinModel.FK_FKMembreId" FromRole="Utilisateur" ToRole="Membre_group" />
-          <Property Name="Institution" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="groue_detail" Relationship="MinistreFinModel.FK_FKAddUserId" FromRole="Utilisateur" ToRole="groue_detail" />
-        </EntityType>
         <EntityType Name="Utilisateur_Evenement2">
           <Key>
             <PropertyRef Name="UtilisateurID" />
@@ -654,7 +615,7 @@
           </Key>
           <Property Name="UtilisateurID" Type="Int32" Nullable="false" />
           <Property Name="EvenementID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Utilisateur" Relationship="Self.creer3" FromRole="Utilisateur_Evenement2" ToRole="Utilisateur" />
+          <NavigationProperty Name="Utilisateur" Relationship="MinistreFinModel.creer3" FromRole="Utilisateur_Evenement2" ToRole="Utilisateur" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
@@ -712,66 +673,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_FKUserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Utilisateur">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_admin">
-          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
-          <End Role="Groupe_thematiqe" Type="Self.Groupe_thematiqe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Utilisateur">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Groupe_thematiqe">
-              <PropertyRef Name="CreatedById" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="contient">
-          <End Role="Initiatives" Type="Self.Initiatives" Multiplicity="1" />
-          <End Role="Projet" Type="Self.Projet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Initiatives">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Projet">
-              <PropertyRef Name="ID_Initiative" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="creer6">
-          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
-          <End Role="Initiatives" Type="Self.Initiatives" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Utilisateur">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Initiatives">
-              <PropertyRef Name="UtilisateurID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="creer3">
-          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
-          <End Role="Utilisateur_Evenement2" Type="Self.Utilisateur_Evenement2" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Utilisateur">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Utilisateur_Evenement2">
-              <PropertyRef Name="UtilisateurID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="MinistreFinEntitiesDB" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
@@ -779,10 +680,8 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
           <EntitySet Name="Groupe_thematiqe" EntityType="Self.Groupe_thematiqe" />
-          <EntitySet Name="Initiatives" EntityType="Self.Initiatives" />
           <EntitySet Name="Projet" EntityType="Self.Projet" />
           <EntitySet Name="Type_Activite" EntityType="Self.Type_Activite" />
-          <EntitySet Name="Utilisateur" EntityType="Self.Utilisateur" />
           <EntitySet Name="Utilisateur_Evenement2" EntityType="Self.Utilisateur_Evenement2" />
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -800,26 +699,6 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_FKUserId" Association="Self.FK_FKUserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Utilisateur" EntitySet="Utilisateur" />
-          </AssociationSet>
-          <AssociationSet Name="FK_admin" Association="Self.FK_admin">
-            <End Role="Utilisateur" EntitySet="Utilisateur" />
-            <End Role="Groupe_thematiqe" EntitySet="Groupe_thematiqe" />
-          </AssociationSet>
-          <AssociationSet Name="contient" Association="Self.contient">
-            <End Role="Initiatives" EntitySet="Initiatives" />
-            <End Role="Projet" EntitySet="Projet" />
-          </AssociationSet>
-          <AssociationSet Name="creer6" Association="Self.creer6">
-            <End Role="Utilisateur" EntitySet="Utilisateur" />
-            <End Role="Initiatives" EntitySet="Initiatives" />
-          </AssociationSet>
-          <AssociationSet Name="creer3" Association="Self.creer3">
-            <End Role="Utilisateur" EntitySet="Utilisateur" />
-            <End Role="Utilisateur_Evenement2" EntitySet="Utilisateur_Evenement2" />
-          </AssociationSet>
           <EntitySet Name="Articles" EntityType="MinistreFinModel.Articles" />
           <EntitySet Name="Evenements" EntityType="MinistreFinModel.Evenements" />
           <EntitySet Name="Membre_group" EntityType="MinistreFinModel.Membre_group" />
@@ -827,17 +706,9 @@
             <End Role="Groupe_thematiqe" EntitySet="Groupe_thematiqe" />
             <End Role="Membre_group" EntitySet="Membre_group" />
           </AssociationSet>
-          <AssociationSet Name="FK_FKMembreId" Association="MinistreFinModel.FK_FKMembreId">
-            <End Role="Utilisateur" EntitySet="Utilisateur" />
-            <End Role="Membre_group" EntitySet="Membre_group" />
-          </AssociationSet>
           <EntitySet Name="groue_detail" EntityType="MinistreFinModel.groue_detail" />
           <AssociationSet Name="Class" Association="MinistreFinModel.Class">
             <End Role="Groupe_thematiqe" EntitySet="Groupe_thematiqe" />
-            <End Role="groue_detail" EntitySet="groue_detail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FKAddUserId" Association="MinistreFinModel.FK_FKAddUserId">
-            <End Role="Utilisateur" EntitySet="Utilisateur" />
             <End Role="groue_detail" EntitySet="groue_detail" />
           </AssociationSet>
           <EntitySet Name="Activites" EntityType="MinistreFinModel.Activites" />
@@ -858,6 +729,36 @@
           <AssociationSet Name="avoir" Association="MinistreFinModel.avoir">
             <End Role="Activites" EntitySet="Activites" />
             <End Role="compte_rendu" EntitySet="compte_rendu" />
+          </AssociationSet>
+          <EntitySet Name="Utilisateur" EntityType="MinistreFinModel.Utilisateur" />
+          <AssociationSet Name="FK_FKUserId" Association="MinistreFinModel.FK_FKUserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FKAddUserId" Association="MinistreFinModel.FK_FKAddUserId">
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+            <End Role="groue_detail" EntitySet="groue_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_admin" Association="MinistreFinModel.FK_admin">
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+            <End Role="Groupe_thematiqe" EntitySet="Groupe_thematiqe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FKMembreId" Association="MinistreFinModel.FK_FKMembreId">
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+            <End Role="Membre_group" EntitySet="Membre_group" />
+          </AssociationSet>
+          <AssociationSet Name="creer3" Association="MinistreFinModel.creer3">
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+            <End Role="Utilisateur_Evenement2" EntitySet="Utilisateur_Evenement2" />
+          </AssociationSet>
+          <EntitySet Name="Initiatives" EntityType="MinistreFinModel.Initiatives" />
+          <AssociationSet Name="contient" Association="MinistreFinModel.contient">
+            <End Role="Initiatives" EntitySet="Initiatives" />
+            <End Role="Projet" EntitySet="Projet" />
+          </AssociationSet>
+          <AssociationSet Name="creer6" Association="MinistreFinModel.creer6">
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+            <End Role="Initiatives" EntitySet="Initiatives" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Articles">
@@ -907,18 +808,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_FKMembreId">
-          <End Type="MinistreFinModel.Utilisateur" Role="Utilisateur" Multiplicity="1" />
-          <End Type="MinistreFinModel.Membre_group" Role="Membre_group" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Utilisateur">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Membre_group">
-              <PropertyRef Name="MembreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="groue_detail">
           <Key>
             <PropertyRef Name="ID" />
@@ -941,18 +830,6 @@
             </Principal>
             <Dependent Role="groue_detail">
               <PropertyRef Name="Groupe_thematiqeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FKAddUserId">
-          <End Type="MinistreFinModel.Utilisateur" Role="Utilisateur" Multiplicity="1" />
-          <End Type="MinistreFinModel.groue_detail" Role="groue_detail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Utilisateur">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="groue_detail">
-              <PropertyRef Name="MembreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1045,6 +922,131 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Utilisateur">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Nom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Prenom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Statu" Type="Boolean" />
+          <Property Name="Institution" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CM" Type="Boolean" />
+          <NavigationProperty Name="AspNetUsers" Relationship="MinistreFinModel.FK_FKUserId" FromRole="Utilisateur" ToRole="AspNetUsers" />
+          <NavigationProperty Name="groue_detail" Relationship="MinistreFinModel.FK_FKAddUserId" FromRole="Utilisateur" ToRole="groue_detail" />
+          <NavigationProperty Name="Groupe_thematiqe" Relationship="MinistreFinModel.FK_admin" FromRole="Utilisateur" ToRole="Groupe_thematiqe" />
+          <NavigationProperty Name="Membre_group" Relationship="MinistreFinModel.FK_FKMembreId" FromRole="Utilisateur" ToRole="Membre_group" />
+          <NavigationProperty Name="Utilisateur_Evenement2" Relationship="MinistreFinModel.creer3" FromRole="Utilisateur" ToRole="Utilisateur_Evenement2" />
+          <NavigationProperty Name="Initiatives" Relationship="MinistreFinModel.creer6" FromRole="Utilisateur" ToRole="Initiatives" />
+        </EntityType>
+        <Association Name="FK_FKUserId">
+          <End Type="MinistreFinModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
+          <End Type="MinistreFinModel.Utilisateur" Role="Utilisateur" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Utilisateur">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FKAddUserId">
+          <End Type="MinistreFinModel.Utilisateur" Role="Utilisateur" Multiplicity="1" />
+          <End Type="MinistreFinModel.groue_detail" Role="groue_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="groue_detail">
+              <PropertyRef Name="MembreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_admin">
+          <End Type="MinistreFinModel.Utilisateur" Role="Utilisateur" Multiplicity="1" />
+          <End Type="MinistreFinModel.Groupe_thematiqe" Role="Groupe_thematiqe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Groupe_thematiqe">
+              <PropertyRef Name="CreatedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FKMembreId">
+          <End Type="MinistreFinModel.Utilisateur" Role="Utilisateur" Multiplicity="1" />
+          <End Type="MinistreFinModel.Membre_group" Role="Membre_group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Membre_group">
+              <PropertyRef Name="MembreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="creer3">
+          <End Type="MinistreFinModel.Utilisateur" Role="Utilisateur" Multiplicity="1" />
+          <End Type="MinistreFinModel.Utilisateur_Evenement2" Role="Utilisateur_Evenement2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Utilisateur_Evenement2">
+              <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Initiatives">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UtilisateurID" Type="Int32" Nullable="false" />
+          <Property Name="Nom_init" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Statu_init" Type="Boolean" />
+          <Property Name="Date_debu" Type="DateTime" Precision="3" />
+          <Property Name="Date_fin" Type="DateTime" Precision="3" />
+          <Property Name="Objectifs_generaux" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Obgectifs_specifiques" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description_court" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description_detaillee" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Budget" Type="Single" />
+          <Property Name="Approbateur" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Cofinancement" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Regions" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Projet" Relationship="MinistreFinModel.contient" FromRole="Initiatives" ToRole="Projet" />
+          <NavigationProperty Name="Utilisateur" Relationship="MinistreFinModel.creer6" FromRole="Initiatives" ToRole="Utilisateur" />
+        </EntityType>
+        <Association Name="contient">
+          <End Type="MinistreFinModel.Initiatives" Role="Initiatives" Multiplicity="1" />
+          <End Type="MinistreFinModel.Projet" Role="Projet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Initiatives">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Projet">
+              <PropertyRef Name="ID_Initiative" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="creer6">
+          <End Type="MinistreFinModel.Utilisateur" Role="Utilisateur" Multiplicity="1" />
+          <End Type="MinistreFinModel.Initiatives" Role="Initiatives" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Initiatives">
+              <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1118,26 +1120,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Initiatives">
-            <EntityTypeMapping TypeName="MinistreFinModel.Initiatives">
-              <MappingFragment StoreEntitySet="Initiatives">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="UtilisateurID" ColumnName="UtilisateurID" />
-                <ScalarProperty Name="Nom_init" ColumnName="Nom_init" />
-                <ScalarProperty Name="Statu_init" ColumnName="Statu_init" />
-                <ScalarProperty Name="Date_debu" ColumnName="Date_debu" />
-                <ScalarProperty Name="Date_fin" ColumnName="Date_fin" />
-                <ScalarProperty Name="Objectifs_generaux" ColumnName="Objectifs_generaux" />
-                <ScalarProperty Name="Obgectifs_specifiques" ColumnName="Obgectifs_specifiques" />
-                <ScalarProperty Name="Description_court" ColumnName="Description_court" />
-                <ScalarProperty Name="Description_detaillee" ColumnName="Description_detaillee" />
-                <ScalarProperty Name="Budget" ColumnName="Budget" />
-                <ScalarProperty Name="Approbateur" ColumnName="Approbateur" />
-                <ScalarProperty Name="Cofinancement" ColumnName="Cofinancement" />
-                <ScalarProperty Name="Regions" ColumnName="Regions" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Projet">
             <EntityTypeMapping TypeName="MinistreFinModel.Projet">
               <MappingFragment StoreEntitySet="Projet">
@@ -1156,20 +1138,6 @@
               <MappingFragment StoreEntitySet="Type_Activite">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Nom_type" ColumnName="Nom_type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Utilisateur">
-            <EntityTypeMapping TypeName="MinistreFinModel.Utilisateur">
-              <MappingFragment StoreEntitySet="Utilisateur">
-                <ScalarProperty Name="Institution" ColumnName="Institution" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Nom" ColumnName="Nom" />
-                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
-                <ScalarProperty Name="Statu" ColumnName="Statu" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1263,6 +1231,41 @@
                 <ScalarProperty Name="Date_debut" ColumnName="Date_debut" />
                 <ScalarProperty Name="Titre_cr" ColumnName="Titre_cr" />
                 <ScalarProperty Name="ActivitesID" ColumnName="ActivitesID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Utilisateur">
+            <EntityTypeMapping TypeName="MinistreFinModel.Utilisateur">
+              <MappingFragment StoreEntitySet="Utilisateur">
+                <ScalarProperty Name="CM" ColumnName="CM" />
+                <ScalarProperty Name="Institution" ColumnName="Institution" />
+                <ScalarProperty Name="Statu" ColumnName="Statu" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Initiatives">
+            <EntityTypeMapping TypeName="MinistreFinModel.Initiatives">
+              <MappingFragment StoreEntitySet="Initiatives">
+                <ScalarProperty Name="Regions" ColumnName="Regions" />
+                <ScalarProperty Name="Cofinancement" ColumnName="Cofinancement" />
+                <ScalarProperty Name="Approbateur" ColumnName="Approbateur" />
+                <ScalarProperty Name="Budget" ColumnName="Budget" />
+                <ScalarProperty Name="Description_detaillee" ColumnName="Description_detaillee" />
+                <ScalarProperty Name="Description_court" ColumnName="Description_court" />
+                <ScalarProperty Name="Obgectifs_specifiques" ColumnName="Obgectifs_specifiques" />
+                <ScalarProperty Name="Objectifs_generaux" ColumnName="Objectifs_generaux" />
+                <ScalarProperty Name="Date_fin" ColumnName="Date_fin" />
+                <ScalarProperty Name="Date_debu" ColumnName="Date_debu" />
+                <ScalarProperty Name="Statu_init" ColumnName="Statu_init" />
+                <ScalarProperty Name="Nom_init" ColumnName="Nom_init" />
+                <ScalarProperty Name="UtilisateurID" ColumnName="UtilisateurID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

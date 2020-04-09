@@ -175,7 +175,7 @@ namespace MinisitreFin.Controllers
                     //// Send Password in Gmail/////////// 
                     string recipient = model.Email;
                     string subject = "MEF Espace Mot de Passe";
-                    string body = "Bonjour,<br>Merci pour l'intérêt que vous témoignez envers l'espace MEF Maroc.<br>  Votre Inscription est en cours de Validation.Vous pourrez accéder à votre espace en tant que bénéficiaire dès que votre compte sera validée.Pour cela, vous devrez utiliser votre email : " + model.Email + " comme login et le password suivant:<strong> " + model.Password + " </strong>  Votre compte vous donne accès aux fonctionnalités réservées aux participants à  l'espace MEF<br>Vous pourrez à tout moment modifier votre mot de passe  à partir de votre espace personnel.<br> Pour tout besoin,<br> vous pouvez nous contacter via l'email suivant: MEF@contact.com";
+                    string body = "Bonjour,<br>Merci pour l'intérêt que vous témoignez envers l'espace MEF Maroc.<br>  Votre Inscription est en cours de Validation.Vous pourrez accéder à votre espace en tant que Bailleurs de Fonds dès que votre compte sera validée.Pour cela, vous devrez utiliser votre email : " + model.Email + " comme login et le password suivant:<strong> " + model.Password + " </strong>  Votre compte vous donne accès aux fonctionnalités réservées aux participants à  l'espace MEF<br>Vous pourrez à tout moment modifier votre mot de passe  à partir de votre espace personnel.<br> Pour tout besoin,<br> vous pouvez nous contacter via l'email suivant: MEF@contact.com";
                     WebMail.SmtpServer = "smtp.gmail.com";
                     WebMail.SmtpPort = 587;
                     WebMail.SmtpUseDefaultCredentials = false;
@@ -204,6 +204,10 @@ namespace MinisitreFin.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        public ActionResult AddCM()
+        {
+            return View();
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddCM(RegisterViewModel model)
@@ -214,7 +218,7 @@ namespace MinisitreFin.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    
 
                     Utilisateur modelUser = new Models.Utilisateur();
                     modelUser.Nom = model.Nom;

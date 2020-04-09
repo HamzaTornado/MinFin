@@ -84,12 +84,11 @@ namespace MinisitreFin.Controllers
         public ActionResult add(Membre_group membre_group)
         {
             var membreexi = db.Membre_group.FirstOrDefault(m => m.MembreId == membre_group.MembreId);
-            if (membreexi == null)
-            {
+           
                 
                 db.Membre_group.Add(membre_group);
                 db.SaveChanges();
-            }
+            
 
             return RedirectToAction("Consulte", "Groupe",new {id= membre_group.GroupId });
         }

@@ -9,6 +9,19 @@
     tinymce.init({
         selector: '#Objectifs_generaux,#Obgectifs_specifiques,#Description_court,#Description_detaillee'
     });
+    function submitForm() {
+        // Check if the user has entered less than 1000 characters
+        if (getStats('Objectifs_generaux').chars < 1000) {
+            alert("You need to enter 1000 characters or more.");
+            return;
+        }
+
+        alert("FW");
+
+        // Submit the form
+        document.forms[0].submit();
+    }
+
 </script>
 <h2>Modifier</h2>
 
@@ -32,7 +45,7 @@
 
         <div class="form-group">
             <label class="control-label col-md-2">Nom Initiation</label>            <div class="col-md-10">
-                @Html.EditorFor(model => model.Nom_init, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Nom_init, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.Nom_init, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -50,7 +63,7 @@
         <div class="form-group">
             <Label class="control-label col-md-2">Date Debut</Label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date_debu, new { htmlAttributes = new { @class = "form-control", } })
+                @Html.TextBox("Date_debu", Model.Date_debu.Value, "{0:yyyy-MM-dd}", new { @class = "form-control",@type="date", @required = "required"  })
                 @Html.ValidationMessageFor(model => model.Date_debu, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -58,7 +71,7 @@
         <div class="form-group">
             <Label class="control-label col-md-2">Date Fin</Label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date_fin, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBox("Date_fin", Model.Date_fin, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @required = "required" })
                 @Html.ValidationMessageFor(model => model.Date_fin, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -98,7 +111,7 @@
         <div class="form-group">
             <Label class="control-label col-md-2">Budget</Label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Budget, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Budget, new { htmlAttributes = new { @class = "form-control", @type = "number", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.Budget, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -106,7 +119,7 @@
         <div class="form-group">
             <Label class="control-label col-md-2">Approbateur</Label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Approbateur, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Approbateur, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.Approbateur, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -114,7 +127,7 @@
         <div class="form-group">
             <Label class="control-label col-md-2">Cofinancement</Label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Cofinancement, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Cofinancement, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.Cofinancement, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -122,14 +135,14 @@
         <div class="form-group">
             <Label class="control-label col-md-2">Region</Label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Regions, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Regions, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.Regions, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Modifier" class="btn btn-default" />
+            <div class="col-md-offset-2 col-md-10"> 
+                <input type="submit" value="Modifier"  class="btn btn-default" />
             </div>
         </div>
     </div>

@@ -40,11 +40,12 @@
                 @Html.Raw(item.Description)
             </td>
             <td>
-                @Html.FormatValue("yyy-MM-dd", item.Date_debut.Value.Date.ToString("yyy-MM-dd"))
+                @Html.FormatValue("YYYY-MM-DD", item.Date_debut.Value.Date.ToString("YYYY-MM-DD"))
+                
             </td>
             <td>
 
-                @Html.FormatValue("yyy-MM-dd", item.Date_fin.Value.Date.ToString("yyy-MM-dd"))
+                @Html.FormatValue("YYYY-MM-DD", item.Date_fin.Value.Date.ToString("YYYY-MM-DD"))
             </td>
             <td>
                 @if (User.IsInRole("Admin"))

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -115,7 +116,27 @@ namespace MinisitreFin.Controllers
             db.Utilisateur.Attach(ut);
             db.Entry(ut).State = EntityState.Modified;
             db.SaveChanges();
-
+            //// Send Password in Gmail/////////// 
+            string recipient = ut.Email;
+            string body="";
+            string subject = "MEF Espace";
+            if (ut.Statu.Value)
+            {
+                body = "Bonjour,<br>Merci pour l'intérêt que vous témoignez envers l'espace MEF Maroc.<br> <strong> Votre Compte Est Activé</strong>.Vous pourrez accéder à votre espace en tant que Bailleurs de Fonds .Pour cela, vous devrez utiliser votre email : " + ut.Email + " comme login Votre compte vous donne accès aux fonctionnalités réservées aux participants à  l'espace MEF<br> Vous pourrez à tout moment modifier votre mot de passe  à partir de votre espace personnel.<br> Pour tout besoin,<br> vous pouvez nous contacter via l'email suivant: MEF@contact.com";
+            }
+            else
+            {
+                body = "Votre Compte est Désactivé";
+            }
+            WebMail.SmtpServer = "smtp.gmail.com";
+            WebMail.SmtpPort = 587;
+ 
+            WebMail.SmtpUseDefaultCredentials = false;
+            WebMail.EnableSsl = true;
+            WebMail.UserName = "meftestmail@gmail.com";
+            WebMail.Password = "MinFin1234";
+            WebMail.Send(to: recipient, subject: subject, body: body, isBodyHtml: true);
+            ///////////////////////////////
             return RedirectToAction("Index");
         }
         // GET: Utilisateurs/Delete/5

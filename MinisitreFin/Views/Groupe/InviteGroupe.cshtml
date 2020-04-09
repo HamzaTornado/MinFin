@@ -33,7 +33,7 @@
                                     {
                                         @Html.ActionLink("Modifier", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-info" })
                                     }
-
+                                    <a href="@Url.Action("GroupeActivites","Activites",new {idgroupe=item.ID ,IDCreate=item.CreatedByIdString})" class="btn btn-sm btn-outline-primary"><i class="fa fa-tasks"></i> Activites</a>
                                     @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-warning" })
 
                                 </div>
@@ -64,7 +64,7 @@
                                         <small class="text-danger">Desactive </small>
                                     }
                                 }
-
+                                        <small class="text-danger "><i class="fa fa-bell" aria-hidden="true"></i>@item.ActCount</small>
                             </div>
                         </div>
                     </div>

@@ -6,8 +6,38 @@
 
 <script>
     tinymce.init({
-        selector: '#Objectifs_generaux,#Obgectifs_specifiques,#Description_court,#Description_detaillee'
+        selector: '#Objectifs_generaux,#Obgectifs_specifiques,#Description_court,#Description_detaillee',
+        plugins: "wordcount",
+        
+        
+        
     });
+    // Returns text statistics for the specified editor by id
+    function getStats(id) {
+        var body = tinymce.get(id).getBody(), text = tinymce.trim(body.innerText || body.textContent);
+
+        return {
+            chars: text.length,
+            words: text.split(/[\w\u2019\'-]+/).length
+        };
+    }
+    function submitForm() {
+        // Check if the user has entered less than 1000 characters
+        if (getStats('Objectifs_generaux').chars < 1000) {
+            alert("You need to enter 1000 characters or more.");
+            return;
+        }
+
+        // Check if the user has entered less than 100 words
+        if (getStats('Objectifs_generaux').words < 100) {
+            alert("You need to enter 100 words or more.");
+            return;
+        }
+
+        // Submit the form
+        document.forms[0].submit();
+    }
+
 </script>
 
 <h2></h2>
@@ -55,7 +85,7 @@
         <div class="form-group">
             <Label class="control-label col-md-2">Objectifs Generaux</Label>
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Objectifs_generaux, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.TextAreaFor(model => model.Objectifs_generaux, new { htmlAttributes = new { @class = "form-control", @required = "required" ,@MaxLength="2500" } })
                 @Html.ValidationMessageFor(model => model.Objectifs_generaux, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -63,7 +93,7 @@
         <div class="form-group">
             <Label class="control-label col-md-2">Objectifs Specifiques</Label>
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Obgectifs_specifiques, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.TextAreaFor(model => model.Obgectifs_specifiques, new { htmlAttributes = new { @class = "form-control", @required = "required" ,@MaxLength = "2500" } })
                 @Html.ValidationMessageFor(model => model.Obgectifs_specifiques, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -71,7 +101,7 @@
         <div class="form-group">
             <Label class="control-label col-md-2">Description Court</Label>
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Description_court, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.TextAreaFor(model => model.Description_court, new { htmlAttributes = new { @class = "form-control", @required = "required", @MaxLength = "2500" } })
                 @Html.ValidationMessageFor(model => model.Description_court, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -79,19 +109,19 @@
         <div class="form-group">
             <Label class="control-label col-md-2">Description Detaillee</Label>
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Description_detaillee, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.TextAreaFor(model => model.Description_detaillee, new { htmlAttributes = new { @class = "form-control", @required = "required", @MaxLength = "2500" } })
                 @Html.ValidationMessageFor(model => model.Description_detaillee, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <Label class="control-label col-md-2">Budget</Label>
+            <Label class="control-label col-md-2" >Budget</Label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Budget, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.EditorFor(model => model.Budget, new { htmlAttributes = new { @class = "form-control", @required = "required", @type = "number" } })
                 @Html.ValidationMessageFor(model => model.Budget, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        
         <div class="form-group">
             <Label class="control-label col-md-2">Approbateur</Label>
             <div class="col-md-10">
@@ -118,7 +148,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Ajouter" class="btn btn-default" />
+                <input type="submit" onclick="submitForm()" value="Ajouter" class="btn btn-default" />
             </div>
         </div>
     </div>

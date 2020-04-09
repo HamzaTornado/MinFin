@@ -5,13 +5,16 @@
     Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Compte Rendu</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
+        <th>
+            Nom Activite
+        </th>
         <th>
             Titre
         </th>
@@ -24,47 +27,46 @@
         <th>
             Sujet 1
         </th>
-        
+
         <th>
             @Html.DisplayNameFor(model => model.Statut)
         </th>
-        <th>
-            Nom Activite
-        </th>
+
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Activites.Nom_activ)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Titre_cr)
         </td>
         <td>
             @Html.FormatValue("yyy-MM-dd", item.Date_debut.Value.Date.ToString("yyy-MM-dd"))
-            
+
         </td>
         <td>
             @Html.FormatValue("yyy-MM-dd", item.Date_fin.Value.Date.ToString("yyy-MM-dd"))
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Sujet1)
+            @Html.Raw(item.Sujet1)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Sujet2)
+            @if (item.Statut.Value)
+            {
+                <h6 class="text-success">Validé</h6>
+            }
+            else
+            {
+                <h6 class="text-warning">en coure de validation ...</h6>
+            }
         </td>
+
         <td>
-            @Html.DisplayFor(modelItem => item.Autre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Statut)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Activites.Nom_activ)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Modifier", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Détails", "DetailsCR", new { id = item.ID }) 
         </td>
     </tr>
 }

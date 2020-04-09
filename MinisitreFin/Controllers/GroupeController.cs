@@ -16,15 +16,38 @@ namespace MinisitreFin.Controllers
     public class GroupeController : Controller
     {
         private MinistreFinEntitiesDB db = new MinistreFinEntitiesDB();
-        
         // GET: Groupe
         public ActionResult Index()
         {
             if (User.IsInRole("Admin"))
             {
-                
-                return View(db.Groupe_thematiqe.ToList());
-            }else if (User.IsInRole("BDF"))
+                //return View(db.Groupe_thematiqe.ToList());
+                if (db.Groupe_thematiqe.ToList().Count() > 0)
+                {
+
+                    //return View();
+                    var gt = db.Groupe_thematiqe.ToList();
+                    GroupeIndex GI = new GroupeIndex();
+
+                    List<GroupeModel> ngtL = new List<GroupeModel>();
+                    foreach (var a in gt)
+                    {
+                        GroupeModel ngt = new GroupeModel();
+                        ngt.ID = a.ID;
+                        ngt.Nom_groupe = a.Nom_groupe;
+                        ngt.CreatedById = a.CreatedById;
+                        ngt.Date_createion = a.Date_createion;
+                        ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == a.CreatedById).UserId;
+                        ngt.Statut = a.Statut;
+                        ngt.ActCount = db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.Date > DateTime.Now).ToList().Count();
+                            //a.Agenda.FirstOrDefault(p => p.GroupId == a.ID).Activites.Where(p => p.Date > DateTime.Now).ToList().Count();
+                        ngtL.Add(ngt);
+                    }
+                    GI.GML = ngtL;
+                    return View(GI);
+                }
+            }
+            else if (User.IsInRole("BDF"))
             {
                 var currentId = User.Identity.GetUserId();
                 //Connected User
@@ -36,8 +59,27 @@ namespace MinisitreFin.Controllers
                 if (db.Groupe_thematiqe.Where(p => p.CreatedById == x.ID).Count() > 0)
                 {
                     
-                    return View(db.Groupe_thematiqe.Where(p => p.CreatedById == x.ID).ToList());
+                    //return View();
+                    var gt = db.Groupe_thematiqe.Where(p => p.CreatedById == x.ID).ToList();
+                    GroupeIndex GI = new GroupeIndex();
+
+                    List<GroupeModel> ngtL = new List<GroupeModel>();
+                    foreach (var a in gt)
+                    {
+                        GroupeModel ngt = new GroupeModel();
+                        ngt.ID = a.ID;
+                        ngt.Nom_groupe = a.Nom_groupe;
+                        ngt.CreatedById = a.CreatedById;
+                        ngt.Date_createion = a.Date_createion;
+                        ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == a.CreatedById).UserId;
+                        ngt.Statut = a.Statut;
+                        ngt.ActCount =db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.Date > DateTime.Now).ToList().Count();
+                        ngtL.Add(ngt);
+                    }
+                    GI.GML = ngtL;
+                    return View(GI);
                 }
+                
                 //else if(members!=null)
                 //{
                 //    return View(db.Groupe_thematiqe.Where(p => p.ID == members.GroupId).ToList());
@@ -49,7 +91,6 @@ namespace MinisitreFin.Controllers
         {
             if (User.IsInRole("Admin"))
             {
-
                 return View(db.Groupe_thematiqe.ToList());
             }
             else if (User.IsInRole("BDF"))
@@ -76,9 +117,12 @@ namespace MinisitreFin.Controllers
                         ngt.Date_createion = a.Date_createion;
                         ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == a.CreatedById).UserId;
                         ngt.Statut = a.Statut;
+                        ngt.ActCount = db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.Date > DateTime.Now).ToList().Count();
+                        //db.Activites.Where(ac => ac.Agenda.GroupId == a.ID&& ac.Date > DateTime.Now).Count();
                         ngtL.Add(ngt);
                     }
                     GI.GML = ngtL;
+  
                     return View(GI);
                 }
             }
@@ -88,6 +132,11 @@ namespace MinisitreFin.Controllers
         {
 
             return View(db.Groupe_thematiqe.Find(id));
+        }
+        public ActionResult CR(int? idAg)
+        {
+            var CR=db.compte_rendu.Where(cr=>cr.Activites.AgendaID== idAg);
+            return View(CR.ToList());
         }
         // GET: Groupe/Details/5
         public ActionResult Details(int? id)
@@ -115,26 +164,33 @@ namespace MinisitreFin.Controllers
             var currentId = User.Identity.GetUserId();
             var utilisateurs = db.Utilisateur.Include(u => u.AspNetUsers);
             var idAdmin = "4dcc3cda-6ee1-4a7c-9fd4-33b3a565ab80";
+            var idadmin2 = "6c00274e-c4a1-46b8-9b00-f7ee345d0387";
             var gM = db.Membre_group.Where(m => m.Groupe_thematiqe.ID == id);
 
-            var thisuser = db.Utilisateur.Where(p => p.UserId != currentId && p.UserId != idAdmin);
 
 
-            var mgids = db.Membre_group.Where(m => m.GroupId == id );
-            Utilisateur util = new Utilisateur();
+            //////////////////////////////////////////
+            var thisuser = db.Utilisateur.Where(p => p.UserId != currentId &&p.UserId!= idadmin2&& p.UserId != idAdmin && p.CM !=true);
+            //var mgids = db.Membre_group.FirstOrDefault(m => m.GroupId == id ).
+           
             List<Utilisateur> UL = new List<Utilisateur>();
-            foreach (var tu in thisuser)
+            foreach (var m in thisuser)
             {
-                if (db.Membre_group.FirstOrDefault(m=>m.MembreId == tu.ID) == null)
-                {
-                    util.ID = tu.ID;
-                    util.Email = tu.Email;
-                    UL.Add(util);
-                }
-                
+               
+                    if (db.Utilisateur.FirstOrDefault(p=>p.ID==m.ID).Membre_group.FirstOrDefault(p=>p.GroupId==id)==null)
+                    {
+                        Utilisateur util = new Utilisateur();
+                        util.ID = m.ID;
+                        util.Email = m.Email;
+                        UL.Add(util);
+                    }
+
             }
 
             ViewBag.MembreId = new SelectList(UL.Distinct(), "ID", "Email");
+            //////////////////////////////////////////////////////////
+           
+
             ViewBag.Type_ActiviteID = new SelectList(db.Type_Activite, "ID", "Nom_type");
             //////////////////////////////
             GroupeNameMemnersModel GNM = new GroupeNameMemnersModel();
@@ -187,9 +243,6 @@ namespace MinisitreFin.Controllers
                 {
 
                 }
-                
-
-                
                 GNM.CreatedById = db.Utilisateur.FirstOrDefault(u=>u.ID==cu).UserId;
                 
                 GNM.dateGroupe = db.Groupe_thematiqe.FirstOrDefault(p => p.ID == id).Date_createion.Value;

@@ -14,6 +14,30 @@ namespace MinisitreFin.Controllers
     public class AgendaController : Controller
     {
         private MinistreFinEntitiesDB db = new MinistreFinEntitiesDB();
+        public ActionResult TestApi(int? id,int? idgroupe)
+        {
+            ViewBag.Type_ActiviteID = new SelectList(db.Type_Activite, "ID", "Nom_type");
+            ViewData["idagenda"] = id;
+            ViewData["idgroupe"] = idgroupe;
+            return View();
+        }
+        public ActionResult TestApi2(int? id)
+        {
+            ViewData["idagenda"] = id;
+            return View();
+        }
+        public ActionResult AllEvents(int id)
+        {
+
+            return Json(db.Activites.Where(ac=>ac.AgendaID == id).AsEnumerable().Select(a => new {
+                id = a.ID,
+                title = a.Nom_activ + "- Objectif :"+ a.Objectif_activ,
+                start = a.Date.Value.Date.ToString("yyyy-MM-dd"),
+                
+
+            }).ToList(),JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Agenda
         public ActionResult Index()
         {

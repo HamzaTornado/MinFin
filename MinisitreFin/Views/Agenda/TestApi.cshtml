@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "TestApi";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+<link href="~/Content/Adenda2/core/main.css" rel="stylesheet" />
+<link href="~/Content/Adenda2/daygrid/main.css" rel="stylesheet" />
+<link href="~/Content/Adenda2/timegrid/main.css" rel="stylesheet" />
+<link href="~/Content/Adenda2/list/main.css" rel="stylesheet" />
+<script src="~/Content/Adenda2/core/main.js"></script>
+@*<script src="~/Content/Adenda2/interaction/main.js"></script>*@
+<script src="~/Content/Adenda2/daygrid/main.js"></script>
+<script src="~/Content/Adenda2/timegrid/main.js"></script>
+<script src="~/Content/Adenda2/list/main.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: ['dayGrid', 'timeGrid', 'list', 'interaction'],
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+            },
+            defaultDate: new Date(),
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: {
+                url: "/Agenda/AllEvents/@ViewData["idagenda"]",
+                failure: function () {
+                    alert('Actualiser la page');
+                }
+            }
+        });
+        calendar.render();
+    });
+</script>
+<style>
+    #calendar {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .fc-title {
+        color: white;
+    }
+</style>
+<body>
+    <div class="container">
+        <a href="#" role="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Ajouter une Activite</a>
+        <br />
+        <br />
+        <div id='calendar'></div>
+    </div>
+
+</body>
+
+<script>
+    $(document).ready(function () {
+        $("#FormAct").trigger("reset");
+    });
+
+</script>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Activite</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @{ int id = Convert.ToInt32(ViewData["idagenda"]);
+                    int idgroupe = Convert.ToInt32(ViewData["idgroupe"]);
+                    }
+                @using (Html.BeginForm("CreateActivite", "Activites", new { id = id, idgroupe = idgroupe }, FormMethod.Post, new { @id = "FormAct" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-body">
+
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <label class="control-label ">Nom D'activite</label>
+                            <div class="">
+
+                                <input id="Nom_activ" name="Nom_activ" class="form-control" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label ">Type d'activite</label>
+                            <div class="">
+                                @Html.DropDownList("Type_ActiviteID", null, htmlAttributes: new { @class = "form-control" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label ">Objectif d'activite</label>
+                            <div class="">
+
+                                <input id="Objectif_activ" name="Objectif_activ" class="form-control" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label ">Date </label>
+                            <div class="">
+
+                                <input id="date" name="date" type="date" class="form-control" required />
+                            </div>
+                        </div>
+                        <input id="AgendaID" name="AgendaID" value="@id" hidden="hidden" />
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Ajouter" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                   
+                }
+            </div>
+        </div>
+    </div>

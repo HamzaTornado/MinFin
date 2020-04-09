@@ -5310,7 +5310,7 @@
             html +=
                 "<span class='fc-event-title'>" +
                 htmlEscape(event.title || '') +
-                "</span>" +
+                "</span><br>" +
                 "</div>";
             if (segment.isEnd && isEventResizable(event)) {
                 html +=

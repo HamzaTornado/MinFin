@@ -8,7 +8,7 @@
 
     Ajouter <i class="fas fa-plus"></i>
 </a>
-<h1 class="h3 mb-4 text-gray-800 text-center">list des Initiaties</h1>
+<h1 class="h3 mb-4 text-gray-800 text-center">Liste des Initiatives</h1>
 <table class="table table-sm">
     <thead>
         <tr>
@@ -31,14 +31,17 @@
                 </td>
 
                 <td>
-                    @Html.FormatValue("yyy-MM-dd", item.Date_debu.Value.Date.ToString("yyy-MM-dd"))
+                    @Html.FormatValue("yyyy-MM-dd", item.Date_debu.Value.Date.ToString("yyyy-MM-dd"))
+                    
+
                 </td>
                 <td>
-                    @Html.FormatValue("yyy-MM-dd", item.Date_fin.Value.Date.ToString("yyy-MM-dd"))
+                    @Html.FormatValue("yyyy-MM-dd", item.Date_fin.Value.Date.ToString("yyyy-MM-dd"))
                 </td>
                 <td>
 
-                    @Html.Raw(item.Objectifs_generaux)
+                    
+                    @Html.Raw((item.Objectifs_generaux.Length > 200 ? item.Objectifs_generaux.Substring(0, 200) : item.Objectifs_generaux))
                 </td>
 
                 <td>

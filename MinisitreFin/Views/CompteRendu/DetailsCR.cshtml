@@ -1,0 +1,92 @@
+﻿@model MinisitreFin.Models.compte_rendu
+
+@{
+    ViewBag.Title = "DetailsCR";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>compte Rendu</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Nom d'activite
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Activites.Nom_activ)
+        </dd>
+        <dt>
+            Titre
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titre_cr)
+        </dd>
+
+        <dt>
+            Date Debut
+        </dt>
+
+        <dd>
+            
+            @Html.FormatValue("yyy-MM-dd", Model.Date_debut.Value.Date.ToString("yyy-MM-dd"))
+        </dd>
+
+        <dt>
+            Date fin
+        </dt>
+
+        <dd>
+            @Html.FormatValue("yyy-MM-dd", Model.Date_fin.Value.Date.ToString("yyy-MM-dd"))
+        </dd>
+
+        <dt>
+            Sujet1
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Sujet1)
+        </dd>
+
+        <dt>
+            Sujet2
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Sujet2)
+        </dd>
+
+        <dt>
+            Autre
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Autre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Statut)
+        </dt>
+
+        <dd>
+            @if (Model.Statut.Value)
+            {
+                <h6 class="text-success">Validé</h6>
+            }
+            else
+            {
+                <h6 class="text-warning">en coure de validation ...</h6>
+            }
+        </dd>
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Modifier", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Retour à la liste", "Index")
+</p>

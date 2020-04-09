@@ -33,7 +33,7 @@
             <hr class="sidebar-divider my-0">
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="Dashboard">
+                <a class="nav-link" href="/Dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
@@ -63,27 +63,28 @@
                             <a class="collapse-item" href="/Utilisateurs">Bailleurs de Fonds</a>
                             <a class="collapse-item" href="/Groupe">Groupes THEMATIQUES</a>
                             <a class="collapse-item" href="/Initiatives1">Initiatives</a>
-                            <a class="collapse-item" href="/RolesManager">Gestionnaire de Rôles</a>
+                            
                             <a class="collapse-item" href="/Projets">Projets</a>
                             <a class="collapse-item" href="/Evenements">Evenements</a>
                             <a class="collapse-item" href="/Articles">Articles</a>
                         }
                         else if (User.IsInRole("BDF"))
                         {
-                                <h6 class="collapse-header"> <i class="fas fa-users"> </i>  Groupes THEMATIQUES</h6>
-                                <a class="collapse-item" href="/Groupe">Votre Groupe</a>
-                                <a class="collapse-item" href="/Groupe/InviteGroupe">Invite Groupe</a>
-                                <a class="collapse-item" href="/Projets">Projets</a>
-                                <a class="collapse-item" href="/Initiatives1">Initiatives</a>
-                                <a class="collapse-item" href="/Agenda">Agenda</a>
-                                }
-                                else
-                                {
-                                <a class="collapse-item" href="/Articles"> Articles</a>
-                                <a class="collapse-item" href="/Evenements">Evenements</a>
-                                }
+                            <h6 class="collapse-header"> <i class="fas fa-users"> </i>  Groupes THEMATIQUES</h6>
+                            <a class="collapse-item" href="/Groupe">Votre Groupe</a>
+                            <a class="collapse-item" href="/Groupe/InviteGroupe">Invite Groupe</a>
+                            <a class="collapse-item" href="/Initiatives1">Initiatives</a>
+                            <a class="collapse-item" href="/Projets">Projets</a>
 
-                            </div>
+
+                        }
+                        else
+                        {
+                            <a class="collapse-item" href="/Articles"> Articles</a>
+                            <a class="collapse-item" href="/Evenements">Evenements</a>
+                        }
+
+                    </div>
                         </div>
             </li>
             <!-- Divider -->

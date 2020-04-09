@@ -21,26 +21,28 @@
             var currentId = User.Identity.GetUserId();
             var idAgenda = Model.idagenda;
         }
-        @if (Model.CreatedById == currentId)
-        {
             <div class="col-3">
                 <div class="align-items-center p-3  text-white-50 bg-gradient-success rounded shadow-sm">
                     @if (Model.agendaExiste != Model.IDG)
                     {
-                        <a href="@Url.Action("AjouterAgenda", new { id = Model.IDG })" class="text-white">
-                            Ajouter Une Agenda <i class="fa fa-calendar" aria-hidden="true"></i>
-                        </a>
+                        if (Model.CreatedById == currentId)
+                        {
+                            <a href="@Url.Action("AjouterAgenda", new { id = Model.IDG })" class="text-white">
+                                Ajouter Une Agenda <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </a>
+                        }
                     }
                     else
                     {
-                        <a href="#" role="button" class="text-white" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Ajouter une Activite</a><br />
-                        <a href="@Url.Action("AgendaActivites","Activites",new{AgID=Model.idagenda})" role="button" class="text-white"> <i class="fa fa-calendar"></i> Votre Agenda</a>
-                        <a href="@Url.Action("Edit","Agenda",new { id=Model.idagenda})"><i class="fa fa-edit text-white"></i></a>
-                        
-                    }
-                </div>
+                        if (Model.CreatedById == currentId)
+                        {
+                            
+                            <a href="@Url.Action("Edit", "Agenda", new { id = Model.idagenda })"><i class="fa fa-edit text-white"></i></a>
+                        }
+                            <a href="@Url.Action("TestApi", "Agenda", new { id = Model.idagenda,idgroupe=Model.IDG })" role="button" class="text-white"> <i class="fa fa-calendar"></i> Votre Agenda</a>
+                        }
+                    </div>
             </div>
-        }
     </div>
     <div class="row">
         <div class="col-6">
@@ -56,7 +58,6 @@
                                 @Html.DisplayFor(model => a.emailUser)
                             </p>
                         </div>
-
 
                     </div>
                 }
@@ -179,7 +180,7 @@
                 </button>
             </div>
 
-            @using (Html.BeginForm("CreateActivite","Activites", new { id = Model.IDG }, FormMethod.Post,new {@id="FormAct" }))
+            @using (Html.BeginForm("CreateActivite","Activites", new { id = Model.IDG , idgroupe = Model.IDG}, FormMethod.Post,new {@id="FormAct" }))
             {
                 @Html.AntiForgeryToken()
             <div class="modal-body">
@@ -231,10 +232,6 @@
                 </div>*@
           
                     }
-
-
-                
-                
             </div>
     </div>
 </div>

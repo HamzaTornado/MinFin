@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using MinisitreFin.Models;
 
@@ -23,12 +24,22 @@ namespace MinisitreFin.Controllers
         }
         public ActionResult AgendaActivites(int AgID)
         {
-            var activites = db.Activites.Where(a => a.AgendaID == AgID).ToList();
 
+            var activites = db.Activites.Where(a => a.AgendaID == AgID).Include(a=>a.Agenda).ToList();
+            ViewData["Agenda"] = db.Agenda.FirstOrDefault(a => a.ID == AgID).Nom_agenda;
+            return View(activites);
+        }
+        public ActionResult GroupeActivites(int? idgroupe,string IDCreate )
+        {
+            var AgID = db.Agenda.FirstOrDefault(ag => ag.GroupId == idgroupe).ID;
+            var activites = db.Activites.Where(a => a.AgendaID == AgID).Include(a => a.Agenda).ToList();
+            ViewData["Agenda"] = db.Agenda.FirstOrDefault(a => a.ID == AgID).Nom_agenda;
+            ViewData["idgroupe"] = idgroupe;
+            ViewData["IDCreate"] = IDCreate;
             return View(activites);
         }
         // GET: Activites/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? idgroupe, string IDCreate)
         {
             if (id == null)
             {
@@ -39,6 +50,8 @@ namespace MinisitreFin.Controllers
             {
                 return HttpNotFound();
             }
+            ViewData["idgroupe"] = idgroupe;
+            ViewData["IDCreate"] = IDCreate;
             return View(activites);
         }
 
@@ -47,6 +60,7 @@ namespace MinisitreFin.Controllers
         {
             ViewBag.Type_ActiviteID = new SelectList(db.Type_Activite, "ID", "Nom_type");
             ViewBag.AgendaID = new SelectList(db.Agenda, "ID", "Nom_agenda");
+            
             return View();
         }
 
@@ -55,14 +69,33 @@ namespace MinisitreFin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateActivite(Activites activites,int? id)
+        public ActionResult CreateActivite(Activites activites,int? id,int? idgroupe )
         {
             if (ModelState.IsValid)
             {
                 activites.statu = false;
+                
                 db.Activites.Add(activites);
                 db.SaveChanges();
-                return RedirectToAction("Consulte", "Groupe", new { id });
+                //// Send Password in Gmail/////////// 
+                ///
+                //var members  = db.Membre_group.Where(mg=>mg.GroupId==idgroupe);
+                //foreach (var mem in members)
+                //{
+                //    string recipient = mem.Utilisateur.Email;
+                //    string subject = "MEF Espace Nouvelle Activite";
+                //    string body = "Nouvelle Activite Danse Le groupe";
+                //    WebMail.SmtpServer = "smtp.gmail.com";
+                //    WebMail.SmtpPort = 587;
+                //    WebMail.SmtpUseDefaultCredentials = false;
+                //    WebMail.EnableSsl = true;
+                //    WebMail.UserName = "meftestmail@gmail.com";
+                //    WebMail.Password = "MinFin1234";
+                //    WebMail.Send(to: recipient, subject: subject, body: body, isBodyHtml: true);
+                //}
+                
+                ///////////////////////////////
+                return RedirectToAction("TestApi", "Agenda", new { id });
             }
 
             ViewBag.Type_ActiviteID = new SelectList(db.Type_Activite, "ID", "Nom_type", activites.Type_ActiviteID);
@@ -104,7 +137,17 @@ namespace MinisitreFin.Controllers
             ViewBag.AgendaID = new SelectList(db.Agenda, "ID", "Nom_agenda", activites.AgendaID);
             return View(activites);
         }
-
+        public ActionResult UpdateStatu(int id, int? idgroupe, string IDCreate)
+        {
+            Activites ac = db.Activites.Find(id);
+            ac.statu = !ac.statu.Value;
+            db.Activites.Attach(ac);
+            db.Entry(ac).State = EntityState.Modified;
+            db.SaveChanges();
+            ViewData["idgroupe"] = idgroupe;
+            ViewData["IDCreate"] = IDCreate;
+            return RedirectToAction("GroupeActivites", "Activites",new { idgroupe, IDCreate });
+        }
         // GET: Activites/Delete/5
         public ActionResult Delete(int? id)
         {

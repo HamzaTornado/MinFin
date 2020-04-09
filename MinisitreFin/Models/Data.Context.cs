@@ -31,10 +31,8 @@ namespace MinisitreFin.Models
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Groupe_thematiqe> Groupe_thematiqe { get; set; }
-        public virtual DbSet<Initiatives> Initiatives { get; set; }
         public virtual DbSet<Projet> Projet { get; set; }
         public virtual DbSet<Type_Activite> Type_Activite { get; set; }
-        public virtual DbSet<Utilisateur> Utilisateur { get; set; }
         public virtual DbSet<Utilisateur_Evenement2> Utilisateur_Evenement2 { get; set; }
         public virtual DbSet<Articles> Articles { get; set; }
         public virtual DbSet<Evenements> Evenements { get; set; }
@@ -43,5 +41,7 @@ namespace MinisitreFin.Models
         public virtual DbSet<Activites> Activites { get; set; }
         public virtual DbSet<Agenda> Agenda { get; set; }
         public virtual DbSet<compte_rendu> compte_rendu { get; set; }
+        public virtual DbSet<Utilisateur> Utilisateur { get; set; }
+        public virtual DbSet<Initiatives> Initiatives { get; set; }
     }
 }
