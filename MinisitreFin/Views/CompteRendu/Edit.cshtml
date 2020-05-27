@@ -6,16 +6,31 @@
 }
 <script>
     tinymce.init({
-        selector: '#Sujet1,#Sujet2,#Autre'
+        selector: '#Sujet1,#Sujet2,#Autre',
+        plugins: "wordcount"
     });
+    function submitForm() {
+        // Check if the user has entered less than 1000 characters
+        if (getStats('Description').chars > 2500) {
+            alert("Le Limite est 2500 Characters");
+            return;
+        }
+        // Check if the user has entered less than 100 words
+        //if (getStats('Objectifs_generaux').words < 100) {
+        //    alert("You need to enter 100 words or more.");
+        //    return;
+        //}
+        // Submit the form
+        document.forms[0].submit();
+    }
 </script>
-
+<h2>Modifier <i class="fa fa-edit"></i></h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>compte Rendu</h4>
+    
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.ID)
@@ -39,8 +54,8 @@
     <div class="form-group">
         <Label class="control-label col-md-2">Date Debut</Label>
         <div class="col-md-10">
+            @Html.TextBox("Date_debut", Model.Date_debut, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @required = "required" })
 
-            @Html.EditorFor(model => model.Date_debut, new { htmlAttributes = new { @class = "form-control", @type = "datetime", @required = "required" } })
             @Html.ValidationMessageFor(model => model.Date_debut, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -48,7 +63,7 @@
     <div class="form-group">
         <Label class="control-label col-md-2">Date Fin</Label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Date_fin, new { htmlAttributes = new { @class = "form-control", @type = "datetime", @required = "required" } })
+            @Html.TextBox("Date_fin", Model.Date_fin, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @required = "required" })
             @Html.ValidationMessageFor(model => model.Date_fin, "", new { @class = "text-danger" })
         </div>
     </div>

@@ -40,7 +40,6 @@
                 </td>
                 <td>
 
-                    
                     @Html.Raw((item.Objectifs_generaux.Length > 200 ? item.Objectifs_generaux.Substring(0, 200) : item.Objectifs_generaux))
                 </td>
 
@@ -61,7 +60,7 @@
                             }
                             else
                             {
-                                <input type="submit" value="Desactive" class="btn text-danger" />
+                                <input type="submit" value="Désactivé" class="btn text-danger" />
                             }
                         }
                     </form>

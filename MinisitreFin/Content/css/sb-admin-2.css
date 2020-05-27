@@ -2300,16 +2300,16 @@ fieldset:disabled a.btn {
 }
 
 .btn-secondary {
-  color: #fff;
-  background-color: #858796;
-  border-color: #858796;
+    color: #fff;
+    background-color: #1a51bb;
+    border-color: #1a51bb;
 }
 
-.btn-secondary:hover {
-  color: #fff;
-  background-color: #717384;
-  border-color: #6b6d7d;
-}
+    .btn-secondary:hover {
+        color: #fff;
+        background-color: #02bec4;
+        border-color: #02bec4;
+    }
 
 .btn-secondary:focus, .btn-secondary.focus {
   box-shadow: 0 0 0 0.2rem rgba(151, 153, 166, 0.5);

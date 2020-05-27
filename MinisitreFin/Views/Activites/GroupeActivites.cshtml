@@ -21,7 +21,7 @@
         {
             <tr>
                 <td>
-                    @Html.FormatValue("yyy-MM-dd", item.Date.Value.Date.ToString("yyy-MM-dd"))
+                    @Html.FormatValue("yyy-MM-dd", item.DateStart.Value.Date.ToString("yyy-MM-dd"))
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Nom_activ)
@@ -65,13 +65,21 @@
                         }
                     }
                 </td>
-                <td>
-                    @*@Html.ActionLink("Modifier", "Edit", new { id = item.ID }) |*@
-                    @Html.ActionLink("Details", "Details", new { id = item.ID ,idgroupe= ViewData["idgroupe"], IDCreate= ViewData["IDCreate"] })
-                    @*<a href="@Url.Action("index","Groupe")">Retour à la list</a>*@
-                    @Html.ActionLink("Comptes Rendus", "ActiviteCRS", "CompteRendu", new { idAct = item.ID, idgroupe = ViewData["idgroupe"], IDCreate = ViewData["IDCreate"] }, null)/
-                    @Html.ActionLink("+ CR", "Create", "CompteRendu", new { id = item.ID, idgroupe = ViewData["idgroupe"], IDCreate=ViewData["IDCreate"]}, null)
-                </td>
+                     <td>
+                         
+                         @*@Html.ActionLink("Modifier", "Edit", new { id = item.ID }) |*@
+                         @if (User.Identity.GetUserId() == createID)
+                         {
+                             @Html.ActionLink("Modifier", "Edit", new { id = item.ID, idgroupe = ViewData["idgroupe"], IDCreate = ViewData["IDCreate"] })
+                         }
+                         @Html.ActionLink("Details", "Details", new { id = item.ID, idgroupe = ViewData["idgroupe"], IDCreate = ViewData["IDCreate"] })
+                         @*<a href="@Url.Action("index","Groupe")">Retour à la list</a>*@
+                         @Html.ActionLink("Comptes Rendus", "ActiviteCRS", "CompteRendu", new { idAct = item.ID, idgroupe = ViewData["idgroupe"], IDCreate = ViewData["IDCreate"] }, null)
+                         @if (User.Identity.GetUserId() == createID)
+                         {
+                             @Html.ActionLink("+ CR", "Create", "CompteRendu", new { id = item.ID, idgroupe = ViewData["idgroupe"], IDCreate = ViewData["IDCreate"] }, null)
+                         }
+                     </td>
             </tr>
         }
 

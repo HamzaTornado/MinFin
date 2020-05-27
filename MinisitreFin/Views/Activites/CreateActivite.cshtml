@@ -1,0 +1,236 @@
+﻿@{
+    ViewBag.Title = "CreateActivite";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+@{ int id = Convert.ToInt32(ViewData["idagenda"]);
+    int idgroupe = Convert.ToInt32(ViewData["idgroupe"]);
+    bool GAC = Convert.ToBoolean(ViewData["GAC"]);
+}
+<style>
+    .imgsize {
+        width: 64px;
+        height: 64px;
+    }
+    .divsize{
+        width:400px;
+        
+    }
+    .center-div{
+        margin:0 auto;
+    }
+    .bdcolor {
+        border: 3px solid #4384F1;
+        border-radius:5px;
+    }
+</style>
+@if (GAC)
+{
+<div class="container ">
+    <div class="media center-block divsize center-div">
+        <img src="~/AppImg/googleagenda.png" class=" imgsize mr-3" alt="Google Agenda">
+        <div class="media-body">
+            <h2>Ajouter une Activite</h2>
+        </div>
+    </div>
+</div>
+    
+}<br />
+
+@using (Html.BeginForm("CreateActivite", "Activites", new { id = id, idgroupe = idgroupe ,GAC= GAC }, FormMethod.Post, new { @id = "" }))
+{
+    <div class="form-horizontal col-10 center-div bdcolor">
+        @Html.AntiForgeryToken()
+
+        <input id="AgendaID" name="AgendaID" value="@id" hidden="hidden" />
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (GAC)
+        {
+            <div class="form-group">
+                <label class="control-label">choisissez votre Google calendrier</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("GoogleCalendarID", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            <label class="control-label">Titre</label>
+            <input class="form-control" type="Text" name="Title" id="Title" required />
+        </div>
+        <div class="form-group">
+            <label class="control-label ">Type d'activite</label>
+            <div class="">
+                @Html.DropDownList("Type_ActiviteID", null, htmlAttributes: new { @class = "form-control", @required = "required" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Emplacement</label>
+            <input class="form-control" type="text" name="Location" id="Location" required />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Description</label>
+            <input class="form-control" type="text" name="Description" id="Description" required />
+        </div>
+        <style>
+            .pos {
+                position: absolute;
+            }
+        </style>
+
+        <div class="container ">
+            <div class="form-group">
+                <label class="control-label">Date Debut</label>
+                <input class="form-control" type="text" name="DateStart" id="DateStart" required />
+            </div>
+        </div>
+
+        <div class="container ">
+            <div class="form-group">
+                <label class="control-label">Date Fin</label>
+                <input class="form-control" type="text" name="DateEnd" id="DateEnd" required />
+            </div>
+        </div>
+
+        <div class="form-group ">
+            <div class="col-md-offset-6 col-md-10">
+                <input type="submit" value="Ajouter" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+
+@section scripts{
+
+    <script>
+        $(function () {
+            $('#DateStart').datetimepicker({
+                locale: 'fr',
+                icons: {
+                    time: 'far fa-clock',
+                    date: "fa fa-calendar",
+                    up: "fas fa-sort-up",
+
+                    down: "fas fa-sort-down",
+                    previous: "fa fa-chevron-left",
+                    next: "fa fa-chevron-right",
+                    today: "fa fa-clock",
+                    clear: "fa fa-trash"
+                }
+            });
+
+        });
+        $(function () {
+            $('#DateEnd').datetimepicker({
+                locale: 'fr',
+                icons: {
+                    time: 'far fa-clock',
+                    date: "fa fa-calendar",
+                    up: "fas fa-sort-up",
+
+                    down: "fas fa-sort-down",
+                    previous: "fa fa-chevron-left",
+                    next: "fa fa-chevron-right",
+                    today: "fa fa-clock",
+                    clear: "fa fa-trash"
+                }
+            });
+        });
+    </script>
+}
+
+
+
+
+
+
+
+@*@using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Activites</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Type_ActiviteID, "Type_ActiviteID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Type_ActiviteID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Type_ActiviteID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nom_activ, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Nom_activ, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nom_activ, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AgendaID, "AgendaID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("AgendaID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AgendaID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Objectif_activ, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Objectif_activ, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Objectif_activ, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DateStart, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DateStart, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DateStart, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.statu, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.statu)
+                        @Html.ValidationMessageFor(model => model.statu, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Emplacement, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Emplacement, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Emplacement, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@

@@ -39,7 +39,7 @@ namespace MinisitreFin.Controllers
                         ngt.Date_createion = a.Date_createion;
                         ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == a.CreatedById).UserId;
                         ngt.Statut = a.Statut;
-                        ngt.ActCount = db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.Date > DateTime.Now).ToList().Count();
+                        ngt.ActCount = db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.DateEnd > DateTime.Now).ToList().Count();
                             //a.Agenda.FirstOrDefault(p => p.GroupId == a.ID).Activites.Where(p => p.Date > DateTime.Now).ToList().Count();
                         ngtL.Add(ngt);
                     }
@@ -73,7 +73,7 @@ namespace MinisitreFin.Controllers
                         ngt.Date_createion = a.Date_createion;
                         ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == a.CreatedById).UserId;
                         ngt.Statut = a.Statut;
-                        ngt.ActCount =db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.Date > DateTime.Now).ToList().Count();
+                        ngt.ActCount =db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.DateEnd > DateTime.Now).ToList().Count();
                         ngtL.Add(ngt);
                     }
                     GI.GML = ngtL;
@@ -117,7 +117,7 @@ namespace MinisitreFin.Controllers
                         ngt.Date_createion = a.Date_createion;
                         ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == a.CreatedById).UserId;
                         ngt.Statut = a.Statut;
-                        ngt.ActCount = db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.Date > DateTime.Now).ToList().Count();
+                        ngt.ActCount = db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.DateEnd > DateTime.Now).ToList().Count();
                         //db.Activites.Where(ac => ac.Agenda.GroupId == a.ID&& ac.Date > DateTime.Now).Count();
                         ngtL.Add(ngt);
                     }
@@ -154,6 +154,11 @@ namespace MinisitreFin.Controllers
             }
             return View(groupe_thematiqe);
         }
+        /// <summary>
+        /// /////////////////////////////////////////////////////////
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Consulte(int? id)
         {
             if (id == null)
@@ -307,6 +312,14 @@ namespace MinisitreFin.Controllers
             {
 
                 db.Groupe_thematiqe.Add(grpModel);
+                db.SaveChanges();
+                Membre_group membre_Group = new Membre_group()
+                {
+                    GroupId = grpModel.ID,
+                    MembreId = grpModel.CreatedById
+
+                };
+                db.Membre_group.Add(membre_Group);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

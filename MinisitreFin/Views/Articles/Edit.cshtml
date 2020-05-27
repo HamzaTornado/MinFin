@@ -4,71 +4,117 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
 }
+<script>
+    tinymce.init({
+        selector: '#Description,#Contenu_article',
+        plugins: "wordcount",
+    });
+    function submitForm() {
+        // Check if the user has entered less than 1000 characters
+        if (getStats('Description').chars > 2500 || getStats('Contenu_article').chars > 2500) {
+            alert("Le Limite est 2500 Characters");
+            return;
+        }
+        // Check if the user has entered less than 100 words
+        //if (getStats('Objectifs_generaux').words < 100) {
+        //    alert("You need to enter 100 words or more.");
+        //    return;
+        //}
+        // Submit the form
+        document.forms[0].submit();
+    }
+    var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+    function Validate(oForm) {
+        var arrInputs = oForm.getElementsByTagName("input");
+        for (var i = 0; i < arrInputs.length; i++) {
+            var oInput = arrInputs[i];
+            if (oInput.type == "file") {
+                var sFileName = oInput.value;
+                if (sFileName.length > 0) {
+                    var blnValid = false;
+                    for (var j = 0; j < _validFileExtensions.length; j++) {
+                        var sCurExtension = _validFileExtensions[j];
+                        if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                            blnValid = true;
+                            break;
+                        }
+                    }
 
+                    if (!blnValid) {
+                        alert("Désolée, " + sFileName + " n'est pas valide, les extensions autorisées sont : " + _validFileExtensions.join(", "));
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+</script>
 <h2>Modifier</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Artcles", FormMethod.Post, new { enctype = "multipart/form-data", @onsubmit = "return Validate(this);" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Articles</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <label class="control-label col-md-2">Titre</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Titre_article, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-                @Html.ValidationMessageFor(model => model.Titre_article, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Description</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Contenu</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Contenu_article, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-                @Html.ValidationMessageFor(model => model.Contenu_article, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Image</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control", @type = "file", @required = "required" } })
-                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Url video</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Url_video, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-                @Html.ValidationMessageFor(model => model.Url_video, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Date Creation</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Date_creation, new { htmlAttributes = new { @class = "form-control", @type = "date", @required = "required" } })
-                @Html.ValidationMessageFor(model => model.Date_creation, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Modifier" class="btn btn-default" />
-            </div>
+<div class="form-horizontal">
+    <h4>Articles</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label class="control-label col-md-2">Titre</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Titre_article, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Titre_article, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Description</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Contenu</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Contenu_article, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Contenu_article, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group" hidden="hidden">
+        <label class="control-label col-md-2">Date Creation</label>
+        <div class="col-md-10">
+            @Html.TextBox("Date_creation", Model.Date_creation, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @required = "required"  })
+
+            @Html.ValidationMessageFor(model => model.Date_creation, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Image</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control", @type = "file", @accept = ".png,.jpg,.jpeg,.gif,.bmp" } })
+            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Url video</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Url_video, new { htmlAttributes = new { @class = "form-control"} })
+            @Html.ValidationMessageFor(model => model.Url_video, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Modifier" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
 
 <div>

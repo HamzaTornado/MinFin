@@ -7,11 +7,21 @@
 
 <script>
     tinymce.init({
-        selector: '#Description,#Objectif_projet'
+        selector: '#Description,#Objectif_projet',
+        plugins: "wordcount"
     });
+    function submitForm() {
+        // Check if the user has entered less than 1000 characters
+        if (getStats('Objectifs_generaux').chars > 2500 || getStats('Obgectifs_specifiques').chars > 2500 || getStats('Description_court').chars > 2500 || getStats('Description_detaillee').chars > 2500) {
+            alert("Le Limite est 2500 Characters");
+            return;
+        }
 
+        // Submit the form
+        document.forms[0].submit();
+    }
 </script>
-<h2>Modifier</h2>
+<h2>Modifier <i class="fa fa-edit"></i></h2>
 
 @using (Html.BeginForm())
 {
@@ -58,7 +68,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Date Debut</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date_debut, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBox("Date_debut", Model.Date_debut, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @required = "required" })
                 @Html.ValidationMessageFor(model => model.Date_debut, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -66,7 +76,8 @@
         <div class="form-group">
             <label class="control-label col-md-2">Date Fin</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date_fin, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBox("Date_fin", Model.Date_fin, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @required = "required" })
+
                 @Html.ValidationMessageFor(model => model.Date_fin, "", new { @class = "text-danger" })
             </div>
         </div>

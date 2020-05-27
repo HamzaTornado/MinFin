@@ -7,11 +7,27 @@
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script>
     tinymce.init({
-        selector: '#Sujet1,#Sujet2,#Autre'
+        selector: '#Sujet1,#Sujet2,#Autre',
+        plugins: "wordcount",
+
     });
+    function submitForm() {
+        // Check if the user has entered less than 1000 characters
+        if (getStats('Description').chars > 2500) {
+            alert("Le Limite est 2500 Characters");
+            return;
+        }
+        // Check if the user has entered less than 100 words
+        //if (getStats('Objectifs_generaux').words < 100) {
+        //    alert("You need to enter 100 words or more.");
+        //    return;
+        //}
+        // Submit the form
+        document.forms[0].submit();
+    }
 </script>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create","CompteRendu",new { idAct = ViewData["idAct"], idgroupe = ViewData["idgroupe"], IDCreate = ViewData["IDCreate"] },FormMethod.Post,null))
 {
     @Html.AntiForgeryToken()
     

@@ -38,10 +38,10 @@ namespace MinisitreFin.Models
         public virtual DbSet<Evenements> Evenements { get; set; }
         public virtual DbSet<Membre_group> Membre_group { get; set; }
         public virtual DbSet<groue_detail> groue_detail { get; set; }
-        public virtual DbSet<Activites> Activites { get; set; }
         public virtual DbSet<Agenda> Agenda { get; set; }
         public virtual DbSet<compte_rendu> compte_rendu { get; set; }
         public virtual DbSet<Utilisateur> Utilisateur { get; set; }
         public virtual DbSet<Initiatives> Initiatives { get; set; }
+        public virtual DbSet<Activites> Activites { get; set; }
     }
 }

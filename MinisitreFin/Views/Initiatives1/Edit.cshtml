@@ -7,23 +7,22 @@
 
 <script>
     tinymce.init({
-        selector: '#Objectifs_generaux,#Obgectifs_specifiques,#Description_court,#Description_detaillee'
+        selector: '#Objectifs_generaux,#Obgectifs_specifiques,#Description_court,#Description_detaillee',
+        plugins: "wordcount",
     });
     function submitForm() {
         // Check if the user has entered less than 1000 characters
-        if (getStats('Objectifs_generaux').chars < 1000) {
-            alert("You need to enter 1000 characters or more.");
+        if (getStats('Objectifs_generaux').chars > 2500 || getStats('Obgectifs_specifiques').chars > 2500 || getStats('Description_court').chars > 2500 || getStats('Description_detaillee').chars > 2500  ) {
+            alert("Le Limite est 2500 Characters");
             return;
         }
-
-        alert("FW");
 
         // Submit the form
         document.forms[0].submit();
     }
 
 </script>
-<h2>Modifier</h2>
+<h2>Modifier <i class="fa fa-edit"></i></h2>
 
 @using (Html.BeginForm())
 {
@@ -44,7 +43,8 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Nom Initiation</label>            <div class="col-md-10">
+            <label class="control-label col-md-2">Nom Initiation</label>            
+            <div class="col-md-10">
                 @Html.EditorFor(model => model.Nom_init, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.Nom_init, "", new { @class = "text-danger" })
             </div>

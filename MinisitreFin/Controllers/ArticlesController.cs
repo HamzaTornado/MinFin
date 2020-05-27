@@ -12,6 +12,7 @@ using MinisitreFin.Models;
 namespace MinisitreFin.Controllers
 {
     [Authorize]
+    [ValidateInput(false)]
     public class ArticlesController : Controller
     {
         private MinistreFinEntitiesDB db = new MinistreFinEntitiesDB();
@@ -52,10 +53,18 @@ namespace MinisitreFin.Controllers
         {
             if (ModelState.IsValid)
             {
-               
-                var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
-                Image.SaveAs(path);
-                articles.Image = Image.FileName;
+               if(Image != null)
+                {
+                    var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
+                    Image.SaveAs(path);
+                    articles.Image = Image.FileName;
+                }
+                else
+                {
+                    articles.Image = "logo-MF.jpg";
+                }
+                
+                
                 articles.statu = false;
                 db.Articles.Add(articles);
                 db.SaveChanges();
@@ -85,13 +94,22 @@ namespace MinisitreFin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Titre_article,Description,Contenu_article,Image,Url_video,Date_creation")] Articles articles, HttpPostedFileBase Image)
+        public ActionResult Edit( Articles articles, HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
             {
-                var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
-                Image.SaveAs(path);
-                articles.Image = Image.FileName;
+              
+              
+                string oldPath = Path.Combine(Server.MapPath("~/AppImg"), articles.Image);
+                if (Image != null)
+                {
+                    System.IO.File.Delete(oldPath);
+                    var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
+                    Image.SaveAs(path);
+                    articles.Image = Image.FileName;
+                }
+
+                
                 articles.statu = articles.statu;
                 db.Entry(articles).State = EntityState.Modified;
                 db.SaveChanges();

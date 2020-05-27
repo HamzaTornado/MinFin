@@ -23,7 +23,7 @@
         </th>
 
         <th>
-            @Html.DisplayNameFor(model => model.Statu)
+            Statut
         </th>
 
         <th></th>
@@ -55,7 +55,7 @@
                         }
                         else
                         {
-                            <input type="submit" value="Desactive" class="btn text-danger" />
+                            <input type="submit" value="Désactivé" class="btn text-danger" />
                         }
                     }
                 </form>
@@ -74,8 +74,8 @@
 
         </td>
         <td>
-            @Html.ActionLink("Modifier", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("Détailles", "Details", new { id = item.ID }) |
+            @*@Html.ActionLink("Modifier", "Edit", new { id = item.ID }) |*@
+            @Html.ActionLink("Details", "Details", new { id = item.ID }) 
 
         </td>
     </tr>

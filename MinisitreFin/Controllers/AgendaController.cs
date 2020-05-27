@@ -2,25 +2,85 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Calendar.v3;
+using Google.Apis.Calendar.v3.Data;
+using Google.Apis.Services;
+using Google.Apis.Util.Store;
 using MinisitreFin.Models;
 
 namespace MinisitreFin.Controllers
 {
+   
     [Authorize]
     public class AgendaController : Controller
     {
         private MinistreFinEntitiesDB db = new MinistreFinEntitiesDB();
+        static string[] Scopes = { CalendarService.Scope.Calendar };
+        static string ApplicationName = "Espace MEF 2020";
+        
         public ActionResult TestApi(int? id,int? idgroupe)
         {
+
+            //UserCredential credential;
+            //using (var stream =
+            //    new FileStream(Path.Combine(Server.MapPath("~/Credentials"), "credentials-MinFin.json"), FileMode.Open, FileAccess.Read))
+            //{
+            //    // The file token.json stores the user's access and refresh tokens, and is created
+            //    // automatically when the authorization flow completes for the first time.
+            //    string credPath = Path.Combine(Server.MapPath("~/Credentials"), "token" + id + ".json");
+            //    credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+            //        GoogleClientSecrets.Load(stream).Secrets,
+            //        Scopes,
+            //        "user",
+            //        CancellationToken.None,
+            //        new FileDataStore(credPath, true)).Result;
+
+            //}
+
+            //// Create Google Calendar API service.
+            //var service = new CalendarService(new BaseClientService.Initializer()
+            //{
+            //    HttpClientInitializer = credential,
+            //    ApplicationName = ApplicationName,
+            //});
+
+            //// Define parameters of request.
+            ////EventsResource.ListRequest request = service.Events.List("primary");
+            ////request.TimeMin = DateTime.Now;
+            ////request.ShowDeleted = false;
+            ////request.SingleEvents = true;
+            ////request.MaxResults = 10;
+            ////request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
+
+            //// List events.
+            ////Events events = request.Execute();
+
+            //var calendars = service.CalendarList.List().Execute().Items;
+            //List<CalendarsModel> CML = new List<CalendarsModel>();
+            //foreach (CalendarListEntry entry in calendars)
+            //{
+            //    CalendarsModel CM = new CalendarsModel();
+            //    CM.ID = entry.Id;
+            //    CM.Name = entry.Summary;
+            //    CML.Add(CM);
+            //    ViewData["colorid"] += "[" + entry.BackgroundColor + " ]<br>";
+            //    //ViewData["calendarsList"] += entry.Summary + " ID: |" + entry.Id + "|<br>"; 
+            //}
+
+            //ViewBag.CalendarID = new SelectList(CML, "ID", "Name");
             ViewBag.Type_ActiviteID = new SelectList(db.Type_Activite, "ID", "Nom_type");
             ViewData["idagenda"] = id;
             ViewData["idgroupe"] = idgroupe;
             return View();
         }
+
         public ActionResult TestApi2(int? id)
         {
             ViewData["idagenda"] = id;
@@ -32,9 +92,8 @@ namespace MinisitreFin.Controllers
             return Json(db.Activites.Where(ac=>ac.AgendaID == id).AsEnumerable().Select(a => new {
                 id = a.ID,
                 title = a.Nom_activ + "- Objectif :"+ a.Objectif_activ,
-                start = a.Date.Value.Date.ToString("yyyy-MM-dd"),
-                
-
+                start = a.DateStart.Value.Date.ToString("yyyy-MM-dd"),
+                end = a.DateEnd.Value.Date.ToString("yyyy-MM-dd"),
             }).ToList(),JsonRequestBehavior.AllowGet);
         }
 

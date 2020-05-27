@@ -13,9 +13,11 @@
           <Property Name="Type_ActiviteID" Type="int" Nullable="false" />
           <Property Name="Nom_activ" Type="varchar" MaxLength="255" />
           <Property Name="AgendaID" Type="int" />
-          <Property Name="Objectif_activ" Type="varchar" MaxLength="255" />
-          <Property Name="Date" Type="datetime" />
+          <Property Name="Objectif_activ" Type="text" />
+          <Property Name="DateStart" Type="datetime" />
           <Property Name="statu" Type="bit" />
+          <Property Name="DateEnd" Type="datetime" />
+          <Property Name="Emplacement" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="Agenda">
           <Key>
@@ -711,25 +713,12 @@
             <End Role="Groupe_thematiqe" EntitySet="Groupe_thematiqe" />
             <End Role="groue_detail" EntitySet="groue_detail" />
           </AssociationSet>
-          <EntitySet Name="Activites" EntityType="MinistreFinModel.Activites" />
-          <AssociationSet Name="FKActivites519089" Association="MinistreFinModel.FKActivites519089">
-            <End Role="Type_Activite" EntitySet="Type_Activite" />
-            <End Role="Activites" EntitySet="Activites" />
-          </AssociationSet>
           <EntitySet Name="Agenda" EntityType="MinistreFinModel.Agenda" />
-          <AssociationSet Name="contientA" Association="MinistreFinModel.contientA">
-            <End Role="Agenda" EntitySet="Agenda" />
-            <End Role="Activites" EntitySet="Activites" />
-          </AssociationSet>
           <AssociationSet Name="creer" Association="MinistreFinModel.creer">
             <End Role="Groupe_thematiqe" EntitySet="Groupe_thematiqe" />
             <End Role="Agenda" EntitySet="Agenda" />
           </AssociationSet>
           <EntitySet Name="compte_rendu" EntityType="MinistreFinModel.compte_rendu" />
-          <AssociationSet Name="avoir" Association="MinistreFinModel.avoir">
-            <End Role="Activites" EntitySet="Activites" />
-            <End Role="compte_rendu" EntitySet="compte_rendu" />
-          </AssociationSet>
           <EntitySet Name="Utilisateur" EntityType="MinistreFinModel.Utilisateur" />
           <AssociationSet Name="FK_FKUserId" Association="MinistreFinModel.FK_FKUserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -759,6 +748,19 @@
           <AssociationSet Name="creer6" Association="MinistreFinModel.creer6">
             <End Role="Utilisateur" EntitySet="Utilisateur" />
             <End Role="Initiatives" EntitySet="Initiatives" />
+          </AssociationSet>
+          <EntitySet Name="Activites" EntityType="MinistreFinModel.Activites" />
+          <AssociationSet Name="avoir" Association="MinistreFinModel.avoir">
+            <End Role="Activites" EntitySet="Activites" />
+            <End Role="compte_rendu" EntitySet="compte_rendu" />
+          </AssociationSet>
+          <AssociationSet Name="contientA" Association="MinistreFinModel.contientA">
+            <End Role="Agenda" EntitySet="Agenda" />
+            <End Role="Activites" EntitySet="Activites" />
+          </AssociationSet>
+          <AssociationSet Name="FKActivites519089" Association="MinistreFinModel.FKActivites519089">
+            <End Role="Type_Activite" EntitySet="Type_Activite" />
+            <End Role="Activites" EntitySet="Activites" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Articles">
@@ -833,33 +835,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Activites">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type_ActiviteID" Type="Int32" Nullable="false" />
-          <Property Name="Nom_activ" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Objectif_activ" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Date" Type="DateTime" Precision="3" />
-          <Property Name="statu" Type="Boolean" />
-          <NavigationProperty Name="Type_Activite" Relationship="MinistreFinModel.FKActivites519089" FromRole="Activites" ToRole="Type_Activite" />
-          <Property Name="AgendaID" Type="Int32" />
-          <NavigationProperty Name="Agenda" Relationship="MinistreFinModel.contientA" FromRole="Activites" ToRole="Agenda" />
-          <NavigationProperty Name="compte_rendu" Relationship="MinistreFinModel.avoir" FromRole="Activites" ToRole="compte_rendu" />
-        </EntityType>
-        <Association Name="FKActivites519089">
-          <End Type="MinistreFinModel.Type_Activite" Role="Type_Activite" Multiplicity="1" />
-          <End Type="MinistreFinModel.Activites" Role="Activites" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Type_Activite">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Activites">
-              <PropertyRef Name="Type_ActiviteID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Agenda">
           <Key>
             <PropertyRef Name="ID" />
@@ -868,21 +843,9 @@
           <Property Name="GroupId" Type="Int32" Nullable="false" />
           <Property Name="Nom_agenda" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Date_creation" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Activites" Relationship="MinistreFinModel.contientA" FromRole="Agenda" ToRole="Activites" />
           <NavigationProperty Name="Groupe_thematiqe" Relationship="MinistreFinModel.creer" FromRole="Agenda" ToRole="Groupe_thematiqe" />
+          <NavigationProperty Name="Activites" Relationship="MinistreFinModel.contientA" FromRole="Agenda" ToRole="Activites" />
         </EntityType>
-        <Association Name="contientA">
-          <End Type="MinistreFinModel.Agenda" Role="Agenda" Multiplicity="0..1" />
-          <End Type="MinistreFinModel.Activites" Role="Activites" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Agenda">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Activites">
-              <PropertyRef Name="AgendaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="creer">
           <End Type="MinistreFinModel.Groupe_thematiqe" Role="Groupe_thematiqe" Multiplicity="1" />
           <End Type="MinistreFinModel.Agenda" Role="Agenda" Multiplicity="*" />
@@ -910,18 +873,6 @@
           <Property Name="Statut" Type="Boolean" />
           <NavigationProperty Name="Activites" Relationship="MinistreFinModel.avoir" FromRole="compte_rendu" ToRole="Activites" />
         </EntityType>
-        <Association Name="avoir">
-          <End Type="MinistreFinModel.Activites" Role="Activites" Multiplicity="1" />
-          <End Type="MinistreFinModel.compte_rendu" Role="compte_rendu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Activites">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="compte_rendu">
-              <PropertyRef Name="ActivitesID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Utilisateur">
           <Key>
             <PropertyRef Name="ID" />
@@ -1044,6 +995,59 @@
             </Principal>
             <Dependent Role="Initiatives">
               <PropertyRef Name="UtilisateurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Activites">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type_ActiviteID" Type="Int32" Nullable="false" />
+          <Property Name="Nom_activ" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AgendaID" Type="Int32" />
+          <Property Name="Objectif_activ" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DateStart" Type="DateTime" Precision="3" />
+          <Property Name="statu" Type="Boolean" />
+          <Property Name="DateEnd" Type="DateTime" Precision="3" />
+          <Property Name="Emplacement" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="compte_rendu" Relationship="MinistreFinModel.avoir" FromRole="Activites" ToRole="compte_rendu" />
+          <NavigationProperty Name="Agenda" Relationship="MinistreFinModel.contientA" FromRole="Activites" ToRole="Agenda" />
+          <NavigationProperty Name="Type_Activite" Relationship="MinistreFinModel.FKActivites519089" FromRole="Activites" ToRole="Type_Activite" />
+        </EntityType>
+        <Association Name="avoir">
+          <End Type="MinistreFinModel.Activites" Role="Activites" Multiplicity="1" />
+          <End Type="MinistreFinModel.compte_rendu" Role="compte_rendu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="compte_rendu">
+              <PropertyRef Name="ActivitesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="contientA">
+          <End Type="MinistreFinModel.Agenda" Role="Agenda" Multiplicity="0..1" />
+          <End Type="MinistreFinModel.Activites" Role="Activites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agenda">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Activites">
+              <PropertyRef Name="AgendaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKActivites519089">
+          <End Type="MinistreFinModel.Type_Activite" Role="Type_Activite" Multiplicity="1" />
+          <End Type="MinistreFinModel.Activites" Role="Activites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Activite">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Activites">
+              <PropertyRef Name="Type_ActiviteID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1197,19 +1201,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Activites">
-            <EntityTypeMapping TypeName="MinistreFinModel.Activites">
-              <MappingFragment StoreEntitySet="Activites">
-                <ScalarProperty Name="AgendaID" ColumnName="AgendaID" />
-                <ScalarProperty Name="statu" ColumnName="statu" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Objectif_activ" ColumnName="Objectif_activ" />
-                <ScalarProperty Name="Nom_activ" ColumnName="Nom_activ" />
-                <ScalarProperty Name="Type_ActiviteID" ColumnName="Type_ActiviteID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Agenda">
             <EntityTypeMapping TypeName="MinistreFinModel.Agenda">
               <MappingFragment StoreEntitySet="Agenda">
@@ -1266,6 +1257,21 @@
                 <ScalarProperty Name="Statu_init" ColumnName="Statu_init" />
                 <ScalarProperty Name="Nom_init" ColumnName="Nom_init" />
                 <ScalarProperty Name="UtilisateurID" ColumnName="UtilisateurID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Activites">
+            <EntityTypeMapping TypeName="MinistreFinModel.Activites">
+              <MappingFragment StoreEntitySet="Activites">
+                <ScalarProperty Name="Emplacement" ColumnName="Emplacement" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="statu" ColumnName="statu" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="Objectif_activ" ColumnName="Objectif_activ" />
+                <ScalarProperty Name="AgendaID" ColumnName="AgendaID" />
+                <ScalarProperty Name="Nom_activ" ColumnName="Nom_activ" />
+                <ScalarProperty Name="Type_ActiviteID" ColumnName="Type_ActiviteID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

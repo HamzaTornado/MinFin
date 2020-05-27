@@ -122,6 +122,7 @@ namespace MinisitreFin.Controllers
         {
             Projet projet = db.Projet.Find(id);
             db.Projet.Remove(projet);
+            
             db.SaveChanges();
             return RedirectToAction("Index");
         }

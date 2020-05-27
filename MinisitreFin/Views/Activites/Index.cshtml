@@ -7,9 +7,6 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -19,10 +16,10 @@
             @Html.DisplayNameFor(model => model.Objectif_activ)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
+            @Html.DisplayNameFor(model => model.DateStart)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.statu)
+            Statut
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Type_Activite.Nom_type)
@@ -42,7 +39,7 @@
             @Html.DisplayFor(modelItem => item.Objectif_activ)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Date)
+            @Html.DisplayFor(modelItem => item.DateStart)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.statu)
@@ -56,7 +53,7 @@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            
         </td>
     </tr>
 }

@@ -1,8 +1,8 @@
-﻿
-@{
-    ViewBag.Title = "TestApi";
-    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+﻿@{
+                ViewBag.Title = "TestApi";
+                Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
 }
+
 <link href="~/Content/Adenda2/core/main.css" rel="stylesheet" />
 <link href="~/Content/Adenda2/daygrid/main.css" rel="stylesheet" />
 <link href="~/Content/Adenda2/timegrid/main.css" rel="stylesheet" />
@@ -47,8 +47,13 @@
     }
 </style>
 <body>
+    @{ int id = Convert.ToInt32(ViewData["idagenda"]);
+        int idgroupe = Convert.ToInt32(ViewData["idgroupe"]);
+    }
     <div class="container">
-        <a href="#" role="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Ajouter une Activite</a>
+        
+        @Html.ActionLink("Ajouter une Activite", "CreateActivite", "Activites", new { id = id, idgroupe = idgroupe, GAC = false }, new {@class= "btn btn-primary" })
+        <a href="@Url.Action( "CreateActivite", "Activites", new { id = id, idgroupe = idgroupe ,GAC=true})" class="btn btn-primary"> Ajouter une Activite avec Google Agenda <i class="fa fa-plus"></i></a>
         <br />
         <br />
         <div id='calendar'></div>
@@ -62,7 +67,8 @@
     });
 
 </script>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+
+@*<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog" role="document">
 
             <div class="modal-content">
@@ -75,46 +81,52 @@
                 </div>
                 @{ int id = Convert.ToInt32(ViewData["idagenda"]);
                     int idgroupe = Convert.ToInt32(ViewData["idgroupe"]);
-                    }
+                }
                 @using (Html.BeginForm("CreateActivite", "Activites", new { id = id, idgroupe = idgroupe }, FormMethod.Post, new { @id = "FormAct" }))
                 {
                     @Html.AntiForgeryToken()
+                    <input id="AgendaID" name="AgendaID" value="@id" hidden="hidden" />
                     <div class="modal-body">
-
 
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-group">
-                            <label class="control-label ">Nom D'activite</label>
-                            <div class="">
-
-                                <input id="Nom_activ" name="Nom_activ" class="form-control" required />
+                            <label class="control-label">choisissez votre Google calendrier</label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("CalendarID", null, htmlAttributes: new { @class = "form-control" })
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="control-label">Titre</label>
+                            <input class="form-control" type="Text" name="Title" id="Title" />
+                        </div>
                         <div class="form-group">
                             <label class="control-label ">Type d'activite</label>
                             <div class="">
                                 @Html.DropDownList("Type_ActiviteID", null, htmlAttributes: new { @class = "form-control" })
-
                             </div>
                         </div>
-
                         <div class="form-group">
-                            <label class="control-label ">Objectif d'activite</label>
-                            <div class="">
-
-                                <input id="Objectif_activ" name="Objectif_activ" class="form-control" required />
-                            </div>
+                            <label class="control-label">Emplacement</label>
+                            <input class="form-control" type="text" name="Location" id="Location" />
                         </div>
-
                         <div class="form-group">
-                            <label class="control-label ">Date </label>
-                            <div class="">
+                            <label class="control-label">Description</label>
+                            <input class="form-control" type="text" name="Description" id="Description" />
+                        </div>
 
-                                <input id="date" name="date" type="date" class="form-control" required />
+                        <div class="container">
+                            <div class="form-group">
+                                <label class="control-label">Date Debut</label>
+                                <input class="form-control" type="text" name="DateStart" id="DateStart" />
                             </div>
                         </div>
-                        <input id="AgendaID" name="AgendaID" value="@id" hidden="hidden" />
+
+                        <div class="container">
+                            <div class="form-group">
+                                <label class="control-label">Date Fin</label>
+                                <input class="form-control" type="text" name="DateEnd" id="DateEnd" />
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
@@ -122,8 +134,10 @@
                             </div>
                         </div>
                     </div>
-                   
+
                 }
             </div>
         </div>
-    </div>
+    </div>*@
+
+

@@ -5,12 +5,25 @@
     Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
 }
 
-
-<script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script>
     tinymce.init({
-        selector: '#Description,#Objectif_projet'
+        selector: '#Description,#Objectif_projet',
+        plugins: "wordcount",
     });
+    function submitForm() {
+        // Check if the user has entered less than 1000 characters
+        if (getStats('Description').chars > 2500 || getStats('Objectif_projet').chars > 2500 ) {
+            alert("Le Limite est 2500 Characters");
+            return;
+        }
+        // Check if the user has entered less than 100 words
+        //if (getStats('Objectifs_generaux').words < 100) {
+        //    alert("You need to enter 100 words or more.");
+        //    return;
+        //}
+        // Submit the form
+        document.forms[0].submit();
+    }
 
 </script>
 
@@ -59,15 +72,15 @@
         <div class="form-group">
             <label class="control-label col-md-2">Date Debut</label>
             <div class="col-md-10">
-                <input type="date" id="Date_debut" name="Date_debut" class="form-control" required/>
-                @Html.ValidationMessageFor(model => model.Date_debut, "", new { @class = "text-danger"})
+                <input type="date" id="Date_debut" name="Date_debut" class="form-control" required />
+                @Html.ValidationMessageFor(model => model.Date_debut, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Date Fin</label>
             <div class="col-md-10">
-                <input type="date" id="Date_fin" name="Date_fin" class="form-control" required/>
+                <input type="date" id="Date_fin" name="Date_fin" class="form-control" required />
             </div>
         </div>
 

@@ -56,9 +56,17 @@ namespace MinisitreFin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
-                Image.SaveAs(path);
-                evenement1.Image = Image.FileName;
+                if (Image != null)
+                {
+                    var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
+                    Image.SaveAs(path);
+                    evenement1.Image = Image.FileName;
+                }
+                else
+                {
+                    evenement1.Image = "logo-MF.jpg";
+                }
+                
                 evenement1.Statut = false;
                 db.Evenements.Add(evenement1);
                 db.SaveChanges();
@@ -89,10 +97,20 @@ namespace MinisitreFin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Titre_even,Description,Image,Date_debut,Date_fin,Statut")] Evenements evenement1)
+        public ActionResult Edit(Evenements evenement1, HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
             {
+                string oldPath =Path.Combine(Server.MapPath("~/AppImg"), evenement1.Image);
+                if (Image != null)
+                {
+                    System.IO.File.Delete(oldPath);
+                    var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
+                    Image.SaveAs(path);
+                    evenement1.Image = Image.FileName;
+                }
+                
+                evenement1.Statut = evenement1.Statut;
                 db.Entry(evenement1).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

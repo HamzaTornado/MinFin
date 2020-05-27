@@ -16,14 +16,15 @@
             Titre d'evenemet
         </th>
         <th>
-            Description
-        </th>
-        <th>
             Date Dubet
         </th>
-        <th>
+        <th >
             Date Fin
         </th>
+        <th>
+            Description
+        </th>
+
         <th>
             Statut
         </th>
@@ -32,24 +33,26 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titre_even)
-            </td>
-            <td>
-                @Html.Raw(item.Description)
-            </td>
-            <td>
-                @Html.FormatValue("YYYY-MM-DD", item.Date_debut.Value.Date.ToString("YYYY-MM-DD"))
-                
-            </td>
-            <td>
+    <tr>
+        <td >
+            @Html.DisplayFor(modelItem => item.Titre_even)
+        </td>
+        <td >
+            @Html.FormatValue("yyyy-MM-dd", item.Date_debut.Value.Date.ToString("yyyy-MM-dd"))
 
-                @Html.FormatValue("YYYY-MM-DD", item.Date_fin.Value.Date.ToString("YYYY-MM-DD"))
-            </td>
-            <td>
-                @if (User.IsInRole("Admin"))
-                {
+        </td>
+        <td>
+
+            @Html.FormatValue("yyyy-MM-dd", item.Date_fin.Value.Date.ToString("yyyy-MM-dd"))
+        </td>
+        <td>
+            @Html.Raw((item.Description.Length > 150 ? item.Description.Substring(0, 200) : item.Description))
+
+        </td>
+
+        <td>
+            @if (User.IsInRole("Admin"))
+            {
                 <form action="/Evenements/UpdateStatu/@item.ID" method="post">
                     @Html.AntiForgeryToken()
                     @{
@@ -63,24 +66,24 @@
                         }
                     }
                 </form>
+            }
+            else
+            {
+                if (item.Statut.Value)
+                {
+                    <h6>Active</h6>
                 }
                 else
                 {
-                    if (item.Statut.Value)
-                    {
-                        <h6>Active</h6>
-                    }
-                    else
-                    {
-                        <h6>Desactive</h6>
-                    }
+                    <h6>Desactive</h6>
                 }
-                
-            </td>
-            <td>
-                @Html.ActionLink("Modifier", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-            </td>
-        </tr>
+            }
+
+        </td>
+        <td>
+            @Html.ActionLink("Modifier", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+        </td>
+    </tr>
     }
 </table>

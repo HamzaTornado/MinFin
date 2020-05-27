@@ -27,23 +27,11 @@ namespace MinisitreFin.Controllers
             var compte_rendu = db.compte_rendu.Where(c => c.Activites.ID== idAct);
             ViewData["idgroupe"] = idgroupe;
             ViewData["IDCreate"] = IDCreate;
+            ViewData["idAct"] = idAct;
             return View(compte_rendu.ToList());
         }
         // GET: CompteRendu/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            compte_rendu compte_rendu = db.compte_rendu.Find(id);
-            if (compte_rendu == null)
-            {
-                return HttpNotFound();
-            }
-            return View(compte_rendu);
-        }
-        public ActionResult DetailsCR(int? id,int? idgroupe)
+        public ActionResult Details(int? id, int? idAct, int idgroupe, string IDCreate)
         {
             if (id == null)
             {
@@ -55,14 +43,32 @@ namespace MinisitreFin.Controllers
                 return HttpNotFound();
             }
             ViewData["idgroupe"] = idgroupe;
+            ViewData["IDCreate"] = IDCreate;
+            ViewData["idAct"] = idAct;
+            return View(compte_rendu);
+        }
+        public ActionResult DetailsCR(int? id, int? idAct, int idgroupe, string IDCreate)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            compte_rendu compte_rendu = db.compte_rendu.Find(id);
+            if (compte_rendu == null)
+            {
+                return HttpNotFound();
+            }
+            ViewData["idgroupe"] = idgroupe;
+            ViewData["IDCreate"] = IDCreate;
+            ViewData["idAct"] = idAct;
             return View(compte_rendu);
         }
 
         // GET: CompteRendu/Create
-        public ActionResult Create(int? id,int? idgroupe, string IDCreate)
+        public ActionResult Create(int? id, int? idAct,int? idgroupe, string IDCreate)
         {
             ViewBag.ActivitesID = new SelectList(db.Activites.Where(a=>a.ID==id), "ID", "Nom_activ");
-            ViewData["idActivite"] = id;
+            ViewData["idAct"] = id;
             ViewData["idgroupe"] = idgroupe;
             ViewData["IDCreate"] = IDCreate;
             return View();
@@ -73,14 +79,18 @@ namespace MinisitreFin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(compte_rendu compte_rendu)
+        public ActionResult Create(compte_rendu compte_rendu, int? idAct, int? idgroupe, string IDCreate)
         {
             if (ModelState.IsValid)
             {
                 compte_rendu.Statut = false;
                 db.compte_rendu.Add(compte_rendu);
                 db.SaveChanges();
-                return RedirectToAction("index","Groupe",null);
+                ViewData["idAct"] = idAct;
+                ViewData["idgroupe"] = idgroupe;
+                ViewData["IDCreate"] = IDCreate;
+
+                return RedirectToAction("ActiviteCRS", "CompteRendu",new { idAct , idgroupe , IDCreate });
             }
 
             ViewBag.ActivitesID = new SelectList(db.Activites, "ID", "Nom_activ", compte_rendu.ActivitesID);
@@ -88,7 +98,7 @@ namespace MinisitreFin.Controllers
         }
 
         // GET: CompteRendu/Edit/5
-        public ActionResult Edit(int? id, int idgroupe,int? idAct)
+        public ActionResult Edit(int? id, int? idAct, int? idgroupe, string IDCreate)
         {
             if (id == null)
             {
@@ -102,6 +112,7 @@ namespace MinisitreFin.Controllers
             ViewBag.ActivitesID = new SelectList(db.Activites, "ID", "Nom_activ", compte_rendu.ActivitesID);
             ViewData["idgroupe"] = idgroupe;
             ViewData["idActivite"] = idAct;
+            ViewData["IDCreate"] = IDCreate;
             return View(compte_rendu);
         }
 
@@ -110,7 +121,7 @@ namespace MinisitreFin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit( compte_rendu compte_rendu, int? idgroupe, string IDCreate)
+        public ActionResult Edit(compte_rendu compte_rendu, int? idAct, int? idgroupe, string IDCreate)
         {
             if (ModelState.IsValid)
             {
@@ -118,7 +129,8 @@ namespace MinisitreFin.Controllers
                 compte_rendu.Statut = compte_rendu.Statut;
                 db.Entry(compte_rendu).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("GroupeActivites", "Activites", new { idgroupe, IDCreate });
+                
+                return RedirectToAction("ActiviteCRS", "CompteRendu", new { idAct, idgroupe, IDCreate });
             }
             ViewBag.ActivitesID = new SelectList(db.Activites, "ID", "Nom_activ", compte_rendu.ActivitesID);
             return View(compte_rendu);

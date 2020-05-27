@@ -23,14 +23,16 @@ namespace MinisitreFin.Models
         public int ID { get; set; }
         public int Type_ActiviteID { get; set; }
         public string Nom_activ { get; set; }
-        public string Objectif_activ { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public Nullable<bool> statu { get; set; }
         public Nullable<int> AgendaID { get; set; }
+        public string Objectif_activ { get; set; }
+        public Nullable<System.DateTime> DateStart { get; set; }
+        public Nullable<bool> statu { get; set; }
+        public Nullable<System.DateTime> DateEnd { get; set; }
+        public string Emplacement { get; set; }
     
-        public virtual Type_Activite Type_Activite { get; set; }
-        public virtual Agenda Agenda { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<compte_rendu> compte_rendu { get; set; }
+        public virtual Agenda Agenda { get; set; }
+        public virtual Type_Activite Type_Activite { get; set; }
     }
 }

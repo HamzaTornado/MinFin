@@ -14,8 +14,6 @@
                     <h6 class="mb-0 text-white lh-100">@Html.DisplayFor(model => Model.nomGroupe)</h6>
                     <small>@Html.DisplayFor(model => Model.dateGroupe)</small>
                 </div>
-
-
             </div>
         </div> @{
             var currentId = User.Identity.GetUserId();
@@ -36,10 +34,9 @@
                     {
                         if (Model.CreatedById == currentId)
                         {
-                            
                             <a href="@Url.Action("Edit", "Agenda", new { id = Model.idagenda })"><i class="fa fa-edit text-white"></i></a>
                         }
-                            <a href="@Url.Action("TestApi", "Agenda", new { id = Model.idagenda,idgroupe=Model.IDG })" role="button" class="text-white"> <i class="fa fa-calendar"></i> Votre Agenda</a>
+                            <a href="@Url.Action("TestApi", "Agenda", new { id = Model.idagenda,idgroupe=Model.IDG })" role="button" class="text-white"> <i class="fa fa-calendar"></i>Votre Agenda</a>
                         }
                     </div>
             </div>
@@ -100,10 +97,37 @@
         }
     </div>
 
+    <script>
+        var _validFileExtensions = [".docx", ".docm", ".dotx", ".dotm", ".xlsx", ".xlsm", ".xltx", ".xltm", ".xlsb", ".xlam", ".pdf", ".pptx", ".pptm", ".potx", ".potm", ".ppsx",".sldx",".txt"];
+        function Validate(oForm) {
+            var arrInputs = oForm.getElementsByTagName("input");
+            for (var i = 0; i < arrInputs.length; i++) {
+                var oInput = arrInputs[i];
+                if (oInput.type == "file") {
+                    var sFileName = oInput.value;
+                    if (sFileName.length > 0) {
+                        var blnValid = false;
+                        for (var j = 0; j < _validFileExtensions.length; j++) {
+                            var sCurExtension = _validFileExtensions[j];
+                            if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                                blnValid = true;
+                                break;
+                            }
+                        }
 
+                        if (!blnValid) {
+                            alert("Désolée, " + sFileName + " n'est pas valide, les extensions autorisées sont : " + _validFileExtensions.join(", "));
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+    </script>
     <div class="my-3 p-3 bg-white rounded shadow-sm">
         <h6 class="border-bottom border-gray pb-2 mb-0">Partager un Document avec le groupe</h6>
-        @using (Html.BeginForm("addtextfile", "Groupe", new { id = Model.IDG }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("addtextfile", "Groupe", new { id = Model.IDG }, FormMethod.Post, new { enctype = "multipart/form-data" , @onsubmit = "return Validate(this);" }))
         {
             @Html.AntiForgeryToken()
 

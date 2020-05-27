@@ -7,7 +7,7 @@
       <Diagram DiagramId="f105ad2c0fcd483f9f9076d1c0741572" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="MinistreFinModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="13.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MinistreFinModel.AspNetUserClaims" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MinistreFinModel.AspNetUserLogins" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MinistreFinModel.AspNetUserLogins" Width="1.875" PointX="3" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="MinistreFinModel.AspNetUserRoles" Width="1.5" PointX="3" PointY="17" IsExpanded="true" />
         <EntityTypeShape EntityType="MinistreFinModel.AspNetUsers" Width="1.5" PointX="0.75" PointY="15.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MinistreFinModel.Groupe_thematiqe" Width="1.5" PointX="5.25" PointY="22.625" IsExpanded="true" />
@@ -24,13 +24,9 @@
         <AssociationConnector Association="MinistreFinModel.FK_FKGroupId" />
         <EntityTypeShape EntityType="MinistreFinModel.groue_detail" Width="1.5" PointX="7.5" PointY="23" />
         <AssociationConnector Association="MinistreFinModel.Class" />
-        <EntityTypeShape EntityType="MinistreFinModel.Activites" Width="1.5" PointX="12.125" PointY="10" />
-        <AssociationConnector Association="MinistreFinModel.FKActivites519089" />
         <EntityTypeShape EntityType="MinistreFinModel.Agenda" Width="1.5" PointX="7.5" PointY="15.875" />
-        <AssociationConnector Association="MinistreFinModel.contientA" />
         <AssociationConnector Association="MinistreFinModel.creer" />
         <EntityTypeShape EntityType="MinistreFinModel.compte_rendu" Width="1.5" PointX="14.375" PointY="10" />
-        <AssociationConnector Association="MinistreFinModel.avoir" />
         <EntityTypeShape EntityType="MinistreFinModel.Utilisateur" Width="1.5" PointX="3" PointY="20" />
         <AssociationConnector Association="MinistreFinModel.FK_FKUserId" />
         <AssociationConnector Association="MinistreFinModel.FK_FKAddUserId" />
@@ -40,6 +36,10 @@
         <EntityTypeShape EntityType="MinistreFinModel.Initiatives" Width="1.5" PointX="4.125" PointY="26.25" />
         <AssociationConnector Association="MinistreFinModel.contient" />
         <AssociationConnector Association="MinistreFinModel.creer6" />
+        <EntityTypeShape EntityType="MinistreFinModel.Activites" Width="1.5" PointX="17.375" PointY="10.875" />
+        <AssociationConnector Association="MinistreFinModel.avoir" />
+        <AssociationConnector Association="MinistreFinModel.contientA" />
+        <AssociationConnector Association="MinistreFinModel.FKActivites519089" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
