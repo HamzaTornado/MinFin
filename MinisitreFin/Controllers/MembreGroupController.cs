@@ -56,26 +56,35 @@ namespace MinisitreFin.Controllers
        // [ValidateAntiForgeryToken]
         
         public ActionResult Create(Membre_group membre_group)
-        {   
-            string currentUser= User.Identity.GetUserId();
-            if (db.Utilisateur.FirstOrDefault(p => p.UserId == currentUser) != null)
+        {
+            if (ModelState.IsValid)
             {
-                int IdeUser = db.Utilisateur.FirstOrDefault(p => p.UserId == currentUser).ID;
-                if (db.Groupe_thematiqe.FirstOrDefault(p => p.CreatedById == IdeUser) != null)
+                try
                 {
-                    int currentGroupe = db.Groupe_thematiqe.FirstOrDefault(p => p.CreatedById == IdeUser).ID;
-                    if (db.Utilisateur.FirstOrDefault(p => p.ID == membre_group.MembreId) != null)
+                    string currentUser = User.Identity.GetUserId();
+                    if (db.Utilisateur.FirstOrDefault(p => p.UserId == currentUser) != null)
                     {
-                        int IdChildren = db.Utilisateur.FirstOrDefault(p => p.ID == membre_group.MembreId).ID;
-                        membre_group.MembreId = IdChildren;
-                        membre_group.GroupId = currentGroupe;
+                        int IdeUser = db.Utilisateur.FirstOrDefault(p => p.UserId == currentUser).ID;
+                        if (db.Groupe_thematiqe.FirstOrDefault(p => p.CreatedById == IdeUser) != null)
+                        {
+                            int currentGroupe = db.Groupe_thematiqe.FirstOrDefault(p => p.CreatedById == IdeUser).ID;
+                            if (db.Utilisateur.FirstOrDefault(p => p.ID == membre_group.MembreId) != null)
+                            {
+                                int IdChildren = db.Utilisateur.FirstOrDefault(p => p.ID == membre_group.MembreId).ID;
+                                membre_group.MembreId = IdChildren;
+                                membre_group.GroupId = currentGroupe;
 
-                        db.Membre_group.Add(membre_group);
-                        db.SaveChanges();
-                        return RedirectToAction("Consulte","Groupe", new { id=currentGroupe });
+                                db.Membre_group.Add(membre_group);
+                                db.SaveChanges();
+                                return RedirectToAction("Consulte", "Groupe", new { id = currentGroupe });
+                            }
+                        }
                     }
                 }
+                catch (Exception) { }
             }
+            
+            
             //ViewBag.GroupId = new SelectList(db.Groupe_thematiqe, "ID", "Nom_groupe", membre_group.GroupId);
             //ViewBag.MembreId = new SelectList(db.Utilisateur, "ID", "UserId", membre_group.MembreId);
             return View(membre_group);
@@ -83,12 +92,16 @@ namespace MinisitreFin.Controllers
         [HttpPost]
         public ActionResult add(Membre_group membre_group)
         {
-            var membreexi = db.Membre_group.FirstOrDefault(m => m.MembreId == membre_group.MembreId);
-           
-                
+            try
+            {
+                var membreexi = db.Membre_group.FirstOrDefault(m => m.MembreId == membre_group.MembreId);
+
+
                 db.Membre_group.Add(membre_group);
                 db.SaveChanges();
-            
+            }
+            catch (Exception) { }
+           
 
             return RedirectToAction("Consulte", "Groupe",new {id= membre_group.GroupId });
         }
@@ -118,9 +131,17 @@ namespace MinisitreFin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(membre_group).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Entry(membre_group).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception)
+                {
+
+                }
+                
             }
             ViewBag.GroupId = new SelectList(db.Groupe_thematiqe, "ID", "Nom_groupe", membre_group.GroupId);
             ViewBag.MembreId = new SelectList(db.Utilisateur, "ID", "UserId", membre_group.MembreId);

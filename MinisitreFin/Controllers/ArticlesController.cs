@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -20,6 +21,7 @@ namespace MinisitreFin.Controllers
         // GET: Articles
         public ActionResult Index()
         {
+            
             return View(db.Articles.ToList());
         }
 
@@ -51,24 +53,41 @@ namespace MinisitreFin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Articles articles,HttpPostedFileBase Image)
         {
+            
             if (ModelState.IsValid)
             {
-               if(Image != null)
-                {
-                    var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
-                    Image.SaveAs(path);
-                    articles.Image = Image.FileName;
+                try{
+                    if (Image != null)
+                    {
+                        var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
+                        Image.SaveAs(path);
+                        articles.Image = Image.FileName;
+                    }
+                    else
+                    {
+                        articles.Image = "logo-MF.jpg";
+                    }
+                    
+
+                    articles.statu = false;
+                    db.Articles.Add(articles);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                else
+                catch (DbEntityValidationException DbExc)
                 {
-                    articles.Image = "logo-MF.jpg";
+                    string error = "";
+                    foreach (var er in DbExc.EntityValidationErrors)
+                    {
+                        foreach (var ve in er.ValidationErrors)
+                        {
+                            error += " - " + ve.ErrorMessage;
+                        }
+                    }
+                    TempData["Message"] = error;
+                    return View(articles);
                 }
-                
-                
-                articles.statu = false;
-                db.Articles.Add(articles);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
             }
 
             return View(articles);
@@ -98,22 +117,35 @@ namespace MinisitreFin.Controllers
         {
             if (ModelState.IsValid)
             {
-              
-              
-                string oldPath = Path.Combine(Server.MapPath("~/AppImg"), articles.Image);
-                if (Image != null)
+                try {
+                    string oldPath = Path.Combine(Server.MapPath("~/AppImg"), articles.Image);
+                    if (Image != null)
+                    {
+                        System.IO.File.Delete(oldPath);
+                        var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
+                        Image.SaveAs(path);
+                        articles.Image = Image.FileName;
+                    }
+
+                    articles.statu = articles.statu;
+                    db.Entry(articles).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (DbEntityValidationException DbExc)
                 {
-                    System.IO.File.Delete(oldPath);
-                    var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
-                    Image.SaveAs(path);
-                    articles.Image = Image.FileName;
+                    string error = "";
+                    foreach (var er in DbExc.EntityValidationErrors)
+                    {
+                        foreach (var ve in er.ValidationErrors)
+                        {
+                            error += " - " + ve.ErrorMessage;
+                        }
+                    }
+                    TempData["Message"] = error;
+                    return View(articles);
                 }
 
-                
-                articles.statu = articles.statu;
-                db.Entry(articles).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
             }
             return View(articles);
         }
@@ -145,11 +177,15 @@ namespace MinisitreFin.Controllers
         }
         public ActionResult UpdateStatu(int id)
         {
-            Articles ar = db.Articles.Find(id);
-            ar.statu = !ar.statu;
-            db.Articles.Attach(ar);
-            db.Entry(ar).State = EntityState.Modified;
-            db.SaveChanges();
+            try
+            {
+                Articles ar = db.Articles.Find(id);
+                ar.statu = !ar.statu;
+                db.Articles.Attach(ar);
+                db.Entry(ar).State = EntityState.Modified;
+                db.SaveChanges();
+            } catch (Exception) { }
+          
 
             return RedirectToAction("Index");
         }

@@ -46,7 +46,7 @@
         <td>
             @if (User.IsInRole("Admin"))
             {
-                <form action="/Utilisateurs/UpdateStatu/@item.ID" method="post">
+                <form action="/Utilisateurs/UpdateStatuAsync/@item.ID" method="post">
                     @Html.AntiForgeryToken()
                     @{
                         if (item.Statu.Value)

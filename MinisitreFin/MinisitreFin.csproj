@@ -227,10 +227,12 @@
     <Compile Include="Models\CalendarsModel.cs" />
     <Compile Include="Models\CompteRenduActivite.cs" />
     <Compile Include="Models\EventsModel.cs" />
+    <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\GroupeIndex.cs" />
     <Compile Include="Models\GroupeMembersDetailsModel.cs" />
     <Compile Include="Models\GroupeNameMemnersModel.cs" />
     <Compile Include="Models\GroupFilesModel.cs" />
+    <Compile Include="services\EmailClassic.cs" />
     <Compile Include="ViewModels\AllGroupDetailsViewModel.cs" />
     <Compile Include="Models\Articles.cs">
       <DependentUpon>Data.tt</DependentUpon>

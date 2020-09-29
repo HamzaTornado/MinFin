@@ -38,11 +38,13 @@
         <td>
             @Html.DisplayFor(modelItem => item.Nom_projet)
         </td>
-        <td>  
-            @Html.Raw(item.Description)
+        <td>
+            
+            @Html.Raw((item.Description.Length > 200 ? item.Description.Substring(0, 200) : item.Description))
         </td>
-        <td>       
-            @Html.Raw(item.Objectif_projet)
+        <td>
+           
+            @Html.Raw((item.Objectif_projet.Length > 200 ? item.Objectif_projet.Substring(0, 200) : item.Objectif_projet))
         </td>
         <td>   
             @Html.FormatValue("yyy-MM-dd", item.Date_debut.Value.Date.ToString("yyy-MM-dd"))

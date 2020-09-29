@@ -8,7 +8,7 @@
 @if (User.IsInRole("BDF"))
 {
     <p>
-        @Html.ActionLink("Ajouter Un Groupe", "Create",null,new { @class="btn btn-primary"})
+        @Html.ActionLink("Ajouter Un Groupe", "Create", null, new { @class = "btn btn-primary" })
     </p>
 }
 <style>
@@ -20,123 +20,108 @@
 @{
     var db = "";
 }
-<div class="album py-5 bg-light">
-    <div class="container">
-        <div class="row">
-            @if (Model != null)
-            {
-                foreach (var item in Model.GML)
-                {
-                    if (User.IsInRole("BDF"))
-                    {
-                        if (item.Statut.Value) { db = ""; } else { db = "disabledbutton"; }
-                    }
-                    <div class="col-md-4 @db" id="groupe ">
-                        <div class="card mb-4 shadow-sm">
-                            <a href="@Url.Action("Consulte","Groupe",new {id=item.ID })">
-                                <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="~/AppImg/logo-MF.jpg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail" />
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        @TempData["Message"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (Model != null)
+{
 
-                            </a>
-                            <div class="card-body">
-                                <div class="card-text">
-                                    @Html.DisplayFor(modelItem => item.Nom_groupe) /
-                                    <small class="text-muted">
-                                        @Html.FormatValue("yyy-MM-dd", item.Date_createion.Value.Date.ToString("yyy-MM-dd"))
-                                    </small>
-                                    @if (User.IsInRole("Admin"))
+
+    <div class="card-deck">
+        @foreach (var item in Model.GML)
+        {
+            if (User.IsInRole("BDF"))
+            {
+                if (item.Statut.Value) { db = ""; } else { db = "disabledbutton"; }
+            }
+            <div class="card col-md-3 d-flex">
+                <a href="@Url.Action("Consulte","Groupe",new {id=item.ID })">
+                    <img src="~/AppImg/logo-MF.jpg" class="card-img-top" alt="...">
+                </a>
+               
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @Html.DisplayFor(modelItem => item.Nom_groupe) /
+                        <small class="text-muted">
+                            @Html.FormatValue("yyy-MM-dd", item.Date_createion.Value.Date.ToString("yyy-MM-dd"))
+                        </small>
+                    </h5>
+                    <p class="card-text">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <form action="/Groupe/UpdateStatu/@item.ID" method="post">
+                                @Html.AntiForgeryToken()
+                                @{
+                                    if (item.Statut.Value)
                                     {
-                                        <form action="/Groupe/UpdateStatu/@item.ID" method="post">
-                                            @Html.AntiForgeryToken()
-                                            @{
-                                                if (item.Statut.Value)
-                                                {
-                                                    <input type="submit" value="Activé" class="btn btn-sm btn-outline-success" />
-                                                }
-                                                else
-                                                {
-                                                    <input type="submit" value="Désactivé" class="btn btn-sm btn-outline-danger" />
-                                                }
-                                            }
-                                        </form>
+                                        <input type="submit" value="Activé" class="btn btn-sm btn-outline-success" />
                                     }
                                     else
                                     {
-                                        if (item.Statut.Value)
-                                        {
-                                            <small class="text-success">Activé </small>
-                                        }
-                                        else
-                                        {
-                                            <small class="text-danger ">Désactivé </small>
-                                        }
+                                        <input type="submit" value="Désactivé" class="btn btn-sm btn-outline-danger" />
                                     }
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        @{ var currentId = User.Identity.GetUserId();}
-                                        @if (item.CreatedByIdString == currentId)
-                                        {
-                                            @Html.ActionLink("Modifier", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-info" })
-                                        }
-
-                                        @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-warning" })
-                                        <a href="@Url.Action("GroupeActivites","Activites",new {idgroupe=item.ID ,IDCreate=item.CreatedByIdString})" class="btn btn-sm btn-outline-primary"><i class="fa fa-tasks"></i> Activites</a>
-                                    </div>
-
-                                    <small class="text-danger "><i class="fa fa-bell" aria-hidden="true"></i>@item.ActCount</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-
-
-        </div>
-    </div>
-</div>
-
-
-@*@model IEnumerable<MinisitreFin.Models.Groupe_thematiqe>
-
-    @{
-        ViewBag.Title = "Index";
-        Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
-    }
-    <h2>Liste de groupes</h2>
-
-    @if (User.IsInRole("BDF"))
-    {
-        <p>
-            @Html.ActionLink("Ajouter Un Groupe", "Create")
-        </p>
-    }
-        <div class="album py-5 bg-light">
-            <div class="container">
-                <div class="row">
-                    @if (Model != null)
-                    {
-                        foreach (var item in Model)
+                                }
+                            </form>
+                        }
+                        else
                         {
-                            <div class="col-md-4">
+                            if (item.Statut.Value)
+                            {
+                                <small class="text-success">Activé </small>
+                            }
+                            else
+                            {
+                                <small class="text-danger ">Désactivé </small>
+                            }
+                        }
+                    </p>
+                    <div class="">
+                        @{ var currentId = User.Identity.GetUserId();}
+                        @if (item.CreatedByIdString == currentId)
+                        {
+                            @Html.ActionLink("Modifier", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-info" })
+                        }
+
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-warning" })
+                        <a href="@Url.Action("GroupeActivites","Activites",new {idgroupe=item.ID ,IDCreate=item.CreatedByIdString})" class="btn btn-sm btn-outline-primary"><i class="fa fa-tasks"></i> Activites</a>
+                    </div>
+
+                    <small class="text-danger "><i class="fa fa-bell" aria-hidden="true"></i>@item.ActCount</small>
+                </div>
+            </div>
+        }
+        </div>
+
+
+
+
+        @*<div class="album py-5 bg-light">
+                <div class="container">
+                    <div class="row">
+                        @foreach (var item in Model.GML)
+                        {
+                            if (User.IsInRole("BDF"))
+                            {
+                                if (item.Statut.Value) { db = ""; } else { db = "disabledbutton"; }
+                            }
+                            <div class="col-md-4 @db" id="groupe ">
                                 <div class="card mb-4 shadow-sm">
-                                    <a href="@Url.Action("Consulte", "Groupe", new { id = item.ID })">
+                                    <a href="@Url.Action("Consulte","Groupe",new {id=item.ID })">
                                         <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="~/AppImg/logo-MF.jpg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail" />
+
                                     </a>
-                                        <div class="card-body">
-                                        <p class="card-text">@Html.DisplayFor(modelItem => item.Nom_groupe) /
+                                    <div class="card-body">
+                                        <div class="card-text">
+                                            @Html.DisplayFor(modelItem => item.Nom_groupe) /
                                             <small class="text-muted">
                                                 @Html.FormatValue("yyy-MM-dd", item.Date_createion.Value.Date.ToString("yyy-MM-dd"))
                                             </small>
-                                            </p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-
-                                                    @Html.ActionLink("Modifier", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-info" })
-
-                                                @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-warning" })
-
-                                            </div>
                                             @if (User.IsInRole("Admin"))
                                             {
                                                 <form action="/Groupe/UpdateStatu/@item.ID" method="post">
@@ -144,11 +129,11 @@
                                                     @{
                                                         if (item.Statut.Value)
                                                         {
-                                                            <input type="submit" value="Active" class="btn btn-sm btn-outline-success" />
+                                                            <input type="submit" value="Activé" class="btn btn-sm btn-outline-success" />
                                                         }
                                                         else
                                                         {
-                                                            <input type="submit" value="Desactive" class="btn btn-sm btn-outline-danger" />
+                                                            <input type="submit" value="Désactivé" class="btn btn-sm btn-outline-danger" />
                                                         }
                                                     }
                                                 </form>
@@ -157,22 +142,37 @@
                                             {
                                                 if (item.Statut.Value)
                                                 {
-                                                    <small class="text-success">Active </small>
+                                                    <small class="text-success">Activé </small>
                                                 }
                                                 else
                                                 {
-                                                    <small class="text-danger">Desactive </small>
+                                                    <small class="text-danger ">Désactivé </small>
                                                 }
                                             }
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                @{ var currentId = User.Identity.GetUserId();}
+                                                @if (item.CreatedByIdString == currentId)
+                                                {
+                                                    @Html.ActionLink("Modifier", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-info" })
+                                                }
 
+                                                @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-warning" })
+                                                <a href="@Url.Action("GroupeActivites","Activites",new {idgroupe=item.ID ,IDCreate=item.CreatedByIdString})" class="btn btn-sm btn-outline-primary"><i class="fa fa-tasks"></i> Activites</a>
+                                            </div>
+
+                                            <small class="text-danger "><i class="fa fa-bell" aria-hidden="true"></i>@item.ActCount</small>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         }
-                    }
-
-
+                    </div>
                 </div>
-            </div>
-        </div>*@
+            </div>*@
+        }
+        else
+        {
+        <h5 class="text-center">Aucun groupe trouvé</h5>
+        }

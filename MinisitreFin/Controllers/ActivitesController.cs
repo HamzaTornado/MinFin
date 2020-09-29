@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -14,7 +16,9 @@ using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+using Microsoft.AspNet.Identity;
 using MinisitreFin.Models;
+using MinisitreFin.services;
 
 namespace MinisitreFin.Controllers
 {
@@ -22,9 +26,42 @@ namespace MinisitreFin.Controllers
     [Authorize]
     public class ActivitesController : Controller
     {
+
         private MinistreFinEntitiesDB db = new MinistreFinEntitiesDB();
         static string[] Scopes = { CalendarService.Scope.Calendar };
         static string ApplicationName = "Espace MEF 2020";
+
+        private static string FromAddress;
+        private static string strSmtpClient;
+        private static string UserID;
+        private static string Password;
+        private static string SMTPPort;
+        private static bool bEnableSSL;
+
+        private static void GetMailData()
+        {
+
+            FromAddress = System.Configuration.ConfigurationManager.AppSettings.Get("FromAddress");
+            strSmtpClient = System.Configuration.ConfigurationManager.AppSettings.Get("SmtpClient");
+            UserID = System.Configuration.ConfigurationManager.AppSettings.Get("UserID");
+            Password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
+            //ReplyTo = System.Configuration.ConfigurationManager.AppSettings.Get("ReplyTo");
+            SMTPPort = System.Configuration.ConfigurationManager.AppSettings.Get("SMTPPort");
+            if ((System.Configuration.ConfigurationManager.AppSettings.Get("EnableSSL") == null))
+            {
+            }
+            else
+            {
+                if ((System.Configuration.ConfigurationManager.AppSettings.Get("EnableSSL").ToUpper() == "YES"))
+                {
+                    bEnableSSL = true;
+                }
+                else
+                {
+                    bEnableSSL = false;
+                }
+            }
+        }
         // GET: Activites
         public ActionResult Index()
         {
@@ -40,12 +77,21 @@ namespace MinisitreFin.Controllers
         }
         public ActionResult GroupeActivites(int? idgroupe,string IDCreate )
         {
-            var AgID = db.Agenda.FirstOrDefault(ag => ag.GroupId == idgroupe).ID;
-            var activites = db.Activites.Where(a => a.AgendaID == AgID).Include(a => a.Agenda).ToList();
-            ViewData["Agenda"] = db.Agenda.FirstOrDefault(a => a.ID == AgID).Nom_agenda;
-            ViewData["idgroupe"] = idgroupe;
-            ViewData["IDCreate"] = IDCreate;
-            return View(activites);
+            try
+            {
+                var AgID = db.Agenda.FirstOrDefault(ag => ag.GroupId == idgroupe).ID;
+                var activites = db.Activites.Where(a => a.AgendaID == AgID).Include(a => a.Agenda).ToList();
+                ViewData["Agenda"] = db.Agenda.FirstOrDefault(a => a.ID == AgID).Nom_agenda;
+                ViewData["idgroupe"] = idgroupe;
+                ViewData["IDCreate"] = IDCreate;
+                return View(activites);
+            }
+            catch (Exception)
+            {
+                TempData["Message"] = "aucune activité trouvée";
+                return RedirectToAction("Index", "Groupe");
+            }
+            
         }
         // GET: Activites/Details/5
         public ActionResult Details(int? id, int? idgroupe, string IDCreate)
@@ -124,38 +170,96 @@ namespace MinisitreFin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateActivite(EventsModel eventsModel,int? id,int? idgroupe, bool GAC)
+        public async Task<ActionResult> CreateActivite(EventsModel eventsModel,int? id,int? idgroupe, bool GAC)
         {
             Activites activites = new Activites();
-            if (ModelState.IsValid)
-            {
+            
                 activites.Nom_activ = eventsModel.Title;
                 activites.Objectif_activ = eventsModel.Description;
                 activites.Type_ActiviteID = eventsModel.Type_ActiviteID;
                 activites.Emplacement = eventsModel.Location;
                 activites.AgendaID = eventsModel.AgendaId;
-                activites.DateStart = eventsModel.DateStart;
+                activites.DateStart =eventsModel.DateStart;
                 activites.DateEnd = eventsModel.DateEnd;
                 activites.statu = false;
                 db.Activites.Add(activites);
-                db.SaveChanges();
-                //// Send Password in Gmail/////////// 
-                ///
-                //var members  = db.Membre_group.Where(mg=>mg.GroupId==idgroupe);
-                //foreach (var mem in members)
-                //{
-                //    string recipient = mem.Utilisateur.Email;
-                //    string subject = "MEF Espace Nouvelle Activite";
-                //    string body = "Nouvelle Activite Danse Le groupe";
-                //    WebMail.SmtpServer = "smtp.gmail.com";
-                //    WebMail.SmtpPort = 587;
-                //    WebMail.SmtpUseDefaultCredentials = false;
-                //    WebMail.EnableSsl = true;
-                //    WebMail.UserName = "meftestmail@gmail.com";
-                //    WebMail.Password = "MinFin1234";
-                //    WebMail.Send(to: recipient, subject: subject, body: body, isBodyHtml: true);
-                //}
-                ///////////////////////////////
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }catch(DbEntityValidationException DbExc)
+                {
+                string error = "";
+                foreach (var er in DbExc.EntityValidationErrors)
+                {
+                    foreach (var ve in er.ValidationErrors)
+                    {
+                        error += " - " + ve.ErrorMessage;
+                    }
+                }
+                TempData["Message"] = error;
+            }
+                
+                IList<EventAttendee> AttList = new List<EventAttendee>();
+
+                var MemL = db.Membre_group.Where(mg => mg.GroupId == idgroupe);
+                Membre_group membre_Group = new Membre_group();
+                foreach (var item in MemL)
+                {
+                    EventAttendee eventAttendee = new EventAttendee();
+                    eventAttendee.Email = item.Utilisateur.Email;
+                    AttList.Add(eventAttendee);
+                    //new EventAttendee() { Email = item.Utilisateur.Email };
+                }
+                ///// Email Send //////////////////////////////
+                GetMailData();
+                EMail mail = new EMail();
+                dynamic MailMessage = new MailMessage();
+                MailMessage.From = new MailAddress(FromAddress);
+                foreach (var item in MemL)
+                {
+                    MailMessage.To.Add(item.Utilisateur.Email);
+                }
+                MailMessage.Subject = "Espace MEFRA Notification";
+                MailMessage.IsBodyHtml = true;
+                MailMessage.Body = "Nouveau Activité";
+
+
+                SmtpClient SmtpClient = new SmtpClient();
+                SmtpClient.Host = strSmtpClient;
+                SmtpClient.EnableSsl = bEnableSSL;
+                SmtpClient.Port = Int32.Parse(SMTPPort);
+                SmtpClient.Credentials = new System.Net.NetworkCredential(UserID, Password);
+
+                try
+                {
+                    try
+                    {
+                        SmtpClient.Send(MailMessage);
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+                catch (SmtpFailedRecipientsException ex)
+                {
+                    for (int i = 0; i <= ex.InnerExceptions.Length; i++)
+                    {
+                        SmtpStatusCode status = ex.StatusCode;
+                        if ((status == SmtpStatusCode.MailboxBusy) | (status == SmtpStatusCode.MailboxUnavailable))
+                        {
+                            System.Threading.Thread.Sleep(5000);
+                            SmtpClient.Send(MailMessage);
+                        }
+                    }
+                }
+
+
+
+
+
                 if (GAC)
                 {
                     UserCredential credential;
@@ -190,17 +294,7 @@ namespace MinisitreFin.Controllers
 
 
 
-                    IList<EventAttendee> AttList = new List<EventAttendee>();
-
-                    var MemL = db.Membre_group.Where(mg => mg.GroupId == idgroupe);
-                    Membre_group membre_Group = new Membre_group();
-                    foreach (var item in MemL)
-                    {
-                        EventAttendee eventAttendee = new EventAttendee();
-                        eventAttendee.Email = item.Utilisateur.Email;
-                        AttList.Add(eventAttendee);
-                        //new EventAttendee() { Email = item.Utilisateur.Email };
-                    }
+                    
                     Event newEvent = new Event()
                     {
                         Summary = eventsModel.Title,
@@ -232,14 +326,13 @@ namespace MinisitreFin.Controllers
 
                     request2.Execute();
                 }
-                
+               
+                ViewBag.Type_ActiviteID = new SelectList(db.Type_Activite, "ID", "Nom_type");
+                ViewData["idagenda"] = id;
+                ViewData["idgroupe"] = idgroupe;
                 ViewData["GAC"] = GAC;
                 return RedirectToAction("TestApi", "Agenda", new { id });
-            }
-
-            ViewBag.Type_ActiviteID = new SelectList(db.Type_Activite, "ID", "Nom_type", activites.Type_ActiviteID);
-            ViewBag.AgendaID = new SelectList(db.Agenda, "ID", "Nom_agenda", activites.AgendaID);
-            return View(activites);
+           
         }
 
         // GET: Activites/Edit/5
@@ -271,8 +364,17 @@ namespace MinisitreFin.Controllers
             if (ModelState.IsValid)
             {
                 
-                db.Entry(activites).State = EntityState.Modified;
-                db.SaveChanges();
+                
+                try
+                {
+                    db.Entry(activites).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+               
                 ViewData["idgroupe"] = idgroupe;
                 ViewData["IDCreate"] = IDCreate;
                 return RedirectToAction("GroupeActivites", "Activites", new { idgroupe, IDCreate });
@@ -283,13 +385,21 @@ namespace MinisitreFin.Controllers
         }
         public ActionResult UpdateStatu(int id, int? idgroupe, string IDCreate)
         {
-            Activites ac = db.Activites.Find(id);
-            ac.statu = !ac.statu.Value;
-            db.Activites.Attach(ac);
-            db.Entry(ac).State = EntityState.Modified;
-            db.SaveChanges();
-            ViewData["idgroupe"] = idgroupe;
-            ViewData["IDCreate"] = IDCreate;
+            try
+            {
+                Activites ac = db.Activites.Find(id);
+                ac.statu = !ac.statu.Value;
+                db.Activites.Attach(ac);
+                db.Entry(ac).State = EntityState.Modified;
+                db.SaveChanges();
+                ViewData["idgroupe"] = idgroupe;
+                ViewData["IDCreate"] = IDCreate;
+            }
+            catch (Exception)
+            {
+
+            }
+            
             return RedirectToAction("GroupeActivites", "Activites",new { idgroupe, IDCreate });
         }
         // GET: Activites/Delete/5

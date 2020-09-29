@@ -19,29 +19,39 @@
             var currentId = User.Identity.GetUserId();
             var idAgenda = Model.idagenda;
         }
-            <div class="col-3">
-                <div class="align-items-center p-3  text-white-50 bg-gradient-success rounded shadow-sm">
-                    @if (Model.agendaExiste != Model.IDG)
+        <div class="col-3">
+            <div class="align-items-center p-3  text-white-50 bg-gradient-success rounded shadow-sm">
+                @if (Model.agendaExiste != Model.IDG)
+                {
+                    if (Model.CreatedById == currentId)
                     {
-                        if (Model.CreatedById == currentId)
-                        {
-                            <a href="@Url.Action("AjouterAgenda", new { id = Model.IDG })" class="text-white">
-                                Ajouter Une Agenda <i class="fa fa-calendar" aria-hidden="true"></i>
-                            </a>
-                        }
+                        <a href="@Url.Action("AjouterAgenda", new { id = Model.IDG })" class="text-white">
+                            Ajouter Une Agenda <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </a>
                     }
-                    else
+                }
+                else
+                {
+                    if (Model.CreatedById == currentId)
                     {
-                        if (Model.CreatedById == currentId)
-                        {
-                            <a href="@Url.Action("Edit", "Agenda", new { id = Model.idagenda })"><i class="fa fa-edit text-white"></i></a>
-                        }
-                            <a href="@Url.Action("TestApi", "Agenda", new { id = Model.idagenda,idgroupe=Model.IDG })" role="button" class="text-white"> <i class="fa fa-calendar"></i>Votre Agenda</a>
-                        }
-                    </div>
+                        <a href="@Url.Action("Edit", "Agenda", new { id = Model.idagenda })"><i class="fa fa-edit text-white"></i></a>
+                    }
+                    <a href="@Url.Action("TestApi", "Agenda", new { id = Model.idagenda,idgroupe=Model.IDG })" role="button" class="text-white"> <i class="fa fa-calendar"></i>Votre Agenda</a>
+                }
             </div>
+        </div>
+        
     </div>
     <div class="row">
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show col-12 mt-5" role="alert">
+                @TempData["Message"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
         <div class="col-6">
             <div class="my-3 p-3 bg-white rounded shadow-sm">
                 <h6 class="border-bottom border-gray pb-2 mb-0">Les Membres du Groupe</h6>
@@ -54,13 +64,17 @@
                                 <strong class="d-block text-gray-dark">@Html.DisplayFor(model => a.nameUser)</strong>
                                 @Html.DisplayFor(model => a.emailUser)
                             </p>
+                            @if (a.emailUser == User.Identity.GetUserName())
+                            {
+                                <span class="pull-left text-primary">Admin</span>
+                            }
                         </div>
 
                     </div>
                 }
                 @*<small class="d-block text-right mt-3">
-                        <a href="#">All updates</a>
-                    </small>*@
+                    <a href="#">All updates</a>
+                </small>*@
             </div>
         </div>
 
@@ -90,101 +104,123 @@
                         </div>
                     }
                     @*<small class="d-block text-right mt-3">
-                            <a href="#">All updates</a>
-                        </small>*@
+                        <a href="#">All updates</a>
+                    </small>*@
                 </div>
             </div>
         }
     </div>
+    @section scripts{
+        <script>
+            $('#file').on('change', function () {
+                if (this.files[0].size > 2097152) {
+                    alert("Try to upload file less than 2MB!");
+                    $("#file").val(null);
+                    return false;
+                } else {
+                    $('#file').text(this.files[0].size + "bytes");
+                    return false;
+                }
+            });
+            var _validFileExtensions = [".docx", ".docm", ".dotx", ".dotm", ".xlsx", ".xlsm", ".xltx", ".xltm", ".xlsb", ".xlam", ".pdf", ".pptx", ".pptm", ".potx", ".potm", ".ppsx", ".sldx", ".txt"];
 
-    <script>
-        var _validFileExtensions = [".docx", ".docm", ".dotx", ".dotm", ".xlsx", ".xlsm", ".xltx", ".xltm", ".xlsb", ".xlam", ".pdf", ".pptx", ".pptm", ".potx", ".potm", ".ppsx",".sldx",".txt"];
-        function Validate(oForm) {
-            var arrInputs = oForm.getElementsByTagName("input");
-            for (var i = 0; i < arrInputs.length; i++) {
-                var oInput = arrInputs[i];
-                if (oInput.type == "file") {
-                    var sFileName = oInput.value;
-                    if (sFileName.length > 0) {
-                        var blnValid = false;
-                        for (var j = 0; j < _validFileExtensions.length; j++) {
-                            var sCurExtension = _validFileExtensions[j];
-                            if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
-                                blnValid = true;
-                                break;
+            function Validate(oForm) {
+                var arrInputs = oForm.getElementsByTagName("input");
+                var uploadField = document.getElementById("file");
+                if (uploadField.size > 20) {
+                    alert("Try to upload file less than 2MB!");
+                    return false;
+                }
+                for (var i = 0; i < arrInputs.length; i++) {
+
+
+
+                    var oInput = arrInputs[i];
+                    if (oInput.type == "file") {
+                        var sFileName = oInput.value;
+                        if (sFileName.length > 0) {
+
+                            var blnValid = false;
+                            for (var j = 0; j < _validFileExtensions.length; j++) {
+                                var sCurExtension = _validFileExtensions[j];
+                                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                                    blnValid = true;
+                                    break;
+                                }
+
                             }
-                        }
 
-                        if (!blnValid) {
-                            alert("Désolée, " + sFileName + " n'est pas valide, les extensions autorisées sont : " + _validFileExtensions.join(", "));
-                            return false;
+                            if (!blnValid) {
+                                alert("Désolée, " + sFileName + " n'est pas valide, les extensions autorisées sont : " + _validFileExtensions.join(", "));
+                                return false;
+                            }
                         }
                     }
                 }
+                return true;
             }
-            return true;
+        </script>
         }
-    </script>
-    <div class="my-3 p-3 bg-white rounded shadow-sm">
-        <h6 class="border-bottom border-gray pb-2 mb-0">Partager un Document avec le groupe</h6>
-        @using (Html.BeginForm("addtextfile", "Groupe", new { id = Model.IDG }, FormMethod.Post, new { enctype = "multipart/form-data" , @onsubmit = "return Validate(this);" }))
-        {
-            @Html.AntiForgeryToken()
+        <div class="my-3 p-3 bg-white rounded shadow-sm">
+            <h6 class="border-bottom border-gray pb-2 mb-0">Partager un Document avec le groupe</h6>
+            @using (Html.BeginForm("addtextfile", "Groupe", new { id = Model.IDG }, FormMethod.Post, new { enctype = "multipart/form-data", @onsubmit = "return Validate(this);" }))
+            {
+                @Html.AntiForgeryToken()
 
-            <div class="form-group">
-                <label class="col-form-label">Texte Descriptif</label>
-                <textarea name="Text" id="Text" rows="3" class="form-control" required></textarea>
-            </div>
-            <div class="form-group">
-                <label class="col-form-label">Fichier</label>
-                <input type="file" name="file" id="file" class="form-control" required />
-            </div>
-            <div class="form-group">
-                <button type="submit" value="Upload File" class="btn btn-success"> <i class="fa fa-share-alt-square"> </i> Partager</button>
-            </div>
-        }
-    </div>
-    <div class="my-3 p-3 bg-white rounded shadow-sm">
-        <h6 class="border-bottom border-gray pb-2 mb-0">les Documents de Groupe</h6>
-        @foreach (var b in Model.MemebersFiles)
-        {
+                <div class="form-group">
+                    <label class="col-form-label">Texte Descriptif</label>
+                    <textarea name="Text" id="Text" rows="3" class="form-control"  maxlength="350" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Fichier</label>
+                    <input type="file" name="file" id="file" class="form-control" accept=".docs,.pdf" required />
+                </div>
+                <div class="form-group">
+                    <button type="submit" value="Upload File" class="btn btn-success"> <i class="fa fa-share-alt-square"> </i> Partager</button>
+                </div>
+            }
+        </div>
+        <div class="my-3 p-3 bg-white rounded shadow-sm">
+            <h6 class="border-bottom border-gray pb-2 mb-0">les Documents de Groupe</h6>
+            @foreach (var b in Model.MemebersFiles)
+            {
 
-            <div class="container">
-                <div class="media text-muted pt-3">
-                    <img class="bd-placeholder-img mr-2 rounded" src="~/AppImg/male.png" width="32" height="32" />
-                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                        <strong class="d-block text-gray-dark">@Html.DisplayFor(model => b.nameUser)</strong>
-                        @Html.DisplayFor(model => b.emailUser)
+                <div class="container">
+                    <div class="media text-muted pt-3">
+                        <img class="bd-placeholder-img mr-2 rounded" src="~/AppImg/male.png" width="32" height="32" />
+                        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                            <strong class="d-block text-gray-dark">@Html.DisplayFor(model => b.nameUser)</strong>
+                            @Html.DisplayFor(model => b.emailUser)
+                        </p>
+                        <small class="d-block text-right mt-3">
+                            <a href="#">@Html.DisplayFor(model => b.datecreation)</a>
+                        </small>
+                    </div>
+
+                    <p>
+                        <label>Documents : </label>
+                        <small class="text-right mt-3">
+
+                            @Html.DisplayFor(model => b.fichier)
+                            <a href="@Url.Action("Telecharger",new { file = b.fichier })" target="_blank">Télécharger</a>
+                        </small><br />
+
+                    <p class="">
+                        <label>Texte Descriptif :</label>  @Html.DisplayFor(model => b.Text)
                     </p>
-                    <small class="d-block text-right mt-3">
-                        <a href="#">@Html.DisplayFor(model => b.datecreation)</a>
-                    </small>
+                    </p>
+
+
                 </div>
 
-                <p>
-                    <label>Documents : </label>
-                    <small class="text-right mt-3">
 
-                        @Html.DisplayFor(model => b.fichier)
-                        <a href="@Url.Action("Telecharger",new { file = b.fichier })" target="_blank">Télécharger</a>
-                    </small><br />
+            }
+            @*<small class="d-block text-right mt-3">
+                    <a href="#">All updates</a>
+                </small>*@
+        </div>
 
-                <p class="">
-                    <label>Texte Descriptif :</label>  @Html.DisplayFor(model => b.Text)
-                </p>
-                </p>
-
-
-            </div>
-
-
-        }
-        @*<small class="d-block text-right mt-3">
-                <a href="#">All updates</a>
-            </small>*@
-    </div>
-
-</main>
+    </main>
 
 <script>
     $(document).ready(function () {
@@ -259,3 +295,4 @@
             </div>
     </div>
 </div>
+

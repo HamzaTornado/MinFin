@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MinisitreFin.Models;
+using MinisitreFin.services;
 
 namespace MinisitreFin.Controllers
 {
@@ -109,13 +110,22 @@ namespace MinisitreFin.Controllers
             return View(utilisateur);
         }
         [Authorize(Roles ="Admin")]
-        public ActionResult UpdateStatu(int id)
+        public async Task<ActionResult> UpdateStatuAsync(int id)
         {
             Utilisateur ut = db.Utilisateur.Find(id);
             ut.Statu = !ut.Statu.Value;
             db.Utilisateur.Attach(ut);
             db.Entry(ut).State = EntityState.Modified;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
+            AspNetUsers user = db.AspNetUsers.FirstOrDefault(a => a.Email==ut.Email);
+            if (user != null)
+            {
+                user.EmailConfirmed = ut.Statu.Value;
+            }
+            db.AspNetUsers.Attach(user);
+            db.Entry(user).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+
             //// Send Password in Gmail/////////// 
             string recipient = ut.Email;
             string body="";
@@ -128,14 +138,21 @@ namespace MinisitreFin.Controllers
             {
                 body = "Votre Compte est Désactivé";
             }
-            WebMail.SmtpServer = "smtp.gmail.com";
-            WebMail.SmtpPort = 587;
+            EMail sm = new EMail();
+            IdentityMessage message = new IdentityMessage();
+            message.Subject = subject;
+            message.Body = body;
+            message.Destination = recipient;
+            await sm.configSendGridasync(message);
+
+            //WebMail.SmtpServer = "smtp.gmail.com";
+            //WebMail.SmtpPort = 587;
  
-            WebMail.SmtpUseDefaultCredentials = false;
-            WebMail.EnableSsl = true;
-            WebMail.UserName = "meftestmail@gmail.com";
-            WebMail.Password = "MinFin1234";
-            WebMail.Send(to: recipient, subject: subject, body: body, isBodyHtml: true);
+            //WebMail.SmtpUseDefaultCredentials = false;
+            //WebMail.EnableSsl = true;
+            //WebMail.UserName = "meftestmail@gmail.com";
+            //WebMail.Password = "MinFin1234";
+            //WebMail.Send(to: recipient, subject: subject, body: body, isBodyHtml: true);
             ///////////////////////////////
             return RedirectToAction("Index");
         }

@@ -24,7 +24,7 @@
                     </p>
                 </header>
                 <div class="post_content">
-                    <p>@Html.DisplayFor(model => model.Description)</p>
+                    <p>@Html.Raw(Model.Description)</p>
                 </div>
             </article>
             @Html.ActionLink("Liste des Evenements", "EvenementsPublic")

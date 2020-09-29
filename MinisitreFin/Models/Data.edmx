@@ -174,9 +174,9 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID_Initiative" Type="int" Nullable="false" />
-          <Property Name="Nom_projet" Type="varchar" MaxLength="255" />
-          <Property Name="Description" Type="varchar" MaxLength="255" />
-          <Property Name="Objectif_projet" Type="varchar" MaxLength="255" />
+          <Property Name="Nom_projet" Type="text" />
+          <Property Name="Description" Type="text" />
+          <Property Name="Objectif_projet" Type="text" />
           <Property Name="Date_debut" Type="datetime" />
           <Property Name="Date_fin" Type="datetime" />
         </EntityType>
@@ -589,19 +589,6 @@
           <NavigationProperty Name="Agenda" Relationship="MinistreFinModel.creer" FromRole="Groupe_thematiqe" ToRole="Agenda" />
           <NavigationProperty Name="Utilisateur" Relationship="MinistreFinModel.FK_admin" FromRole="Groupe_thematiqe" ToRole="Utilisateur" />
         </EntityType>
-        <EntityType Name="Projet">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_Initiative" Type="Int32" Nullable="false" />
-          <Property Name="Nom_projet" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Objectif_projet" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Date_debut" Type="DateTime" Precision="3" />
-          <Property Name="Date_fin" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Initiatives" Relationship="MinistreFinModel.contient" FromRole="Projet" ToRole="Initiatives" />
-        </EntityType>
         <EntityType Name="Type_Activite">
           <Key>
             <PropertyRef Name="ID" />
@@ -682,7 +669,6 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
           <EntitySet Name="Groupe_thematiqe" EntityType="Self.Groupe_thematiqe" />
-          <EntitySet Name="Projet" EntityType="Self.Projet" />
           <EntitySet Name="Type_Activite" EntityType="Self.Type_Activite" />
           <EntitySet Name="Utilisateur_Evenement2" EntityType="Self.Utilisateur_Evenement2" />
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
@@ -741,10 +727,6 @@
             <End Role="Utilisateur_Evenement2" EntitySet="Utilisateur_Evenement2" />
           </AssociationSet>
           <EntitySet Name="Initiatives" EntityType="MinistreFinModel.Initiatives" />
-          <AssociationSet Name="contient" Association="MinistreFinModel.contient">
-            <End Role="Initiatives" EntitySet="Initiatives" />
-            <End Role="Projet" EntitySet="Projet" />
-          </AssociationSet>
           <AssociationSet Name="creer6" Association="MinistreFinModel.creer6">
             <End Role="Utilisateur" EntitySet="Utilisateur" />
             <End Role="Initiatives" EntitySet="Initiatives" />
@@ -761,6 +743,11 @@
           <AssociationSet Name="FKActivites519089" Association="MinistreFinModel.FKActivites519089">
             <End Role="Type_Activite" EntitySet="Type_Activite" />
             <End Role="Activites" EntitySet="Activites" />
+          </AssociationSet>
+          <EntitySet Name="Projet" EntityType="MinistreFinModel.Projet" />
+          <AssociationSet Name="contient" Association="MinistreFinModel.contient">
+            <End Role="Initiatives" EntitySet="Initiatives" />
+            <End Role="Projet" EntitySet="Projet" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Articles">
@@ -971,21 +958,9 @@
           <Property Name="Approbateur" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Cofinancement" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Regions" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Projet" Relationship="MinistreFinModel.contient" FromRole="Initiatives" ToRole="Projet" />
           <NavigationProperty Name="Utilisateur" Relationship="MinistreFinModel.creer6" FromRole="Initiatives" ToRole="Utilisateur" />
+          <NavigationProperty Name="Projet" Relationship="MinistreFinModel.contient" FromRole="Initiatives" ToRole="Projet" />
         </EntityType>
-        <Association Name="contient">
-          <End Type="MinistreFinModel.Initiatives" Role="Initiatives" Multiplicity="1" />
-          <End Type="MinistreFinModel.Projet" Role="Projet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Initiatives">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Projet">
-              <PropertyRef Name="ID_Initiative" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="creer6">
           <End Type="MinistreFinModel.Utilisateur" Role="Utilisateur" Multiplicity="1" />
           <End Type="MinistreFinModel.Initiatives" Role="Initiatives" Multiplicity="*" />
@@ -1048,6 +1023,31 @@
             </Principal>
             <Dependent Role="Activites">
               <PropertyRef Name="Type_ActiviteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Projet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Initiative" Type="Int32" Nullable="false" />
+          <Property Name="Nom_projet" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Objectif_projet" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Date_debut" Type="DateTime" Precision="3" />
+          <Property Name="Date_fin" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Initiatives" Relationship="MinistreFinModel.contient" FromRole="Projet" ToRole="Initiatives" />
+        </EntityType>
+        <Association Name="contient">
+          <End Type="MinistreFinModel.Initiatives" Role="Initiatives" Multiplicity="1" />
+          <End Type="MinistreFinModel.Projet" Role="Projet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Initiatives">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Projet">
+              <PropertyRef Name="ID_Initiative" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1121,19 +1121,6 @@
                 <ScalarProperty Name="Nom_groupe" ColumnName="Nom_groupe" />
                 <ScalarProperty Name="Date_createion" ColumnName="Date_createion" />
                 <ScalarProperty Name="Statut" ColumnName="Statut" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Projet">
-            <EntityTypeMapping TypeName="MinistreFinModel.Projet">
-              <MappingFragment StoreEntitySet="Projet">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ID_Initiative" ColumnName="ID_Initiative" />
-                <ScalarProperty Name="Nom_projet" ColumnName="Nom_projet" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Objectif_projet" ColumnName="Objectif_projet" />
-                <ScalarProperty Name="Date_debut" ColumnName="Date_debut" />
-                <ScalarProperty Name="Date_fin" ColumnName="Date_fin" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1272,6 +1259,19 @@
                 <ScalarProperty Name="AgendaID" ColumnName="AgendaID" />
                 <ScalarProperty Name="Nom_activ" ColumnName="Nom_activ" />
                 <ScalarProperty Name="Type_ActiviteID" ColumnName="Type_ActiviteID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projet">
+            <EntityTypeMapping TypeName="MinistreFinModel.Projet">
+              <MappingFragment StoreEntitySet="Projet">
+                <ScalarProperty Name="Date_fin" ColumnName="Date_fin" />
+                <ScalarProperty Name="Date_debut" ColumnName="Date_debut" />
+                <ScalarProperty Name="Objectif_projet" ColumnName="Objectif_projet" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Nom_projet" ColumnName="Nom_projet" />
+                <ScalarProperty Name="ID_Initiative" ColumnName="ID_Initiative" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

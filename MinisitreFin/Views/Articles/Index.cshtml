@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<MinisitreFin.Models.Articles>
-
+@using MinisitreFin.Extensions;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
@@ -11,13 +11,13 @@
 <table class="table">
     <tr>
         <th>
-           Titre Article
+            Titre Article
         </th>
         <th>
             Description
         </th>
         <th>
-           Contenu Article
+            Contenu Article
         </th>
         <th>
             Date Creation
@@ -28,45 +28,47 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Titre_article)
-        </td>
-        <td>
-            @Html.Raw((item.Description.Length > 100 ? item.Description.Substring(0, 100) : item.Description))
-        </td>
-        <td>
-          
-            @Html.Raw((item.Contenu_article.Length > 200 ? item.Contenu_article.Substring(0, 200) : item.Contenu_article))
-        </td>
-        
-        <td>
-            @Html.FormatValue("yyy-MM-dd", item.Date_creation.Value.Date.ToString("yyy-MM-dd"))
-            
-        </td>
-        <td>
-            <form action="/Articles/UpdateStatu/@item.ID" method="post">
-                @Html.AntiForgeryToken()
-                @{
-                    if (item.statu)
-                    {
-                        <input type="submit" value="Active" class="btn text-success" />
-                    }
-                    else
-                    {
-                        <input type="submit" value="Désactivé" class="btn text-danger" />
-                    }
-                }
-            </form>
-        </td>
-        <td>
-            
-            @Html.ActionLink("Modifier", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titre_article)
+            </td>
+            <td>
+                
+                @Html.DisplayMessage((item.Description.Length > 100 ? item.Description.Substring(0, 100) : item.Description))
 
-        </td>
-    </tr>
-}
+            </td>
+            <td>
+                @Html.DisplayMessage((item.Contenu_article.Length > 200 ? item.Contenu_article.Substring(0, 200) : item.Contenu_article))
+            </td>
+
+            <td>
+                @Html.FormatValue("yyy-MM-dd", item.Date_creation.Value.Date.ToString("yyy-MM-dd"))
+
+            </td>
+            <td>
+                <form action="/Articles/UpdateStatu/@item.ID" method="post">
+                    @Html.AntiForgeryToken()
+                    @{
+                        if (item.statu)
+                        {
+                            <input type="submit" value="Active" class="btn text-success" />
+                        }
+                        else
+                        {
+                            <input type="submit" value="Désactivé" class="btn text-danger" />
+                        }
+                    }
+                </form>
+            </td>
+            <td>
+
+                @Html.ActionLink("Modifier", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+
+            </td>
+        </tr>
+    }
 
 </table>

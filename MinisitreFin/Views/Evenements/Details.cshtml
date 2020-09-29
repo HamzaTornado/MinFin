@@ -12,6 +12,16 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @if (Model.Image != null)
+            {
+                <img src="~/AppImg/@Model.Image" width="500px" />
+            }
+            else
+            {
+
+            }
+        </dt>
+        <dt>
             Titre d'evenemet
         </dt>
 

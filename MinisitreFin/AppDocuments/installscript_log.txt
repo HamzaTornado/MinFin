@@ -1,0 +1,5 @@
+05/12/20 22:04:37 [AppID 34330] Exit Code (0) :  "D:\resources\redist\DirectX\DXSETUP.exe" /silent
+05/12/20 22:04:40 [AppID 34330] Exit Code (0) :  "D:\resources\redist\vcredist_x86.exe" /Q
+05/12/20 22:04:42 [AppID 34330] Exit Code (0) :  "D:\resources\redist\vcredist_x86-sp1.exe" /Q
+05/12/20 22:04:46 [AppID 34330] Exit Code (0) :  "D:\resources\redist\vcredist_x86_90.exe" /Q
+05/12/20 22:04:47 [AppID 34330] Exit Code (0) :  "D:\resources\redist\clean_vcredist.bat" 

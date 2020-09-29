@@ -35,8 +35,8 @@ namespace MinisitreFin.Models
         public string Cofinancement { get; set; }
         public string Regions { get; set; }
     
+        public virtual Utilisateur Utilisateur { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Projet> Projet { get; set; }
-        public virtual Utilisateur Utilisateur { get; set; }
     }
 }

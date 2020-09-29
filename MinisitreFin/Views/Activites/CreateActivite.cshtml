@@ -40,67 +40,76 @@
 
 @using (Html.BeginForm("CreateActivite", "Activites", new { id = id, idgroupe = idgroupe ,GAC= GAC }, FormMethod.Post, new { @id = "" }))
 {
-    <div class="form-horizontal col-10 center-div bdcolor">
-        @Html.AntiForgeryToken()
+ <div class="form-horizontal col-10 center-div bdcolor">
+     @if (TempData["Message"] != null)
+     {
+         <div class="alert alert-danger alert-dismissible fade show" role="alert">
+             @TempData["Message"]
+             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+         </div>
+     }
+     @Html.AntiForgeryToken()
 
-        <input id="AgendaID" name="AgendaID" value="@id" hidden="hidden" />
+     <input id="AgendaID" name="AgendaID" value="@id" hidden="hidden" />
 
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @if (GAC)
-        {
-            <div class="form-group">
-                <label class="control-label">choisissez votre Google calendrier</label>
-                <div class="col-md-10">
-                    @Html.DropDownList("GoogleCalendarID", null, htmlAttributes: new { @class = "form-control" })
-                </div>
-            </div>
-        }
+     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+     @if (GAC)
+     {
+         <div class="form-group">
+             <label class="control-label">choisissez votre Google calendrier</label>
+             <div class="col-md-10">
+                 @Html.DropDownList("GoogleCalendarID", null, htmlAttributes: new { @class = "form-control" })
+             </div>
+         </div>
+     }
 
-        <div class="form-group">
-            <label class="control-label">Titre</label>
-            <input class="form-control" type="Text" name="Title" id="Title" required />
-        </div>
-        <div class="form-group">
-            <label class="control-label ">Type d'activite</label>
-            <div class="">
-                @Html.DropDownList("Type_ActiviteID", null, htmlAttributes: new { @class = "form-control", @required = "required" })
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label">Emplacement</label>
-            <input class="form-control" type="text" name="Location" id="Location" required />
-        </div>
-        <div class="form-group">
-            <label class="control-label">Description</label>
-            <input class="form-control" type="text" name="Description" id="Description" required />
-        </div>
-        <style>
-            .pos {
-                position: absolute;
-            }
-        </style>
+     <div class="form-group">
+         <label class="control-label">Titre</label>
+         <input class="form-control" type="Text" name="Title" id="Title" required  maxlength = "250" />
+     </div>
+     <div class="form-group">
+         <label class="control-label ">Type d'activite</label>
+         <div class="">
+             @Html.DropDownList("Type_ActiviteID", null, htmlAttributes: new { @class = "form-control", @required = "required" })
+         </div>
+     </div>
+     <div class="form-group">
+         <label class="control-label">Emplacement</label>
+         <input class="form-control" type="text" name="Location" id="Location" maxlength = "250" required />
+     </div>
+     <div class="form-group">
+         <label class="control-label">Description</label>
+         <input class="form-control" type="text" name="Description" id="Description"maxlength = "250" required />
+     </div>
+     <style>
+         .pos {
+             position: absolute;
+         }
+     </style>
 
-        <div class="container ">
-            <div class="form-group">
-                <label class="control-label">Date Debut</label>
-                <input class="form-control" type="text" name="DateStart" id="DateStart" required />
-            </div>
-        </div>
+     <div class="container ">
+         <div class="form-group">
+             <label class="control-label">Date Debut</label>
+             <input class="form-control" type="text" name="DateStart" id="DateStart" required />
+         </div>
+     </div>
 
-        <div class="container ">
-            <div class="form-group">
-                <label class="control-label">Date Fin</label>
-                <input class="form-control" type="text" name="DateEnd" id="DateEnd" required />
-            </div>
-        </div>
+     <div class="container ">
+         <div class="form-group">
+             <label class="control-label">Date Fin</label>
+             <input class="form-control" type="text" name="DateEnd" id="DateEnd" required />
+         </div>
+     </div>
 
-        <div class="form-group ">
-            <div class="col-md-offset-6 col-md-10">
-                <input type="submit" value="Ajouter" class="btn btn-primary" />
-            </div>
-        </div>
-    </div>
+     <div class="form-group ">
+         <div class="col-md-offset-6 col-md-10">
+             <input type="submit" value="Ajouter" class="btn btn-primary" />
+         </div>
+     </div>
+ </div>
 }
 
 
@@ -109,7 +118,8 @@
     <script>
         $(function () {
             $('#DateStart').datetimepicker({
-                locale: 'fr',
+                locale: 'en',
+                minDate: 0,
                 icons: {
                     time: 'far fa-clock',
                     date: "fa fa-calendar",
@@ -126,7 +136,8 @@
         });
         $(function () {
             $('#DateEnd').datetimepicker({
-                locale: 'fr',
+                locale: 'en',
+                minDate: 0,
                 icons: {
                     time: 'far fa-clock',
                     date: "fa fa-calendar",

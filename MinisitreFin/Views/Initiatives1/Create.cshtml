@@ -12,8 +12,9 @@
         // Check if the user has entered less than 1000 characters
         if (getStats('Objectifs_generaux').chars > 2500 || getStats('Obgectifs_specifiques').chars > 2500 || getStats('Description_court').chars > 2500 || getStats('Description_detaillee').chars > 2500) {
             alert("Le Limite est 2500 Characters");
-            return;
+            return ;
         }
+       
         // Check if the user has entered less than 100 words
         //if (getStats('Objectifs_generaux').words < 100) {
         //    alert("You need to enter 100 words or more.");

@@ -12,6 +12,7 @@ using System.Web.Mvc;
 namespace MinisitreFin.Controllers
 {
     [ValidateInput(false)]
+    [Authorize]
     public class ProjetsController : Controller
     {
         private MinistreFinEntitiesDB db = new MinistreFinEntitiesDB();
@@ -48,17 +49,20 @@ namespace MinisitreFin.Controllers
         // POST: Projets/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-
         
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,ID_Initiative,Nom_projet,Description,Objectif_projet,Date_debut,Date_fin")] Projet projet)
+        public ActionResult Create( Projet projet)
         {
             if (ModelState.IsValid)
             {
-                db.Projet.Add(projet);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try {
+                    db.Projet.Add(projet);
+
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                } catch (Exception) { }
+                
             }
 
             ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projet.ID_Initiative);
@@ -91,9 +95,17 @@ namespace MinisitreFin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(projet).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Entry(projet).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception)
+                {
+
+                }
+                
             }
             ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projet.ID_Initiative);
             return View(projet);

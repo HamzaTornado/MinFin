@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -30,20 +31,24 @@ namespace MinisitreFin.Controllers
                     GroupeIndex GI = new GroupeIndex();
 
                     List<GroupeModel> ngtL = new List<GroupeModel>();
-                    foreach (var a in gt)
+                    if (gt != null)
                     {
-                        GroupeModel ngt = new GroupeModel();
-                        ngt.ID = a.ID;
-                        ngt.Nom_groupe = a.Nom_groupe;
-                        ngt.CreatedById = a.CreatedById;
-                        ngt.Date_createion = a.Date_createion;
-                        ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == a.CreatedById).UserId;
-                        ngt.Statut = a.Statut;
-                        ngt.ActCount = db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.DateEnd > DateTime.Now).ToList().Count();
+                        foreach (var a in gt)
+                        {
+                            GroupeModel ngt = new GroupeModel();
+                            ngt.ID = a.ID;
+                            ngt.Nom_groupe = a.Nom_groupe;
+                            ngt.CreatedById = a.CreatedById;
+                            ngt.Date_createion = a.Date_createion;
+                            ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == a.CreatedById).UserId;
+                            ngt.Statut = a.Statut;
+                            ngt.ActCount = db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.DateEnd > DateTime.Now).ToList().Count();
                             //a.Agenda.FirstOrDefault(p => p.GroupId == a.ID).Activites.Where(p => p.Date > DateTime.Now).ToList().Count();
-                        ngtL.Add(ngt);
+                            ngtL.Add(ngt);
+                        }
+                        GI.GML = ngtL;
                     }
-                    GI.GML = ngtL;
+                    
                     return View(GI);
                 }
             }
@@ -64,20 +69,36 @@ namespace MinisitreFin.Controllers
                     GroupeIndex GI = new GroupeIndex();
 
                     List<GroupeModel> ngtL = new List<GroupeModel>();
-                    foreach (var a in gt)
+                    if (gt != null)
                     {
-                        GroupeModel ngt = new GroupeModel();
-                        ngt.ID = a.ID;
-                        ngt.Nom_groupe = a.Nom_groupe;
-                        ngt.CreatedById = a.CreatedById;
-                        ngt.Date_createion = a.Date_createion;
-                        ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == a.CreatedById).UserId;
-                        ngt.Statut = a.Statut;
-                        ngt.ActCount =db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.DateEnd > DateTime.Now).ToList().Count();
-                        ngtL.Add(ngt);
+                        foreach (var a in gt)
+                        {
+                            GroupeModel ngt = new GroupeModel();
+                            ngt.ID = a.ID;
+                            ngt.Nom_groupe = a.Nom_groupe;
+                            ngt.CreatedById = a.CreatedById;
+                            ngt.Date_createion = a.Date_createion;
+                            ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == a.CreatedById).UserId;
+                            ngt.Statut = a.Statut;
+                            ngt.ActCount = db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.DateEnd > DateTime.Now).ToList().Count();
+                            ngtL.Add(ngt);
+                        }
+                    }
+                    else{
+                        TempData["Message"] = "Aucun groupe trouvé";
+                        return View();
                     }
                     GI.GML = ngtL;
-                    return View(GI);
+                    if (GI != null)
+                    {
+                        return View(GI);
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Aucun groupe trouvé";
+                        return View();
+                    }
+                    
                 }
                 
                 //else if(members!=null)
@@ -108,35 +129,55 @@ namespace MinisitreFin.Controllers
                     GroupeIndex GI = new GroupeIndex();
 
                     List<GroupeModel> ngtL = new List<GroupeModel>();
-                    foreach (var a in gt)
+                    if (gt != null)
                     {
-                        GroupeModel ngt = new GroupeModel();
-                        ngt.ID = a.ID;
-                        ngt.Nom_groupe = a.Nom_groupe;
-                        ngt.CreatedById = a.CreatedById;
-                        ngt.Date_createion = a.Date_createion;
-                        ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == a.CreatedById).UserId;
-                        ngt.Statut = a.Statut;
-                        ngt.ActCount = db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.DateEnd > DateTime.Now).ToList().Count();
-                        //db.Activites.Where(ac => ac.Agenda.GroupId == a.ID&& ac.Date > DateTime.Now).Count();
-                        ngtL.Add(ngt);
+                        foreach (var a in gt)
+                        {
+                            GroupeModel ngt = new GroupeModel();
+                            ngt.ID = a.ID;
+                            ngt.Nom_groupe = a.Nom_groupe;
+                            ngt.CreatedById = a.CreatedById;
+                            ngt.Date_createion = a.Date_createion;
+                            ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == a.CreatedById).UserId;
+                            ngt.Statut = a.Statut;
+                            ngt.ActCount = db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.DateEnd > DateTime.Now).ToList().Count();
+                            //db.Activites.Where(ac => ac.Agenda.GroupId == a.ID&& ac.Date > DateTime.Now).Count();
+                            ngtL.Add(ngt);
+                        }
                     }
                     GI.GML = ngtL;
-  
-                    return View(GI);
+                    if (GI != null)
+                    {
+                        return View(GI);
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Aucun groupe trouvé";
+                        return View();
+                    }
+                    
                 }
             }
             return View();
         }
         public ActionResult AjouterAgenda(int? id)
         {
-
             return View(db.Groupe_thematiqe.Find(id));
         }
         public ActionResult CR(int? idAg)
         {
             var CR=db.compte_rendu.Where(cr=>cr.Activites.AgendaID== idAg);
-            return View(CR.ToList());
+            if (CR != null)
+            {
+                return View(CR.ToList());
+            }
+            else
+            {
+                TempData["Message"] = "aucun rapport trouvé";
+                return View();
+            }
+            
+            
         }
         // GET: Groupe/Details/5
         public ActionResult Details(int? id)
@@ -171,9 +212,7 @@ namespace MinisitreFin.Controllers
             var idAdmin = "4dcc3cda-6ee1-4a7c-9fd4-33b3a565ab80";
             var idadmin2 = "6c00274e-c4a1-46b8-9b00-f7ee345d0387";
             var gM = db.Membre_group.Where(m => m.Groupe_thematiqe.ID == id);
-
-
-
+ 
             //////////////////////////////////////////
             var thisuser = db.Utilisateur.Where(p => p.UserId != currentId &&p.UserId!= idadmin2&& p.UserId != idAdmin && p.CM !=true);
             //var mgids = db.Membre_group.FirstOrDefault(m => m.GroupId == id ).
@@ -189,7 +228,6 @@ namespace MinisitreFin.Controllers
                         util.Email = m.Email;
                         UL.Add(util);
                     }
-
             }
 
             ViewBag.MembreId = new SelectList(UL.Distinct(), "ID", "Email");
@@ -218,10 +256,11 @@ namespace MinisitreFin.Controllers
                 }
                 foreach (var a in groupMembers)
                 {
-                    GroupeMembersDetailsModel GMDMF = new GroupeMembersDetailsModel();
+                    
                     var memberfiles = db.groue_detail.Where(p => p.Groupe_thematiqeID == id && p.MembreId == a.Utilisateur.ID).ToList();
                     foreach(var c in memberfiles)
                     {
+                        GroupeMembersDetailsModel GMDMF = new GroupeMembersDetailsModel();
                         if (memberfiles != null)
                         {
                             GMDMF.IdU = a.Utilisateur.ID;
@@ -249,7 +288,6 @@ namespace MinisitreFin.Controllers
 
                 }
                 GNM.CreatedById = db.Utilisateur.FirstOrDefault(u=>u.ID==cu).UserId;
-                
                 GNM.dateGroupe = db.Groupe_thematiqe.FirstOrDefault(p => p.ID == id).Date_createion.Value;
                 GNM.MemebersFiles = LGMDMF.OrderByDescending(l=>l.datecreation).ToList();
                 GNM.Memebers = LGMDM;
@@ -257,33 +295,67 @@ namespace MinisitreFin.Controllers
             return View(GNM);
         }
        public void Telecharger(string file)
-        {   
-            Response.ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-            Response.AddHeader("Content-Disposition", "attachment; filename=" + file);
-            Response.TransmitFile("~/AppDocuments/" + file);
-            Response.Flush();
-            Response.End();
+        {
+            try {
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+                Response.AddHeader("Content-Disposition", "attachment; filename=" + file);
+                Response.TransmitFile("~/AppDocuments/" + file);
+                Response.Flush();
+                Response.End();
+            } catch (Exception) { }
+           
         }
         public ActionResult addtextfile(groue_detail groue_Detail, int? id, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
-                var path = Path.Combine(Server.MapPath("~/AppDocuments"), file.FileName);
-                file.SaveAs(path);
-                var currentId = User.Identity.GetUserId();
-                var x = db.Utilisateur.FirstOrDefault(p => p.UserId == currentId);
-                groue_Detail.Fichier = file.FileName;
-                groue_Detail.Groupe_thematiqeID = db.Groupe_thematiqe.FirstOrDefault(p => p.ID == id).ID;
-                groue_Detail.MembreId =x.ID ;
-                groue_Detail.datecreation=DateTime.Now;
-                db.groue_detail.Add(groue_Detail);
-                db.SaveChanges();
+                try
+                {
+                    if (file != null)
+                    {
+                        var path = Path.Combine(Server.MapPath("~/AppDocuments"), file.FileName);
+                        if (file.ContentLength <= 2097152 )
+                        {
+                            file.SaveAs(path);
+                            var currentId = User.Identity.GetUserId();
+                            var x = db.Utilisateur.FirstOrDefault(p => p.UserId == currentId);
+                            groue_Detail.Fichier = file.FileName;
+                            groue_Detail.Groupe_thematiqeID = db.Groupe_thematiqe.FirstOrDefault(p => p.ID == id).ID;
+                            groue_Detail.MembreId = x.ID;
+                            groue_Detail.datecreation = DateTime.Now;
+                            if (groue_Detail.Text.Length <= 350)
+                            {
+                                db.groue_detail.Add(groue_Detail);
+                                db.SaveChanges();
+                            }else
+                            {
+                                TempData["Message"] = "limite de caractère est 350 character";
+                            }
+                            
+                        }
+
+                    }
+
+                }
+                catch (DbEntityValidationException DbExc)
+                {
+                    string error = "";
+                    foreach (var er in DbExc.EntityValidationErrors)
+                    {
+                        foreach (var ve in er.ValidationErrors)
+                        {
+                            error += " - " + ve.ErrorMessage;
+                        }
+                    }
+                    TempData["Message"] = error;
+                return RedirectToAction("Consulte", "Groupe", new { id });
+                }
                 //file.SaveAs(path);
                 return RedirectToAction("Consulte", "Groupe",new { id });
             }
-            
-           
-            return View();
+
+
+            return RedirectToAction("Consulte", "Groupe", new { id });
         }
         // GET: Groupe/Create
         public ActionResult Create()
@@ -297,30 +369,57 @@ namespace MinisitreFin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Groupe_thematiqe groupe_thematiqe)
         {
-            var currentId = User.Identity.GetUserId();
-            var x = db.Utilisateur.FirstOrDefault(p => p.UserId == currentId);
-            DateTime aDate = DateTime.Now;
-            var grpModel = new Groupe_thematiqe()
-            {
-                CreatedById = x.ID,
-                Date_createion = aDate,
-                Nom_groupe = groupe_thematiqe.Nom_groupe,
-                Statut = false
-            };
+            
 
             if (ModelState.IsValid)
             {
 
-                db.Groupe_thematiqe.Add(grpModel);
-                db.SaveChanges();
-                Membre_group membre_Group = new Membre_group()
+                
+                try
                 {
-                    GroupId = grpModel.ID,
-                    MembreId = grpModel.CreatedById
+                    var currentId = User.Identity.GetUserId();
+                    var x = db.Utilisateur.FirstOrDefault(p => p.UserId == currentId);
+                    DateTime aDate = DateTime.Now;
+                    if (groupe_thematiqe.Nom_groupe.Length <= 350)
+                    {
+                        var grpModel = new Groupe_thematiqe()
+                        {
+                            CreatedById = x.ID,
+                            Date_createion = aDate,
+                            Nom_groupe = groupe_thematiqe.Nom_groupe,
+                            Statut = false
+                        };
+                        db.Groupe_thematiqe.Add(grpModel);
+                        db.SaveChanges();
+                        Membre_group membre_Group = new Membre_group()
+                        {
+                            GroupId = grpModel.ID,
+                            MembreId = grpModel.CreatedById
 
-                };
-                db.Membre_group.Add(membre_Group);
-                db.SaveChanges();
+                        };
+                        db.Membre_group.Add(membre_Group);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        TempData["Message"] = "limite de caractère est 255 character";
+                        return View(groupe_thematiqe);
+                    } 
+                }
+                catch (DbEntityValidationException DbExc)
+                {
+                    string error = "";
+                    foreach (var er in DbExc.EntityValidationErrors)
+                    {
+                        foreach (var ve in er.ValidationErrors)
+                        {
+                            error += " - " + ve.ErrorMessage;
+                        }
+                    }
+                    TempData["Message"] = error;
+                    return View(groupe_thematiqe);
+                }
+                
                 return RedirectToAction("Index");
             }
 
@@ -344,11 +443,18 @@ namespace MinisitreFin.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult UpdateStatu(int id)
         {
-            Groupe_thematiqe gt = db.Groupe_thematiqe.Find(id);
-            gt.Statut = !gt.Statut.Value;
-            db.Groupe_thematiqe.Attach(gt);
-            db.Entry(gt).State = EntityState.Modified;
-            db.SaveChanges();
+            
+            try{
+                Groupe_thematiqe gt = db.Groupe_thematiqe.Find(id);
+                gt.Statut = !gt.Statut.Value;
+                db.Groupe_thematiqe.Attach(gt);
+                db.Entry(gt).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+            }
 
             return RedirectToAction("Index");
         }
@@ -359,15 +465,41 @@ namespace MinisitreFin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Groupe_thematiqe groupe_thematiqe)
         {
-            if (ModelState.IsValid)
+            try
             {
-                groupe_thematiqe.CreatedById = groupe_thematiqe.CreatedById;
-                groupe_thematiqe.Date_createion = groupe_thematiqe.Date_createion;
-                groupe_thematiqe.Statut = groupe_thematiqe.Statut;
-                db.Entry(groupe_thematiqe).State = EntityState.Modified;
+                if (ModelState.IsValid)
+            {
+                    if (groupe_thematiqe.Nom_groupe.Length <= 255 )
+                    {
+                        groupe_thematiqe.CreatedById = groupe_thematiqe.CreatedById;
+                        groupe_thematiqe.Date_createion = groupe_thematiqe.Date_createion;
+                        groupe_thematiqe.Statut = groupe_thematiqe.Statut;
+                        db.Entry(groupe_thematiqe).State = EntityState.Modified;
 
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                        db.SaveChanges();
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        
+                        TempData["Message"] = "limite de caractère est 255 character";
+                        return View(groupe_thematiqe);
+                    }
+                
+            }
+            }catch(DbEntityValidationException DbExc)
+                {
+                string error = "";
+                foreach (var er in DbExc.EntityValidationErrors)
+                {
+                    foreach (var ve in er.ValidationErrors)
+                    {
+                        error += " - " + ve.ErrorMessage;
+                    }
+                }
+                TempData["Message"] = error;
+                return View(groupe_thematiqe);
             }
             return View(groupe_thematiqe);
         }

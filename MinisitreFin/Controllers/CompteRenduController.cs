@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -81,16 +82,22 @@ namespace MinisitreFin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(compte_rendu compte_rendu, int? idAct, int? idgroupe, string IDCreate)
         {
-            if (ModelState.IsValid)
-            {
-                compte_rendu.Statut = false;
-                db.compte_rendu.Add(compte_rendu);
-                db.SaveChanges();
-                ViewData["idAct"] = idAct;
-                ViewData["idgroupe"] = idgroupe;
-                ViewData["IDCreate"] = IDCreate;
+            try {
+                if (ModelState.IsValid)
+                {
+                    compte_rendu.Statut = false;
+                    db.compte_rendu.Add(compte_rendu);
+                    db.SaveChanges();
+                    ViewData["idAct"] = idAct;
+                    ViewData["idgroupe"] = idgroupe;
+                    ViewData["IDCreate"] = IDCreate;
 
-                return RedirectToAction("ActiviteCRS", "CompteRendu",new { idAct , idgroupe , IDCreate });
+                    return RedirectToAction("ActiviteCRS", "CompteRendu", new { idAct, idgroupe, IDCreate });
+                }
+            } catch (DbEntityValidationException ex)
+            {
+                
+
             }
 
             ViewBag.ActivitesID = new SelectList(db.Activites, "ID", "Nom_activ", compte_rendu.ActivitesID);
@@ -123,25 +130,55 @@ namespace MinisitreFin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(compte_rendu compte_rendu, int? idAct, int? idgroupe, string IDCreate)
         {
-            if (ModelState.IsValid)
+            try {
+                if (ModelState.IsValid)
+                {
+                    compte_rendu.ActivitesID = compte_rendu.ActivitesID;
+                    compte_rendu.Statut = compte_rendu.Statut;
+                    db.Entry(compte_rendu).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return RedirectToAction("ActiviteCRS", "CompteRendu", new { idAct, idgroupe, IDCreate });
+                }
+            }catch (DbEntityValidationException DbExc)
             {
-                compte_rendu.ActivitesID = compte_rendu.ActivitesID;
-                compte_rendu.Statut = compte_rendu.Statut;
-                db.Entry(compte_rendu).State = EntityState.Modified;
-                db.SaveChanges();
-                
-                return RedirectToAction("ActiviteCRS", "CompteRendu", new { idAct, idgroupe, IDCreate });
+                string error = "";
+                foreach (var er in DbExc.EntityValidationErrors)
+                {
+                    foreach (var ve in er.ValidationErrors)
+                    {
+                        error += " - " + ve.ErrorMessage;
+                    }
+                }
+                TempData["Message"] = error;
+                return View(compte_rendu);
             }
+
             ViewBag.ActivitesID = new SelectList(db.Activites, "ID", "Nom_activ", compte_rendu.ActivitesID);
             return View(compte_rendu);
         }
         public ActionResult UpdateStatu(int id,int? idAct, int? idgroupe, string IDCreate)
         {
+            try { 
             compte_rendu cr = db.compte_rendu.Find(id);
             cr.Statut = !cr.Statut.Value;
             db.compte_rendu.Attach(cr);
             db.Entry(cr).State = EntityState.Modified;
             db.SaveChanges();
+            }
+            catch (DbEntityValidationException DbExc)
+            {
+                string error = "";
+                foreach (var er in DbExc.EntityValidationErrors)
+                {
+                    foreach (var ve in er.ValidationErrors)
+                    {
+                        error += " - " + ve.ErrorMessage;
+                    }
+                }
+                TempData["Message"] = error;
+                return RedirectToAction("ActiviteCRS", "CompteRendu", new { idAct, idgroupe, IDCreate });
+            }
             ViewData["idgroupe"] = idgroupe;
             ViewData["IDCreate"] = IDCreate;
             return RedirectToAction("ActiviteCRS", "CompteRendu", new { idAct ,idgroupe, IDCreate });

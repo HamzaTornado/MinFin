@@ -40,7 +40,7 @@
                         </p>
                     </header>
                     <div class="post_content">
-                        <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                        <p>@Html.Raw(item.Description)</p>
                         <a href="@Url.Action("DetailsEvent","Home",new { id = item.ID })" class="btn btn-primary-corp"><i class="fa fa-plus"></i>VOIRE PLUS</a>
 
                     </div>

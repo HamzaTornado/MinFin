@@ -32,7 +32,7 @@
                     </a>
                     <h4>@Html.DisplayFor(modelItem => item.Titre_article)</h4>
                     <p>
-                        @Html.DisplayFor(modelItem => item.Description)
+                        @Html.Raw(item.Description)
                     </p>
                     <p class="author">
                         <i class="fa fa-calendar"></i>

@@ -9,14 +9,23 @@
 @using (Html.BeginForm("CreateAgenda", "Agenda", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    <div class="form-horizontal">
+    if (TempData["Message"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Message"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
 
+    <div class="form-horizontal">
         <hr />
         <input name="GroupId" id="GroupId" class="form-control" value="@Model.ID" hidden="hidden" />
         <div class="form-group">
             <label class="control-label col-md-2">Nom de l'Agenda</label>
             <div class="col-md-10">
-                <input name="Nom_agenda" id="Nom_agenda" class="form-control" />
+                <input name="Nom_agenda" id="Nom_agenda" class="form-control" maxlength="250" />
             </div>
         </div>
 
@@ -36,5 +45,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Retour a la list","Index","Groupe",null,null)
 </div>

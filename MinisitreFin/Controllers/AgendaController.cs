@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -98,6 +99,7 @@ namespace MinisitreFin.Controllers
         }
 
         // GET: Agenda
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var agenda = db.Agenda.Include(a => a.Groupe_thematiqe);
@@ -132,12 +134,27 @@ namespace MinisitreFin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateAgenda([Bind(Include = "ID,GroupId,Nom_agenda,Date_creation")] Agenda agenda)
         {
-            if (ModelState.IsValid)
+            try
             {
-                agenda.Date_creation = DateTime.Now;
-                db.Agenda.Add(agenda);
-                db.SaveChanges();
-                return RedirectToAction("Consulte", "Groupe", new { id = agenda.GroupId });
+                if (ModelState.IsValid)
+                {
+                    agenda.Date_creation = DateTime.Now;
+                    db.Agenda.Add(agenda);
+                    db.SaveChanges();
+                    return RedirectToAction("Consulte", "Groupe", new { id = agenda.GroupId });
+                }
+            }catch (DbEntityValidationException DbExc)
+            {
+                string error = "";
+                foreach (var er in DbExc.EntityValidationErrors)
+                {
+                    foreach (var ve in er.ValidationErrors)
+                    {
+                        error += " - " + ve.ErrorMessage+"\n";
+                    }
+                }
+                TempData["Message"] = error;
+                return View(agenda);
             }
 
             ViewBag.GroupId = new SelectList(db.Groupe_thematiqe, "ID", "Nom_groupe", agenda.GroupId);
@@ -166,20 +183,38 @@ namespace MinisitreFin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Agenda agenda)
         {
-            if (ModelState.IsValid)
+            try
             {
-                agenda.Date_creation = agenda.Date_creation;
-                agenda.GroupId = agenda.GroupId;
-                
-                db.Entry(agenda).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index","Groupe",null);
+                if (ModelState.IsValid)
+                {
+                    agenda.Date_creation = agenda.Date_creation;
+                    agenda.GroupId = agenda.GroupId;
+
+                    db.Entry(agenda).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Groupe", null);
+                }
+                ViewBag.GroupId = new SelectList(db.Groupe_thematiqe, "ID", "Nom_groupe", agenda.GroupId);
             }
-            ViewBag.GroupId = new SelectList(db.Groupe_thematiqe, "ID", "Nom_groupe", agenda.GroupId);
+            catch (DbEntityValidationException DbExc)
+            {
+                string error = "";
+                foreach (var er in DbExc.EntityValidationErrors)
+                {
+                    foreach (var ve in er.ValidationErrors)
+                    {
+                        error += " - " + ve.ErrorMessage + "\n";
+                    }
+                }
+                TempData["Message"] = error;
+                return View(agenda);
+            }
+
             return View(agenda);
         }
 
         // GET: Agenda/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -195,6 +230,7 @@ namespace MinisitreFin.Controllers
         }
 
         // POST: Agenda/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

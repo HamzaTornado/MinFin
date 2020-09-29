@@ -11,7 +11,6 @@
         <EntityTypeShape EntityType="MinistreFinModel.AspNetUserRoles" Width="1.5" PointX="3" PointY="17" IsExpanded="true" />
         <EntityTypeShape EntityType="MinistreFinModel.AspNetUsers" Width="1.5" PointX="0.75" PointY="15.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MinistreFinModel.Groupe_thematiqe" Width="1.5" PointX="5.25" PointY="22.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MinistreFinModel.Projet" Width="1.5" PointX="7.5" PointY="26.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MinistreFinModel.Type_Activite" Width="1.5" PointX="13.125" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MinistreFinModel.Utilisateur_Evenement2" Width="1.5" PointX="5.25" PointY="34.25" IsExpanded="true" />
         <AssociationConnector Association="MinistreFinModel.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" ManuallyRouted="false" />
@@ -34,12 +33,13 @@
         <AssociationConnector Association="MinistreFinModel.FK_FKMembreId" />
         <AssociationConnector Association="MinistreFinModel.creer3" />
         <EntityTypeShape EntityType="MinistreFinModel.Initiatives" Width="1.5" PointX="4.125" PointY="26.25" />
-        <AssociationConnector Association="MinistreFinModel.contient" />
         <AssociationConnector Association="MinistreFinModel.creer6" />
         <EntityTypeShape EntityType="MinistreFinModel.Activites" Width="1.5" PointX="17.375" PointY="10.875" />
         <AssociationConnector Association="MinistreFinModel.avoir" />
         <AssociationConnector Association="MinistreFinModel.contientA" />
         <AssociationConnector Association="MinistreFinModel.FKActivites519089" />
+        <EntityTypeShape EntityType="MinistreFinModel.Projet" Width="1.5" PointX="6.375" PointY="27" />
+        <AssociationConnector Association="MinistreFinModel.contient" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

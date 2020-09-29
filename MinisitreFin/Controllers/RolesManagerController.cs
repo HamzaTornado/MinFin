@@ -10,6 +10,7 @@ using MinisitreFin.Models;
 
 namespace MinisitreFin.Controllers
 {
+    [Authorize]
     public class RolesManagerController : Controller
     {
         private MinistreFinEntitiesDB db = new MinistreFinEntitiesDB();

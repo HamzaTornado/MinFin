@@ -83,9 +83,9 @@
                             </p>
                         </header>
                         <div class="post_content">
-                            <p>@Html.DisplayFor(model => model.Description)</p>
+                            <p>@Html.Raw(Model.Description)</p>
 
-                            <p>@Html.DisplayFor(model => model.Contenu_article)</p>
+                            <p>@Html.Raw(Model.Contenu_article)</p>
 
 
                         </div>

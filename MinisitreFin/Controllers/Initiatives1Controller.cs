@@ -40,11 +40,14 @@ namespace MinisitreFin.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult UpdateStatu(int id)
         {
-            Initiatives ini = db.Initiatives.Find(id);
-            ini.Statu_init = !ini.Statu_init.Value;
-            db.Initiatives.Attach(ini);
-            db.Entry(ini).State = EntityState.Modified;
-            db.SaveChanges();
+            try {
+                Initiatives ini = db.Initiatives.Find(id);
+                ini.Statu_init = !ini.Statu_init.Value;
+                db.Initiatives.Attach(ini);
+                db.Entry(ini).State = EntityState.Modified;
+                db.SaveChanges();
+            } catch (Exception) { }
+           
 
             return RedirectToAction("Index");
         }
@@ -64,10 +67,16 @@ namespace MinisitreFin.Controllers
         {
             if (ModelState.IsValid)
             {
-                initiative.Statu_init = false;
-                db.Initiatives.Add(initiative);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try {
+                    initiative.Statu_init = false;
+                    db.Initiatives.Add(initiative);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                } catch (Exception)
+                {
+
+                }
+                
             }
 
             ViewBag.UtilisateurID = new SelectList(db.Utilisateur, "ID", "UserId", initiative.UtilisateurID);
@@ -99,10 +108,13 @@ namespace MinisitreFin.Controllers
         {
             if (ModelState.IsValid)
             {
-                initiative.Statu_init = initiative.Statu_init ;
-                db.Entry(initiative).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try {
+                    initiative.Statu_init = initiative.Statu_init;
+                    db.Entry(initiative).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                } catch (Exception) { }
+                
             }
             ViewBag.UtilisateurID = new SelectList(db.Utilisateur, "ID", "UserId", initiative.UtilisateurID);
             return View(initiative);

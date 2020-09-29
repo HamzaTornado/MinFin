@@ -11,6 +11,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MinisitreFin.Models;
 using System.Web.Security;
+using MinisitreFin.services;
+using System.Net.Mail;
+using System.Collections.Generic;
 
 namespace MinisitreFin.Controllers
 {
@@ -170,19 +173,32 @@ namespace MinisitreFin.Controllers
                     modelUser.UserId = x.Id;
                     modelUser.Telephone = model.Telephone;
                     modelUser.Statu = false;
+                    modelUser.CM = false;
                     context.Utilisateur.Add(modelUser);
                     context.SaveChanges();
                     //// Send Password in Gmail/////////// 
-                    string recipient = model.Email;
-                    string subject = "MEF Espace Mot de Passe";
-                    string body = "Bonjour,<br>Merci pour l'intérêt que vous témoignez envers l'espace MEF Maroc.<br>  Votre Inscription est en cours de Validation.Vous pourrez accéder à votre espace en tant que Bailleurs de Fonds dès que votre compte sera validée.Pour cela, vous devrez utiliser votre email : " + model.Email + " comme login et le password suivant:<strong> " + model.Password + " </strong>  Votre compte vous donne accès aux fonctionnalités réservées aux participants à  l'espace MEF<br>Vous pourrez à tout moment modifier votre mot de passe  à partir de votre espace personnel.<br> Pour tout besoin,<br> vous pouvez nous contacter via l'email suivant: MEF@contact.com";
-                    WebMail.SmtpServer = "smtp.gmail.com";
-                    WebMail.SmtpPort = 587;
-                    WebMail.SmtpUseDefaultCredentials = false;
-                    WebMail.EnableSsl = true;
-                    WebMail.UserName = "meftestmail@gmail.com";
-                    WebMail.Password = "MinFin1234";
-                    WebMail.Send(to: recipient, subject: subject, body: body, isBodyHtml: true);
+                    ///
+                    EMail mail = new EMail();
+                    IdentityMessage message = new IdentityMessage();
+                    message.Destination = model.Email;
+                    message.Subject = "MEF Espace Mot de Passe";
+                    message.Body = "Bonjour,<br>Merci pour l'intérêt que vous témoignez envers l'espace MEF Maroc.<br>  Votre Inscription est en cours de Validation.Vous pourrez accéder à votre espace en tant que Bailleurs de Fonds dès que votre compte sera validée.Pour cela, vous devrez utiliser votre email : " + model.Email + " comme login et le password suivant:<strong> " + model.Password + " </strong>  Votre compte vous donne accès aux fonctionnalités réservées aux participants à  l'espace MEF<br>Vous pourrez à tout moment modifier votre mot de passe  à partir de votre espace personnel.<br> Pour tout besoin,<br> vous pouvez nous contacter via l'email suivant: MEF@contact.com";
+                    
+                    
+                    await mail.configSendGridasync(message);
+                    
+                   
+
+                    //string recipient = model.Email;
+                    //string subject = "MEF Espace Mot de Passe";
+                    //string body = "Bonjour,<br>Merci pour l'intérêt que vous témoignez envers l'espace MEF Maroc.<br>  Votre Inscription est en cours de Validation.Vous pourrez accéder à votre espace en tant que Bailleurs de Fonds dès que votre compte sera validée.Pour cela, vous devrez utiliser votre email : " + model.Email + " comme login et le password suivant:<strong> " + model.Password + " </strong>  Votre compte vous donne accès aux fonctionnalités réservées aux participants à  l'espace MEF<br>Vous pourrez à tout moment modifier votre mot de passe  à partir de votre espace personnel.<br> Pour tout besoin,<br> vous pouvez nous contacter via l'email suivant: MEF@contact.com";
+                    //WebMail.SmtpServer = "smtp.gmail.com";
+                    //WebMail.SmtpPort = 587;
+                    //WebMail.SmtpUseDefaultCredentials = false;
+                    //WebMail.EnableSsl = true;
+                    //WebMail.UserName = "meftestmail@gmail.com";
+                    //WebMail.Password = "MinFin1234";
+                    //WebMail.Send(to: recipient, subject: subject, body: body, isBodyHtml: true);
                     ///////////////////////////////
                     AspNetUserRoles userRoles = new AspNetUserRoles();
                     userRoles.RoleId = "2";
@@ -283,19 +299,24 @@ namespace MinisitreFin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
-
+                EMail sm = new EMail();
+               
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                IdentityMessage message = new IdentityMessage();
+                message.Subject = "Reset Password";
+                message.Body = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
+                message.Destination = model.Email;
+                await sm.configSendGridasync(message);
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -329,7 +350,7 @@ namespace MinisitreFin.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist

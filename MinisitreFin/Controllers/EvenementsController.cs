@@ -56,19 +56,29 @@ namespace MinisitreFin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Image != null)
-                {
-                    var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
-                    Image.SaveAs(path);
-                    evenement1.Image = Image.FileName;
-                }
-                else
-                {
-                    evenement1.Image = "logo-MF.jpg";
-                }
+               
                 
-                evenement1.Statut = false;
-                db.Evenements.Add(evenement1);
+                
+                try
+                {
+                    if (Image != null)
+                    {
+                        var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
+                        Image.SaveAs(path);
+                        evenement1.Image = Image.FileName;
+                    }
+                    else
+                    {
+                        evenement1.Image = "logo-MF.jpg";
+                    }
+
+                    evenement1.Statut = false;
+                    db.Evenements.Add(evenement1);
+                }
+                catch (Exception)
+                {
+
+                }
                 db.SaveChanges();
                 //file.SaveAs(path);
                 return RedirectToAction("Index");
@@ -101,7 +111,7 @@ namespace MinisitreFin.Controllers
         {
             if (ModelState.IsValid)
             {
-                string oldPath =Path.Combine(Server.MapPath("~/AppImg"), evenement1.Image);
+                string oldPath = Path.Combine(Server.MapPath("~/AppImg"), evenement1.Image);
                 if (Image != null)
                 {
                     System.IO.File.Delete(oldPath);
@@ -112,7 +122,16 @@ namespace MinisitreFin.Controllers
                 
                 evenement1.Statut = evenement1.Statut;
                 db.Entry(evenement1).State = EntityState.Modified;
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    
+
+                }
+                
                 return RedirectToAction("Index");
             }
             return View(evenement1);
