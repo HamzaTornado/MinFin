@@ -183,7 +183,6 @@ namespace MinisitreFin.Controllers
                 activites.DateEnd = eventsModel.DateEnd;
                 activites.statu = false;
                 db.Activites.Add(activites);
-
                 try
                 {
                     await db.SaveChangesAsync();
@@ -363,18 +362,25 @@ namespace MinisitreFin.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                
+
+                db.Entry(activites).State = EntityState.Modified;
                 try
                 {
-                    db.Entry(activites).State = EntityState.Modified;
+                    
                     db.SaveChanges();
-                }
-                catch (Exception)
+                }catch (DbEntityValidationException DbExc)
                 {
-
+                    string error = "";
+                    foreach (var er in DbExc.EntityValidationErrors)
+                    {
+                        foreach (var ve in er.ValidationErrors)
+                        {
+                            error += " - " + ve.ErrorMessage;
+                        }
+                    }
+                    TempData["Message"] = error;
                 }
-               
+
                 ViewData["idgroupe"] = idgroupe;
                 ViewData["IDCreate"] = IDCreate;
                 return RedirectToAction("GroupeActivites", "Activites", new { idgroupe, IDCreate });

@@ -122,27 +122,27 @@ namespace MinisitreFin.Controllers
                 //int currentGroupe = db.Groupe_thematiqe.FirstOrDefault(p => p.CreatedById == IdeUser).ID;//Définir le groupe pour l'ajoute
                 //int nbrmembre = db.Membre_group.Where(mg => mg.GroupId == currentGroupe).Count();
                 var x = db.Utilisateur.FirstOrDefault(p => p.UserId == currentId);
-                var members = db.Membre_group.FirstOrDefault(m => m.MembreId == x.ID);
+                var members = db.Membre_group.Where(m => m.MembreId == x.ID );
                 if (members != null)
                 {
-                    var gt = db.Groupe_thematiqe.Where(p => p.ID == members.GroupId);
                     GroupeIndex GI = new GroupeIndex();
-
                     List<GroupeModel> ngtL = new List<GroupeModel>();
-                    if (gt != null)
+                    foreach (var mb in members)
                     {
-                        foreach (var a in gt)
+                        var gt = db.Groupe_thematiqe.FirstOrDefault(p => p.ID == mb.GroupId && p.CreatedById != mb.MembreId);
+                        if (gt != null)
                         {
-                            GroupeModel ngt = new GroupeModel();
-                            ngt.ID = a.ID;
-                            ngt.Nom_groupe = a.Nom_groupe;
-                            ngt.CreatedById = a.CreatedById;
-                            ngt.Date_createion = a.Date_createion;
-                            ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == a.CreatedById).UserId;
-                            ngt.Statut = a.Statut;
-                            ngt.ActCount = db.Activites.Where(ac => ac.Agenda.GroupId == a.ID && ac.DateEnd > DateTime.Now).ToList().Count();
-                            //db.Activites.Where(ac => ac.Agenda.GroupId == a.ID&& ac.Date > DateTime.Now).Count();
-                            ngtL.Add(ngt);
+                                GroupeModel ngt = new GroupeModel();
+                                ngt.ID = gt.ID;
+                                ngt.Nom_groupe = gt.Nom_groupe;
+                                ngt.CreatedById = gt.CreatedById;
+                                ngt.Date_createion = gt.Date_createion;
+                                ngt.CreatedByIdString = db.Utilisateur.FirstOrDefault(s => s.ID == gt.CreatedById).UserId;
+                                ngt.Statut = gt.Statut;
+                                ngt.ActCount = db.Activites.Where(ac => ac.Agenda.GroupId == gt.ID && ac.DateEnd > DateTime.Now).ToList().Count();
+                                //db.Activites.Where(ac => ac.Agenda.GroupId == a.ID&& ac.Date > DateTime.Now).Count();
+                                ngtL.Add(ngt);
+                            
                         }
                     }
                     GI.GML = ngtL;

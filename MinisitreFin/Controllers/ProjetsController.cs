@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -56,13 +57,28 @@ namespace MinisitreFin.Controllers
         {
             if (ModelState.IsValid)
             {
+                db.Projet.Add(projet);
                 try {
-                    db.Projet.Add(projet);
+                    
 
                     db.SaveChanges();
                     return RedirectToAction("Index");
-                } catch (Exception) { }
-                
+                }
+                catch (DbEntityValidationException DbExc)
+                {
+                    string error = "";
+                    foreach (var er in DbExc.EntityValidationErrors)
+                    {
+                        foreach (var ve in er.ValidationErrors)
+                        {
+                            error += " - " + ve.ErrorMessage;
+                        }
+                    }
+                    TempData["Message"] = error;
+                    ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projet.ID_Initiative);
+                    return View(projet);
+                }
+
             }
 
             ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projet.ID_Initiative);
@@ -101,11 +117,21 @@ namespace MinisitreFin.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (Exception)
+                catch (DbEntityValidationException DbExc)
                 {
-
+                    string error = "";
+                    foreach (var er in DbExc.EntityValidationErrors)
+                    {
+                        foreach (var ve in er.ValidationErrors)
+                        {
+                            error += " - " + ve.ErrorMessage;
+                        }
+                    }
+                    TempData["Message"] = error;
+                    ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projet.ID_Initiative);
+                    return View(projet);
                 }
-                
+
             }
             ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projet.ID_Initiative);
             return View(projet);

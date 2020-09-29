@@ -48,19 +48,34 @@
 
             </td>
             <td>
-                <form action="/Articles/UpdateStatu/@item.ID" method="post">
-                    @Html.AntiForgeryToken()
-                    @{
-                        if (item.statu)
-                        {
-                            <input type="submit" value="Active" class="btn text-success" />
+                @if (User.IsInRole("Admin"))
+                {
+                    <form action="/Articles/UpdateStatu/@item.ID" method="post">
+                        @Html.AntiForgeryToken()
+                        @{
+                            if (item.statu)
+                            {
+                                <input type="submit" value="Active" class="btn text-success" />
+                            }
+                            else
+                            {
+                                <input type="submit" value="Désactivé" class="btn text-danger" />
+                            }
                         }
-                        else
-                        {
-                            <input type="submit" value="Désactivé" class="btn text-danger" />
-                        }
-                    }
-                </form>
+                    </form>
+                            }
+                            else if (User.IsInRole("CM"))
+                            {
+                                if (item.statu)
+                                {
+                                    <h6 class="">Activé</h6>
+                                }
+                                else
+                                {
+                                    <h6 class="">Désactive</h6>
+                                }
+                            }
+
             </td>
             <td>
 

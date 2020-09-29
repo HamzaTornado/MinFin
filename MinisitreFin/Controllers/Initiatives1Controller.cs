@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -72,11 +73,21 @@ namespace MinisitreFin.Controllers
                     db.Initiatives.Add(initiative);
                     db.SaveChanges();
                     return RedirectToAction("Index");
-                } catch (Exception)
+                }catch (DbEntityValidationException DbExc)
                 {
-
+                    string error = "";
+                    foreach (var er in DbExc.EntityValidationErrors)
+                    {
+                        foreach (var ve in er.ValidationErrors)
+                        {
+                            error += " - " + ve.ErrorMessage;
+                        }
+                    }
+                    TempData["Message"] = error;
+                    ViewBag.UtilisateurID = new SelectList(db.Utilisateur, "ID", "UserId", initiative.UtilisateurID);
+                    return View(initiative);
                 }
-                
+
             }
 
             ViewBag.UtilisateurID = new SelectList(db.Utilisateur, "ID", "UserId", initiative.UtilisateurID);
@@ -113,8 +124,22 @@ namespace MinisitreFin.Controllers
                     db.Entry(initiative).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
-                } catch (Exception) { }
-                
+                }
+                catch (DbEntityValidationException DbExc)
+                {
+                    string error = "";
+                    foreach (var er in DbExc.EntityValidationErrors)
+                    {
+                        foreach (var ve in er.ValidationErrors)
+                        {
+                            error += " - " + ve.ErrorMessage;
+                        }
+                    }
+                    TempData["Message"] = error;
+                    ViewBag.UtilisateurID = new SelectList(db.Utilisateur, "ID", "UserId", initiative.UtilisateurID);
+                    return View(initiative);
+                }
+
             }
             ViewBag.UtilisateurID = new SelectList(db.Utilisateur, "ID", "UserId", initiative.UtilisateurID);
             return View(initiative);

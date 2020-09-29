@@ -82,23 +82,35 @@ namespace MinisitreFin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(compte_rendu compte_rendu, int? idAct, int? idgroupe, string IDCreate)
         {
-            try {
-                if (ModelState.IsValid)
-                {
-                    compte_rendu.Statut = false;
-                    db.compte_rendu.Add(compte_rendu);
-                    db.SaveChanges();
-                    ViewData["idAct"] = idAct;
-                    ViewData["idgroupe"] = idgroupe;
-                    ViewData["IDCreate"] = IDCreate;
-
-                    return RedirectToAction("ActiviteCRS", "CompteRendu", new { idAct, idgroupe, IDCreate });
-                }
-            } catch (DbEntityValidationException ex)
+            if (ModelState.IsValid)
             {
-                
+                compte_rendu.Statut = false;
+                db.compte_rendu.Add(compte_rendu);
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException DbExc)
+                {
+                    string error = "";
+                    foreach (var er in DbExc.EntityValidationErrors)
+                    {
+                        foreach (var ve in er.ValidationErrors)
+                        {
+                            error += " - " + ve.ErrorMessage;
+                        }
+                    }
+                    ViewBag.ActivitesID = new SelectList(db.Activites, "ID", "Nom_activ", compte_rendu.ActivitesID);
+                    TempData["Message"] = error;
+                    return View(compte_rendu);
+                }
+                ViewData["idAct"] = idAct;
+                ViewData["idgroupe"] = idgroupe;
+                ViewData["IDCreate"] = IDCreate;
 
+                return RedirectToAction("ActiviteCRS", "CompteRendu", new { idAct, idgroupe, IDCreate });
             }
+            
 
             ViewBag.ActivitesID = new SelectList(db.Activites, "ID", "Nom_activ", compte_rendu.ActivitesID);
             return View(compte_rendu);
@@ -130,40 +142,45 @@ namespace MinisitreFin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(compte_rendu compte_rendu, int? idAct, int? idgroupe, string IDCreate)
         {
-            try {
-                if (ModelState.IsValid)
-                {
-                    compte_rendu.ActivitesID = compte_rendu.ActivitesID;
-                    compte_rendu.Statut = compte_rendu.Statut;
-                    db.Entry(compte_rendu).State = EntityState.Modified;
-                    db.SaveChanges();
-
-                    return RedirectToAction("ActiviteCRS", "CompteRendu", new { idAct, idgroupe, IDCreate });
-                }
-            }catch (DbEntityValidationException DbExc)
+            if (ModelState.IsValid)
             {
-                string error = "";
-                foreach (var er in DbExc.EntityValidationErrors)
+                compte_rendu.ActivitesID = compte_rendu.ActivitesID;
+                compte_rendu.Statut = compte_rendu.Statut;
+                db.Entry(compte_rendu).State = EntityState.Modified;
+                try
                 {
-                    foreach (var ve in er.ValidationErrors)
-                    {
-                        error += " - " + ve.ErrorMessage;
-                    }
+                    db.SaveChanges();
                 }
-                TempData["Message"] = error;
-                return View(compte_rendu);
+                catch (DbEntityValidationException DbExc)
+                {
+                    string error = "";
+                    foreach (var er in DbExc.EntityValidationErrors)
+                    {
+                        foreach (var ve in er.ValidationErrors)
+                        {
+                            error += " - " + ve.ErrorMessage;
+                        }
+                    }
+                    ViewBag.ActivitesID = new SelectList(db.Activites, "ID", "Nom_activ", compte_rendu.ActivitesID);
+                    TempData["Message"] = error;
+                    return View(compte_rendu);
+                }
+
+                return RedirectToAction("ActiviteCRS", "CompteRendu", new { idAct, idgroupe, IDCreate });
             }
+            
 
             ViewBag.ActivitesID = new SelectList(db.Activites, "ID", "Nom_activ", compte_rendu.ActivitesID);
             return View(compte_rendu);
         }
         public ActionResult UpdateStatu(int id,int? idAct, int? idgroupe, string IDCreate)
         {
-            try { 
             compte_rendu cr = db.compte_rendu.Find(id);
             cr.Statut = !cr.Statut.Value;
             db.compte_rendu.Attach(cr);
             db.Entry(cr).State = EntityState.Modified;
+            try { 
+            
             db.SaveChanges();
             }
             catch (DbEntityValidationException DbExc)
@@ -177,6 +194,8 @@ namespace MinisitreFin.Controllers
                     }
                 }
                 TempData["Message"] = error;
+                ViewData["idgroupe"] = idgroupe;
+                ViewData["IDCreate"] = IDCreate;
                 return RedirectToAction("ActiviteCRS", "CompteRendu", new { idAct, idgroupe, IDCreate });
             }
             ViewData["idgroupe"] = idgroupe;

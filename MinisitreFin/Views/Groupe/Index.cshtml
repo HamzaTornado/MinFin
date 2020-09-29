@@ -33,68 +33,68 @@
 {
 
 
-    <div class="card-deck">
+    <div class="card-deck ">
         @foreach (var item in Model.GML)
         {
             if (User.IsInRole("BDF"))
             {
                 if (item.Statut.Value) { db = ""; } else { db = "disabledbutton"; }
             }
-            <div class="card col-md-3 d-flex">
-                <a href="@Url.Action("Consulte","Groupe",new {id=item.ID })">
+        <div class="card col-md-3 d-flex @db">
+           
+                <a href="@Url.Action("Consulte","Groupe",new {id=item.ID })" class="card-img-top">
                     <img src="~/AppImg/logo-MF.jpg" class="card-img-top" alt="...">
                 </a>
-               
-                <div class="card-body">
-                    <h5 class="card-title">
-                        @Html.DisplayFor(modelItem => item.Nom_groupe) /
-                        <small class="text-muted">
-                            @Html.FormatValue("yyy-MM-dd", item.Date_createion.Value.Date.ToString("yyy-MM-dd"))
-                        </small>
-                    </h5>
-                    <p class="card-text">
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <form action="/Groupe/UpdateStatu/@item.ID" method="post">
-                                @Html.AntiForgeryToken()
-                                @{
-                                    if (item.Statut.Value)
-                                    {
-                                        <input type="submit" value="Activé" class="btn btn-sm btn-outline-success" />
-                                    }
-                                    else
-                                    {
-                                        <input type="submit" value="Désactivé" class="btn btn-sm btn-outline-danger" />
-                                    }
+            <div class="card-body">
+                <h5 class="card-title">
+                    @Html.DisplayFor(modelItem => item.Nom_groupe) /
+                    <small class="text-muted">
+                        @Html.FormatValue("yyy-MM-dd", item.Date_createion.Value.Date.ToString("yyy-MM-dd"))
+                    </small>
+                </h5>
+                <p class="card-text">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <form action="/Groupe/UpdateStatu/@item.ID" method="post">
+                            @Html.AntiForgeryToken()
+                            @{
+                                if (item.Statut.Value)
+                                {
+                                    <input type="submit" value="Activé" class="btn btn-sm btn-outline-success" />
                                 }
-                            </form>
+                                else
+                                {
+                                    <input type="submit" value="Désactivé" class="btn btn-sm btn-outline-danger" />
+                                }
+                            }
+                        </form>
+                    }
+                    else
+                    {
+                        if (item.Statut.Value)
+                        {
+                            <small class="text-success">Activé </small>
                         }
                         else
                         {
-                            if (item.Statut.Value)
-                            {
-                                <small class="text-success">Activé </small>
-                            }
-                            else
-                            {
-                                <small class="text-danger ">Désactivé </small>
-                            }
+                            <small class="text-danger ">Désactivé </small>
                         }
-                    </p>
-                    <div class="">
-                        @{ var currentId = User.Identity.GetUserId();}
-                        @if (item.CreatedByIdString == currentId)
-                        {
-                            @Html.ActionLink("Modifier", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-info" })
-                        }
+                    }
+                </p>
+                <div class="">
+                    @{ var currentId = User.Identity.GetUserId();}
+                    @if (item.CreatedByIdString == currentId)
+                    {
+                        @Html.ActionLink("Modifier", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-info" })
+                    }
 
-                        @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-warning" })
-                        <a href="@Url.Action("GroupeActivites","Activites",new {idgroupe=item.ID ,IDCreate=item.CreatedByIdString})" class="btn btn-sm btn-outline-primary"><i class="fa fa-tasks"></i> Activites</a>
-                    </div>
-
-                    <small class="text-danger "><i class="fa fa-bell" aria-hidden="true"></i>@item.ActCount</small>
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-warning" })
+                    <a href="@Url.Action("GroupeActivites","Activites",new {idgroupe=item.ID ,IDCreate=item.CreatedByIdString})" class="btn btn-sm btn-outline-primary"><i class="fa fa-tasks"></i> Activites</a>
                 </div>
+
+                <small class="text-danger "><i class="fa fa-bell" aria-hidden="true"></i>@item.ActCount</small>
             </div>
+        </div>
         }
         </div>
 

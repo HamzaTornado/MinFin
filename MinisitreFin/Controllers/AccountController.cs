@@ -14,6 +14,7 @@ using System.Web.Security;
 using MinisitreFin.services;
 using System.Net.Mail;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 
 namespace MinisitreFin.Controllers
 {
@@ -241,19 +242,56 @@ namespace MinisitreFin.Controllers
                     modelUser.Prenom = model.Prenom;
                     modelUser.Email = model.Email;
                     modelUser.Institution = model.institution;
+                    modelUser.CM = true;
 
                     var x = context.AspNetUsers.Where(p => p.Email == model.Email).First();
                     modelUser.UserId = x.Id;
                     modelUser.Telephone = model.Telephone;
                     modelUser.Statu = false;
                     context.Utilisateur.Add(modelUser);
-                    context.SaveChanges();
+                    try
+                    {
+                        context.SaveChanges();
+                    }
+                    catch (DbEntityValidationException DbExc)
+                    {
+                        string error = "";
+                        foreach (var er in DbExc.EntityValidationErrors)
+                        {
+                            foreach (var ve in er.ValidationErrors)
+                            {
+                                error += " - " + ve.ErrorMessage;
+                            }
+                        }
+                        TempData["Message"] = error;
+                        
+                        return View(model);
+                    }
+                    
                    
                     AspNetUserRoles userRoles = new AspNetUserRoles();
                     userRoles.RoleId = "3";
                     userRoles.UserId = x.Id;
                     context.AspNetUserRoles.Add(userRoles);
-                    context.SaveChanges();
+                    try
+                    {
+                        context.SaveChanges();
+                    }
+                    catch (DbEntityValidationException DbExc)
+                    {
+                        string error = "";
+                        foreach (var er in DbExc.EntityValidationErrors)
+                        {
+                            foreach (var ve in er.ValidationErrors)
+                            {
+                                error += " - " + ve.ErrorMessage;
+                            }
+                        }
+                        TempData["Message"] = error;
+
+                        return View(model);
+                    }
+                    
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
