@@ -70,6 +70,7 @@ namespace MinisitreFin.Controllers
         //}
 
         // GET: api/EvenementsApi/5
+        [HttpGet]
         public IHttpActionResult Get(int id)
         {
             var even = db.Evenements.Find(id);
