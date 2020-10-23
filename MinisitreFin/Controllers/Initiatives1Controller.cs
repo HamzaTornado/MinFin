@@ -1,4 +1,5 @@
 ﻿using MinisitreFin.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,12 +19,26 @@ namespace MinisitreFin.Controllers
         private MinistreFinEntitiesDB db = new MinistreFinEntitiesDB();
 
         // GET: Initiatives1
-        public ActionResult Index()
+        //public ActionResult Index()
+        //{
+        //    var initiatives = db.Initiatives.Include(i => i.Utilisateur);
+        //    return View(initiatives.ToList());
+        //}
+        public ActionResult Index(string chercher, int? page)
         {
-            var initiatives = db.Initiatives.Include(i => i.Utilisateur);
-            return View(initiatives.ToList());
-        }
+            if (chercher != null)
+            {
+                var initiatives = db.Initiatives;
+                return View(initiatives.ToList().ToPagedList(page ?? 1, 3));
+            }
+            else
+            {
+                var initiatives = db.Initiatives;
+                return View(initiatives.ToList().ToPagedList(page ?? 1, 3));
+            }
 
+
+        }
         // GET: Initiatives1/Details/5
         public ActionResult Details(int? id)
         {

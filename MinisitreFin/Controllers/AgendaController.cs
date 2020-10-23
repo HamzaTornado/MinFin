@@ -89,7 +89,6 @@ namespace MinisitreFin.Controllers
         }
         public ActionResult AllEvents(int id)
         {
-
             return Json(db.Activites.Where(ac=>ac.AgendaID == id).AsEnumerable().Select(a => new {
                 id = a.ID,
                 title = a.Nom_activ + "- Objectif :"+ a.Objectif_activ,

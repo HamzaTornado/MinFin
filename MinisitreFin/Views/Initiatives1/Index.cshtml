@@ -1,177 +1,144 @@
-﻿@model IEnumerable<MinisitreFin.Models.Initiatives>
+﻿@using PagedList.Mvc;
+@using PagedList;
 
+@model IPagedList<MinisitreFin.Models.Initiatives>
 @{
     Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
 }
-<a href="@Url.Action( "Create","Initiatives1")" class="btn btn-info float-right mb-3">
-
+<a href="@Url.Action( "Create","Initiatives1")" class="btn btn-info float-left mb-3">
     Ajouter <i class="fas fa-plus"></i>
 </a>
+<style>
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+            border: 1px solid #ddd;
+            margin: 0 4px;
+        }
+
+            .pagination a.active {
+                background-color: #4CAF50;
+                color: white;
+                border: 1px solid #4CAF50;
+            }
+
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
+</style>
 <h1 class="h3 mb-4 text-gray-800 text-center">Liste des Initiatives</h1>
-<table class="table table-sm">
-    <thead>
-        <tr>
-            <th scope="col">Nom Initiative</th>
-            <th scope="col">Debut</th>
-            <th scope="col">Fin</th>
-            <th scope="col">Objectifs Generaux</th>
-            <th scope="col">Approbateur</th>
-            <th scope="col">Statut</th>
-            <th scope="col">Regions</th>
-            <th scope="col">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td scope="row">
-                    @Html.DisplayFor(modelItem => item.Nom_init)
-                </td>
+@if (Model != null)
+{
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nom Initiative</th>
+                    <th scope="col">Debut</th>
+                    <th scope="col">Fin</th>
+                    <th scope="col">Approbateur</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Regions</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
 
-                <td>
-                    @Html.FormatValue("yyyy-MM-dd", item.Date_debu.Value.Date.ToString("yyyy-MM-dd"))
-                    
-
-                </td>
-                <td>
-                    @Html.FormatValue("yyyy-MM-dd", item.Date_fin.Value.Date.ToString("yyyy-MM-dd"))
-                </td>
-                <td>
-
-                    @Html.Raw((item.Objectifs_generaux.Length > 200 ? item.Objectifs_generaux.Substring(0, 200) : item.Objectifs_generaux))
-                </td>
-
-                <td>
-
-                    @Html.DisplayFor(modelItem => item.Approbateur)
-                </td>
-                <td>
-                    
-                    @if (User.IsInRole("Admin"))
-                    {
-                    <form action="/Initiatives1/UpdateStatu/@item.ID" method="post">
-                        @Html.AntiForgeryToken()
-                        @{
-                            if (item.Statu_init.Value)
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td scope="row">
+                            @Html.DisplayFor(modelItem => item.Nom_init)
+                        </td>
+                        <td>
+                            @Html.FormatValue("yyyy-MM-dd", item.Date_debu.Value.Date.ToString("yyyy-MM-dd"))
+                        </td>
+                        <td>
+                            @Html.FormatValue("yyyy-MM-dd", item.Date_fin.Value.Date.ToString("yyyy-MM-dd"))
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Approbateur)
+                        </td>
+                        <td>
+                            @if (User.IsInRole("Admin"))
                             {
-                                <input type="submit" value="Active" class="btn text-success" />
+                                <form action="/Initiatives1/UpdateStatu/@item.ID" method="post">
+                                    @Html.AntiForgeryToken()
+                                    @{
+                                        if (item.Statu_init.Value)
+                                        {
+                                            <input type="submit" value="Active" class="btn text-success" />
+                                        }
+                                        else
+                                        {
+                                            <input type="submit" value="Désactivé" class="btn text-danger" />
+                                        }
+                                    }
+                                </form>
                             }
                             else
                             {
-                                <input type="submit" value="Désactivé" class="btn text-danger" />
+                                if (item.Statu_init.Value)
+                                {
+                                    <h6>Active</h6>
+                                }
+                                else
+                                {
+                                    <h6>Desactive</h6>
+                                }
                             }
-                        }
-                    </form>
-                    }
-                    else
-                    {
-                        if (item.Statu_init.Value)
-                        {
-                            <h6>Active</h6>
-                        }
-                        else
-                        {
-                            <h6>Desactive</h6>
-                        }
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Regions)
-                </td>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Regions)
+                        </td>
 
-                <td class="act">
-                    <a href="@Url.Action("Edit", "Initiatives1", new { id = item.ID })" class="column"><i class="far fa-edit"></i></a>
-                    <a href="@Url.Action("Details", "Initiatives1", new { id = item.ID })" class="column  text-warning"><i class="fas fa-info-circle"></i></a>
+                        <td class="act">
+                            <a href="@Url.Action("Edit", "Initiatives1", new { id = item.ID })" class="column"><i class="far fa-edit"></i></a>
+                            <a href="@Url.Action("Details", "Initiatives1", new { id = item.ID })" class="column  text-warning"><i class="fas fa-info-circle"></i></a>
 
-                    <a href="@Url.Action("Create", "Projets",null)" class="column  text-success"><i class="fas fa-plus">P</i></a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                            <a href="@Url.Action("Create", "Projets", null)" class="column  text-success"><i class="fas fa-plus">P</i></a>
+                        </td>
+                    </tr>
+                }
 
-<!--<div class="container">
-    <a href="@Url.Action( "Create","Initiatives")" class = "btn btn-info float-right mb-3">
 
-        Ajouter <i class="fas fa-plus"></i>
-    </a>
-     @Html.ActionLink("Ajouter", "Create", null, new { @class = "btn btn-info float-right mb-3" })
+
+            </tbody>
+        </table>
+    </div>
+    <div class="center-block">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+        
+    
+}
+else
+{
+    <div class="alert alert-primary text-center" role="alert">
+        Aucune initiative trouvée
+    </div>
+}
+
+
+@*<div class="card mb-5">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="..." class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
 </div>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">
-                Nom Initiative
-            </th>
-            <th scope="col">
-                Statu
-            </th>
-            <th scope="col">
-                Date Début
-            </th>
-            <th scope="col">
-                Date Fin
-            </th>
-            <th>
-                Objectif Généraux
-            </th>
-
-            <th scope="col">
-                Approbateur
-            </th>
-            <th scope="col">
-                Regions
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nom_init)
-                </td>
-                <td>
-                    @if (item.Statu_init.Value)
-                    {
-                        <h6>Activer</h6>
-                    }
-                    else
-                    {
-                        <h6>Desactive</h6>
-                    }
-                </td>
-                <td>
-                    @Html.FormatValue("yyy-MM-dd", item.Date_debu.Value.Date.ToString("yyy-MM-dd"))
-                </td>
-                <td>
-
-                    @Html.FormatValue("yyy-MM-dd", item.Date_fin.Value.Date.ToString("yyy-MM-dd"))
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Objectifs_generaux)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Approbateur)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Regions)
-                </td>
-
-                <td class="act">
-                    <a href="@Url.Action("Edit", "Initiatives",new { id = item.ID })" class="column"><i class="far fa-edit"></i></a>
-                    <a href="@Url.Action("Details", "Initiatives",new { id = item.ID })" class="column  text-warning"><i class="fas fa-info-circle"></i></a>
-                    <a href="@Url.Action("Delete", "Initiatives",new { id = item.ID })" class="column  text-success"><i class="fas fa-archive"></i></a>
-
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<style>
-    .act {
-        width: 5.3rem;
-    }
-</style>-->
+<div class="table-responsive">
+    <table class="table">
+        ...
+    </table>
+</div>*@
