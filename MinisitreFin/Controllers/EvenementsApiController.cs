@@ -40,7 +40,7 @@ namespace MinisitreFin.Controllers
             }
             catch (Exception)
             {
-                //mail to UGP@Soukattanmia.ma 
+                
                 return BadRequest();
             } 
             
@@ -68,7 +68,7 @@ namespace MinisitreFin.Controllers
             }
             catch(Exception)
             {
-                //mail to UGP@Soukattanmia.ma 
+                
                 return BadRequest();
             }
             
