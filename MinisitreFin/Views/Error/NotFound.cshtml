@@ -1,6 +1,29 @@
 ﻿
 @{
     ViewBag.Title = "NotFound";
-    Layout = "";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
 }
 
+<!-- 404 ERROR
+        ===============================================================-->
+<section class="row bg-white">
+    <div class="container">
+        <div class="row">
+            <p class="text-center color4">
+                <span class="fa-stack fa-5x mb15">
+                    <i class="fa fa-file-o fa-stack-2x"></i>
+                    <strong class="fa-stack-1x fa-stack-text file-text fs404">404</strong>
+                </span>
+            </p>
+            <h3 class="text-center text-uppercase color5">Oops, Page Not Found</h3>
+            <p class="text-center">Looks like something went completely wrong!</p>
+            <div class="text-center">
+                <p>
+                    <br>
+                    <a class="btn btn-primary-corp" href="/"><i class="fa fa-home le"></i> Home</a> &nbsp;
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

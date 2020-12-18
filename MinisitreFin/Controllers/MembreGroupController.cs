@@ -17,6 +17,7 @@ namespace MinisitreFin.Controllers
         private MinistreFinEntitiesDB db = new MinistreFinEntitiesDB();
 
         // GET: MembreGroup
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var membre_group = db.Membre_group.Include(m => m.Groupe_thematiqe).Include(m => m.Utilisateur.ID);

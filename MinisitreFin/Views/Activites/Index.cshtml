@@ -5,57 +5,68 @@
     Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Activites</h2>
+@if (Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nom_activ)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Objectif_activ)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateStart)
+            </th>
+            <th>
+                Statut
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type_Activite.Nom_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Agenda.Nom_agenda)
+            </th>
+            <th></th>
+        </tr>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nom_activ)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Objectif_activ)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateStart)
-        </th>
-        <th>
-            Statut
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Type_Activite.Nom_type)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Agenda.Nom_agenda)
-        </th>
-        <th></th>
-    </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom_activ)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Objectif_activ)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.statu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type_Activite.Nom_type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Agenda.Nom_agenda)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nom_activ)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Objectif_activ)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateStart)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.statu)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Type_Activite.Nom_type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Agenda.Nom_agenda)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            
-        </td>
-    </tr>
+                </td>
+            </tr>
+        }
+
+    </table>
 }
-
-</table>
+else
+{
+    {
+        <div class="alert alert-primary text-center" role="alert">
+            Aucune Article trouvée
+        </div>
+    }
+}

@@ -120,6 +120,14 @@
           <Property Name="Date_fin" Type="datetime" />
           <Property Name="Statut" Type="bit" />
         </EntityType>
+        <EntityType Name="Galerie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NomImage" Type="varchar" MaxLength="250" />
+          <Property Name="Alt" Type="varchar" MaxLength="250" />
+        </EntityType>
         <EntityType Name="groue_detail">
           <Key>
             <PropertyRef Name="ID" />
@@ -432,6 +440,7 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="compte_rendu" EntityType="Self.compte_rendu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Evenements" EntityType="Self.Evenements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Galerie" EntityType="Self.Galerie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="groue_detail" EntityType="Self.groue_detail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Groupe_thematiqe" EntityType="Self.Groupe_thematiqe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Initiatives" EntityType="Self.Initiatives" Schema="dbo" store:Type="Tables" />
@@ -749,6 +758,7 @@
             <End Role="Initiatives" EntitySet="Initiatives" />
             <End Role="Projet" EntitySet="Projet" />
           </AssociationSet>
+          <EntitySet Name="Galerie" EntityType="MinistreFinModel.Galerie" />
           </EntityContainer>
         <EntityType Name="Articles">
           <Key>
@@ -1051,6 +1061,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Galerie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomImage" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Alt" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1273,6 +1291,15 @@
                 <ScalarProperty Name="Nom_projet" ColumnName="Nom_projet" />
                 <ScalarProperty Name="ID_Initiative" ColumnName="ID_Initiative" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Galerie">
+            <EntityTypeMapping TypeName="MinistreFinModel.Galerie">
+              <MappingFragment StoreEntitySet="Galerie">
+                <ScalarProperty Name="Alt" ColumnName="Alt" />
+                <ScalarProperty Name="NomImage" ColumnName="NomImage" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

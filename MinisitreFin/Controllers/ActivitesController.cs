@@ -256,9 +256,6 @@ namespace MinisitreFin.Controllers
                 }
 
 
-
-
-
                 if (GAC)
                 {
                     UserCredential credential;

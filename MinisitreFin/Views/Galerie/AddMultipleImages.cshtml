@@ -1,0 +1,68 @@
+﻿@model MinisitreFin.ViewModels.MultiImages
+
+@{
+    ViewBag.Title = "AddMultipleImages";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Ajouter Multiple Images</h2>
+@section scripts{
+    <script>
+        function validate() {
+            var selection = document.getElementById('files');
+            for (var i = 0; i < selection.files.length; i++) {
+                var ext = selection.files[i].name.substr(-3);
+                var size = selection.files[i].size;
+                if (size >= 2621440) {
+                    alert('not an accepted file size' + size);
+                    selection.splice(i, 1);
+                    return false;
+                }
+                if (ext !== "png" && ext !== "peg" && ext !== "gif" && ext !== "jpg") {
+                    alert('not an accepted file extension');
+                    return false;
+                }
+            }
+        };
+    </script>
+    }
+    @if (ViewBag.UploadErrors != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.UploadStatus
+        </div>
+    }
+    @if (TempData["UploadErrors"] != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @TempData["UploadErrors"]
+        </div>
+    }
+    @using (Html.BeginForm("AddMultipleImages", "Galerie", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <Label class="control-label col-md-2">Parcourir Images</Label>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.files, "", new { @type = "file", @multiple = "multiple", required = "required" })
+                    @Html.ValidationMessageFor(model => model.files, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Ajouter" onsubmit="validate()" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 text-success">
+                    @ViewBag.UploadStatus
+                </div>
+            </div>
+
+        </div>
+    }
+

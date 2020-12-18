@@ -43,5 +43,6 @@ namespace MinisitreFin.Models
         public virtual DbSet<Initiatives> Initiatives { get; set; }
         public virtual DbSet<Activites> Activites { get; set; }
         public virtual DbSet<Projet> Projet { get; set; }
+        public virtual DbSet<Galerie> Galerie { get; set; }
     }
 }

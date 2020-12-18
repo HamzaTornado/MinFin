@@ -37,7 +37,7 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" href="/Dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    
                     <span>Dashboard</span>
                 </a>
             </li>
@@ -48,7 +48,7 @@
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#admin" aria-expanded="true" aria-controls="admin">
-                    <i class="fas fa-money-check-alt"></i>
+
                     @if (User.IsInRole("Admin"))
                     {
                         <span>Admin Système</span>
@@ -60,43 +60,141 @@
                     else
                     {<span>Content Manager</span>}
                 </a>
-                <div id="admin" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        @if (User.IsInRole("Admin"))
-                        {<h6 class="collapse-header">Getion</h6>
-                            <a class="collapse-item" href="/Utilisateurs">Bailleurs de Fonds</a>
-                            <a class="collapse-item" href="/Groupe">Groupes Thématique</a>
-                            <a class="collapse-item" href="/Initiatives1">Initiatives</a>
-                            <a class="collapse-item" href="/Projets">Projets</a>
-                            <a class="collapse-item" href="/Evenements">Événements</a>
-                            <a class="collapse-item" href="/Articles">Articles</a>
-                        }
-                        else if (User.IsInRole("BDF"))
-                        {
-                            <h6 class="collapse-header"> <i class="fas fa-users"> </i>Groupes Thématique</h6>
-                            <a class="collapse-item" href="/Groupe">Mes groupes</a>
-                            <a class="collapse-item" href="/Groupe/InviteGroupe">Invite Groupe</a>
-                            <a class="collapse-item" href="/Initiatives1">Initiatives</a>
-                            <a class="collapse-item" href="/Projets">Projets</a>
-                        }
-                        else if(User.IsInRole("CM"))
-                        {
-                            <a class="collapse-item" href="/Articles"> Articles</a>
-                            <a class="collapse-item" href="/Evenements">Événements</a>
-                        }
-
+                <hr class="sidebar-divider">
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="sidebar-heading">
+                        Gestion
                     </div>
+                    <hr class="sidebar-divider">
+<li class="nav-item">
+                    <a class="nav-link" href="/Utilisateurs">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Bailleurs de Fonds</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Groupe">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Groupes Thématique</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Initiatives1">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Initiatives</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Projets">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Projets</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Evenements">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Événements</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Articles">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Articles</span>
+                    </a>
+                </li>
+            }
+            else if (User.IsInRole("BDF"))
+            {
+                <div class="sidebar-heading">
+                    Groupes Thématique
                 </div>
-            </li>
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-            <!-- Heading -->
-            <!-- Divider -->
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="/Groupe">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Mes groupes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Groupe/InviteGroupe">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Invite Groupe</span>
+                    </a>
+                </li>
+                <hr class="sidebar-divider">
+                <li class="nav-item">
+                    <a class="nav-link" href="/Initiatives1">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Initiatives</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Projets">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Projets</span>
+                    </a>
+                </li>
+            }
+            else if (User.IsInRole("CM"))
+            {
+                <div class="sidebar-heading">
+                    Gestion
+                </div>
+                <hr class="sidebar-divider">
+                <li class="nav-item">
+                    <a class="nav-link" href="/Articles">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Articles</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Evenements">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Événements</span>
+                    </a>
+                </li>
+                <a class="collapse-item" href="/Articles"> Articles</a>
+                <a class="collapse-item" href="/Evenements">Événements</a>
+            }
+
+            @*<div id="admin" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                @if (User.IsInRole("Admin"))
+                {<h6 class="collapse-header">Getion</h6>
+                    <a class="collapse-item" href="/Utilisateurs">Bailleurs de Fonds</a>
+                    <a class="collapse-item" href="/Groupe">Groupes Thématique</a>
+                    <a class="collapse-item" href="/Initiatives1">Initiatives</a>
+                    <a class="collapse-item" href="/Projets">Projets</a>
+                    <a class="collapse-item" href="/Evenements">Événements</a>
+                    <a class="collapse-item" href="/Articles">Articles</a>
+                }
+                else if (User.IsInRole("BDF"))
+                {
+                    <h6 class="collapse-header"> <i class="fas fa-users"> </i>Groupes Thématique</h6>
+                    <a class="collapse-item" href="/Groupe">Mes groupes</a>
+                    <a class="collapse-item" href="/Groupe/InviteGroupe">Invite Groupe</a>
+                    <a class="collapse-item" href="/Initiatives1">Initiatives</a>
+                    <a class="collapse-item" href="/Projets">Projets</a>
+                }
+                else if(User.IsInRole("CM"))
+                {
+                    <a class="collapse-item" href="/Articles"> Articles</a>
+                    <a class="collapse-item" href="/Evenements">Événements</a>
+                }
+
             </div>
-        </ul>
+        </div>*@
+                </li>
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+                <!-- Heading -->
+                <!-- Divider -->
+                <!-- Sidebar Toggler (Sidebar) -->
+                <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                </div>
+            </ul>
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">

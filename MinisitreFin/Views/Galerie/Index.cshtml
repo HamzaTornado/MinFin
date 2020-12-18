@@ -1,0 +1,59 @@
+﻿@model IEnumerable<MinisitreFin.Models.Galerie>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_dashboardAdmin.cshtml";
+}
+
+<h2>Galerie</h2>
+@if (ViewBag.UploadStatus != null)
+{
+    <div class="alert alert-primary text-center" role="alert">
+        @ViewBag.UploadStatus
+    </div>
+}
+@if (TempData["UploadErrors"] != null)
+{
+    <div class="alert alert-danger text-center" role="alert">
+        @TempData["UploadErrors"]
+    </div>
+}
+<p>
+    @Html.ActionLink("Ajouter", "AddMultipleImages")
+</p>
+@if (Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Nom Image
+            </th>
+            <th>
+                Action
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/Img/@item.NomImage" height="100" />
+
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <div class="alert alert-primary text-center" role="alert">
+        Aucune Image trouvée
+    </div>
+}
+
+

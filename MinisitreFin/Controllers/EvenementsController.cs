@@ -15,7 +15,7 @@ using MinisitreFin.Models;
 namespace MinisitreFin.Controllers
 {
     [ValidateInput(false)]
-    [Authorize]
+    [Authorize(Roles = "Admin,CM")]
     public class EvenementsController : Controller
     {
         private MinistreFinEntitiesDB db = new MinistreFinEntitiesDB();
