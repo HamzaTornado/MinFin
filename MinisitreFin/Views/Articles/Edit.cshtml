@@ -1,4 +1,4 @@
-﻿@model MinisitreFin.Models.Articles
+﻿@model MinisitreFin.ViewModels.ArticlesViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -71,6 +71,7 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.ID)
     @Html.HiddenFor(model => model.Image)
+    @Html.HiddenFor(model => model.statu)
     <div class="form-group">
         <label class="control-label col-md-2">Titre</label>
         <div class="col-md-10">
@@ -78,7 +79,6 @@
             @Html.ValidationMessageFor(model => model.Titre_article, "", new { @class = "text-danger" })
         </div>
     </div>
-
     <div class="form-group">
         <label class="control-label col-md-2">Description</label>
         <div class="col-md-10">

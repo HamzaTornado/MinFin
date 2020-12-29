@@ -11,21 +11,28 @@
 </p>
 @if (Model != null)
 {
-    <table class="table ">
-        <tr >
-            <th>
+    <style>
+        .fixsize > * {
+            max-width: 90px !important;
+            word-wrap: break-word !important;
+        }
+        nostyle > * {
+            all:unset;
+        }
+    </style>
+
+    <table class="table">
+        <tr>
+            <th >
                 Nom De Projet
             </th>
-            <th>
+            <th >
                 Description
             </th>
-            <th>
-                Objectif Projet
-            </th>
-            <th>
+            <th >
                 Date Debut
             </th>
-            <th>
+            <th >
                 Date Fin
             </th>
             <th>
@@ -36,18 +43,17 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
+            <tr class="fixsize">
+                <td >
                     @Html.DisplayFor(modelItem => item.Nom_projet)
                 </td>
-                <td>
-
-                    @Html.Raw((item.Description.Length > 200 ? item.Description.Substring(0, 200) : item.Description))
+                <td >
+                    <div class="nostyle">
+                        @Html.Raw((item.Description.Length > 200 ? item.Description.Substring(0, 200) : item.Description))
+                    </div>
+                    
                 </td>
-                <td>
 
-                    @Html.Raw((item.Objectif_projet.Length > 200 ? item.Objectif_projet.Substring(0, 200) : item.Objectif_projet))
-                </td>
                 <td>
                     @Html.FormatValue("yyy-MM-dd", item.Date_debut.Value.Date.ToString("yyy-MM-dd"))
                 </td>
@@ -74,4 +80,3 @@ else
         </div>
     }
 }
-

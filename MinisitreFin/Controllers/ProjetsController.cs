@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MinisitreFin.ViewModels;
 
 
 namespace MinisitreFin.Controllers
@@ -53,36 +54,44 @@ namespace MinisitreFin.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create( Projet projet)
+        public ActionResult Create(ProjectsViewModel projetsviewmodel)
         {
             if (ModelState.IsValid)
             {
-                db.Projet.Add(projet);
+                
                 try {
-                    
+                    Projet projet = new Projet() {
+                        ID_Initiative = projetsviewmodel.ID_Initiative,
+                        Nom_projet = projetsviewmodel.Nom_projet,
+                        Description = projetsviewmodel.Description,
+                        Objectif_projet = projetsviewmodel.Objectif_projet,
+                        Date_debut = projetsviewmodel.Date_debut,
+                        Date_fin = projetsviewmodel.Date_fin
+                    };
 
+                    db.Projet.Add(projet);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (DbEntityValidationException DbExc)
+                catch (Exception DbExc)
                 {
-                    string error = "";
-                    foreach (var er in DbExc.EntityValidationErrors)
-                    {
-                        foreach (var ve in er.ValidationErrors)
-                        {
-                            error += " - " + ve.ErrorMessage;
-                        }
-                    }
-                    TempData["Message"] = error;
-                    ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projet.ID_Initiative);
-                    return View(projet);
+                    //string error = "";
+                    //foreach (var er in DbExc.EntityValidationErrors)
+                    //{
+                    //    foreach (var ve in er.ValidationErrors)
+                    //    {
+                    //        error += " - " + ve.ErrorMessage;
+                    //    }
+                    //}
+                    TempData["Message"] = DbExc;
+                    ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projetsviewmodel.ID_Initiative);
+                    return View(projetsviewmodel);
                 }
 
             }
 
-            ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projet.ID_Initiative);
-            return View(projet);
+            ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projetsviewmodel.ID_Initiative);
+            return View(projetsviewmodel);
         }
         
         // GET: Projets/Edit/5
@@ -93,12 +102,22 @@ namespace MinisitreFin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Projet projet = db.Projet.Find(id);
+            ProjectsViewModel projetviewmodel = new ProjectsViewModel()
+            {
+                ID = projet.ID,
+                ID_Initiative = projet.ID_Initiative,
+                Nom_projet = projet.Nom_projet,
+                Description = projet.Description,
+                Objectif_projet = projet.Objectif_projet,
+                Date_debut = projet.Date_debut.Value,
+                Date_fin = projet.Date_fin.Value
+            };
             if (projet == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projet.ID_Initiative);
-            return View(projet);
+            ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projetviewmodel.ID_Initiative);
+            return View(projetviewmodel);
         }
         
 
@@ -107,34 +126,44 @@ namespace MinisitreFin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,ID_Initiative,Nom_projet,Description,Objectif_projet,Date_debut,Date_fin")] Projet projet)
+        public ActionResult Edit(ProjectsViewModel projetviewmodel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    Projet projet = new Projet()
+                    {
+                        ID = projetviewmodel.ID,
+                        ID_Initiative = projetviewmodel.ID_Initiative,
+                        Nom_projet = projetviewmodel.Nom_projet,
+                        Description = projetviewmodel.Description,
+                        Objectif_projet = projetviewmodel.Objectif_projet,
+                        Date_debut = projetviewmodel.Date_debut,
+                        Date_fin = projetviewmodel.Date_fin
+                    };
                     db.Entry(projet).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (DbEntityValidationException DbExc)
+                catch (Exception DbExc)
                 {
-                    string error = "";
-                    foreach (var er in DbExc.EntityValidationErrors)
-                    {
-                        foreach (var ve in er.ValidationErrors)
-                        {
-                            error += " - " + ve.ErrorMessage;
-                        }
-                    }
-                    TempData["Message"] = error;
-                    ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projet.ID_Initiative);
-                    return View(projet);
+                    //string error = "";
+                    //foreach (var er in DbExc.EntityValidationErrors)
+                    //{
+                    //    foreach (var ve in er.ValidationErrors)
+                    //    {
+                    //        error += " - " + ve.ErrorMessage;
+                    //    }
+                    //}
+                    TempData["Message"] = DbExc;
+                    ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projetviewmodel.ID_Initiative);
+                    return View(projetviewmodel);
                 }
 
             }
-            ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projet.ID_Initiative);
-            return View(projet);
+            ViewBag.ID_Initiative = new SelectList(db.Initiatives, "ID", "Nom_init", projetviewmodel.ID_Initiative);
+            return View(projetviewmodel);
         }
       
 

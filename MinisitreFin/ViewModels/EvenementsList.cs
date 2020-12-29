@@ -12,6 +12,7 @@ namespace MinisitreFin.ViewModels
         public string Description { get; set; }
         public DateTime Date_debut { get; set; }
         public DateTime Date_fin { get; set; }
+        public string ImageUrl { get; set; }
         
     }
 }

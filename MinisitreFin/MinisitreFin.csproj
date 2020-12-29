@@ -327,9 +327,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ArticlesViewModel.cs" />
     <Compile Include="ViewModels\EvenementsList.cs" />
+    <Compile Include="ViewModels\EvenementsViewModel.cs" />
+    <Compile Include="ViewModels\InitiativesViewModel.cs" />
     <Compile Include="ViewModels\MultiImages.cs" />
     <Compile Include="ViewModels\InitiativesList.cs" />
+    <Compile Include="ViewModels\ProjectsViewModel.cs" />
     <Compile Include="ViewModels\UserResponseMessage.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -481,12 +485,6 @@
     <Content Include="Content\css\sb-admin-2.css" />
     <Content Include="Content\css\sb-admin-2.min.css" />
     <Content Include="Content\Groupe.css" />
-    <Content Include="Content\images\ui-icons_444444_256x240.png" />
-    <Content Include="Content\images\ui-icons_555555_256x240.png" />
-    <Content Include="Content\images\ui-icons_777620_256x240.png" />
-    <Content Include="Content\images\ui-icons_777777_256x240.png" />
-    <Content Include="Content\images\ui-icons_cc0000_256x240.png" />
-    <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\img\effet.png" />
     <Content Include="Content\img\logo-MF.jpg" />
     <Content Include="Content\jquery-ui.css" />
@@ -2691,6 +2689,7 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Galerie\Index.cshtml" />
     <Content Include="Views\Galerie\AddMultipleImages.cshtml" />
+    <Content Include="Views\Shared\_testview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppDocuments\" />

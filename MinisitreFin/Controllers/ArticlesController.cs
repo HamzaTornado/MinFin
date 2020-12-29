@@ -9,6 +9,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MinisitreFin.Models;
+using MinisitreFin.ViewModels;
 
 namespace MinisitreFin.Controllers
 {
@@ -51,7 +52,7 @@ namespace MinisitreFin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Articles articles,HttpPostedFileBase Image)
+        public ActionResult Create(ArticlesViewModel articlesViewModel,HttpPostedFileBase Image)
         {
             
             if (ModelState.IsValid)
@@ -61,36 +62,46 @@ namespace MinisitreFin.Controllers
                     {
                         var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
                         Image.SaveAs(path);
-                        articles.Image = Image.FileName;
+                        articlesViewModel.Image = Image.FileName;
                     }
                     else
                     {
-                        articles.Image = "logo-MF.jpg";
+                        articlesViewModel.Image = "logo-MF.jpg";
                     }
-                    
 
-                    articles.statu = false;
+
+                    articlesViewModel.statu = false;
+                    Articles articles = new Articles()
+                    {
+                        Titre_article = articlesViewModel.Titre_article,
+                        Description = articlesViewModel.Description,
+                        Contenu_article = articlesViewModel.Contenu_article,
+                        Image = articlesViewModel.Image,
+                        Url_video = articlesViewModel.Url_video,
+                        Date_creation = articlesViewModel.Date_creation,
+                        statu = articlesViewModel.statu
+                    };
+
                     db.Articles.Add(articles);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (DbEntityValidationException DbExc)
+                catch (Exception DbExc)
                 {
-                    string error = "";
-                    foreach (var er in DbExc.EntityValidationErrors)
-                    {
-                        foreach (var ve in er.ValidationErrors)
-                        {
-                            error += " - " + ve.ErrorMessage;
-                        }
-                    }
-                    TempData["Message"] = error;
-                    return View(articles);
+                    //DbEntityValidationException
+                    //string error = "";
+                    //foreach (var er in DbExc.EntityValidationErrors)
+                    //{
+                    //    foreach (var ve in er.ValidationErrors)
+                    //    {
+                    //        error += " - " + ve.ErrorMessage;
+                    //    }
+                    //}
+                    TempData["Message"] = DbExc.Message;
+                    return View(articlesViewModel);
                 }
-
             }
-
-            return View(articles);
+            return View(articlesViewModel);
         }
 
         // GET: Articles/Edit/5
@@ -105,7 +116,18 @@ namespace MinisitreFin.Controllers
             {
                 return HttpNotFound();
             }
-            return View(articles);
+            ArticlesViewModel articlesviewmodel = new ArticlesViewModel()
+            {
+                ID = articles.ID,
+                Titre_article = articles.Titre_article,
+                Description = articles.Description,
+                Contenu_article = articles.Contenu_article,
+                Image = articles.Image,
+                Url_video = articles.Url_video,
+                Date_creation = articles.Date_creation.Value,
+                statu = articles.statu
+            };
+            return View(articlesviewmodel);
         }
 
         // POST: Articles/Edit/5
@@ -113,44 +135,58 @@ namespace MinisitreFin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit( Articles articles, HttpPostedFileBase Image)
+        public ActionResult Edit(ArticlesViewModel articlesviewmodel, HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
             {
                 try {
-                    string oldPath = Path.Combine(Server.MapPath("~/AppImg"), articles.Image);
+                    string oldPath = Path.Combine(Server.MapPath("~/AppImg"), articlesviewmodel.Image);
                     if (Image != null)
                     {
                         System.IO.File.Delete(oldPath);
                         var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
                         Image.SaveAs(path);
-                        articles.Image = Image.FileName;
+                        articlesviewmodel.Image = Image.FileName;
                     }
 
-                    articles.statu = articles.statu;
+                    articlesviewmodel.statu = articlesviewmodel.statu;
+
+                    Articles articles = new Articles()
+                    {
+                        ID = articlesviewmodel.ID,
+                        Titre_article = articlesviewmodel.Titre_article,
+                        Description = articlesviewmodel.Description,
+                        Contenu_article = articlesviewmodel.Contenu_article,
+                        Image = articlesviewmodel.Image,
+                        Url_video = articlesviewmodel.Url_video,
+                        Date_creation = articlesviewmodel.Date_creation,
+                        statu = articlesviewmodel.statu
+                    };
+
                     db.Entry(articles).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (DbEntityValidationException DbExc)
+                catch (Exception DbExc)
                 {
-                    string error = "";
-                    foreach (var er in DbExc.EntityValidationErrors)
-                    {
-                        foreach (var ve in er.ValidationErrors)
-                        {
-                            error += " - " + ve.ErrorMessage;
-                        }
-                    }
-                    TempData["Message"] = error;
-                    return View(articles);
+                    //string error = "";
+                    //foreach (var er in DbExc.EntityValidationErrors)
+                    //{
+                    //    foreach (var ve in er.ValidationErrors)
+                    //    {
+                    //        error += " - " + ve.ErrorMessage;
+                    //    }
+                    //}
+                    TempData["Message"] = DbExc.Message;
+                    return View(articlesviewmodel);
                 }
 
             }
-            return View(articles);
+            return View(articlesviewmodel);
         }
 
         // GET: Articles/Delete/5
+        [Authorize(Roles ="Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -168,6 +204,7 @@ namespace MinisitreFin.Controllers
         // POST: Articles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Articles articles = db.Articles.Find(id);
@@ -175,6 +212,8 @@ namespace MinisitreFin.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult UpdateStatu(int id)
         {
             try

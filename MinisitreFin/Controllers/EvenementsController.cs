@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MinisitreFin.Models;
+using MinisitreFin.ViewModels;
 
 namespace MinisitreFin.Controllers
 {
@@ -52,39 +53,46 @@ namespace MinisitreFin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Evenements evenement1,HttpPostedFileBase Image)
+        public ActionResult Create(EvenementsViewModel evenementViewModel,HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
             {
-               
-                
-                
                 try
                 {
                     if (Image != null)
                     {
                         var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
                         Image.SaveAs(path);
-                        evenement1.Image = Image.FileName;
+                        evenementViewModel.Image = Image.FileName;
                     }
                     else
                     {
-                        evenement1.Image = "logo-MF.jpg";
+                        evenementViewModel.Image = "logo-MF.jpg";
                     }
+                    evenementViewModel.Statut = false;
+                    Evenements evenement = new Evenements()
+                    {
+                        Titre_even = evenementViewModel.Titre_even,
+                        Description = evenementViewModel.Description,
+                        Image = evenementViewModel.Image,
+                        Date_debut = evenementViewModel.Date_debut,
+                        Date_fin = evenementViewModel.Date_fin,
+                        Statut = evenementViewModel.Statut
+                    };
 
-                    evenement1.Statut = false;
-                    db.Evenements.Add(evenement1);
+                    db.Evenements.Add(evenement);
+                    db.SaveChanges();
                 }
-                catch (Exception)
+                catch (Exception DbExc)
                 {
-
+                    TempData["Message"] = DbExc.Message;
+                    return View(evenementViewModel);
                 }
-                db.SaveChanges();
                 //file.SaveAs(path);
                 return RedirectToAction("Index");
             }
 
-            return View(evenement1);
+            return View(evenementViewModel);
         }
 
         // GET: Evenements/Edit/5
@@ -99,51 +107,74 @@ namespace MinisitreFin.Controllers
             {
                 return HttpNotFound();
             }
-            return View(evenement1);
+            EvenementsViewModel evenementViewModel = new EvenementsViewModel()
+            {
+                ID = evenement1.ID,
+                Titre_even = evenement1.Titre_even,
+                Description = evenement1.Description,
+                Image = evenement1.Image,
+                Date_debut = evenement1.Date_debut.Value,
+                Date_fin = evenement1.Date_fin.Value,
+                Statut = evenement1.Statut.Value
+            };
+            
+            return View(evenementViewModel);
         }
 
         // POST: Evenements/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Evenements evenement1, HttpPostedFileBase Image)
+        public ActionResult Edit(EvenementsViewModel evenementViewModel, HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
             {
-                string oldPath = Path.Combine(Server.MapPath("~/AppImg"), evenement1.Image);
-                if (Image != null)
-                {
-                    System.IO.File.Delete(oldPath);
-                    var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
-                    Image.SaveAs(path);
-                    evenement1.Image = Image.FileName;
-                }
-                
-                evenement1.Statut = evenement1.Statut;
-                db.Entry(evenement1).State = EntityState.Modified;
                 try
                 {
+                    string oldPath = Path.Combine(Server.MapPath("~/AppImg"), evenementViewModel.Image);
+                    if (Image != null)
+                    {
+                        System.IO.File.Delete(oldPath);
+                        var path = Path.Combine(Server.MapPath("~/AppImg"), Image.FileName);
+                        Image.SaveAs(path);
+                        evenementViewModel.Image = Image.FileName;
+                    }
+
+                    evenementViewModel.Statut = evenementViewModel.Statut;
+                    Evenements evenement = new Evenements()
+                    {
+                        ID = evenementViewModel.ID,
+                        Titre_even = evenementViewModel.Titre_even,
+                        Description = evenementViewModel.Description,
+                        Image = evenementViewModel.Image,
+                        Date_debut = evenementViewModel.Date_debut,
+                        Date_fin = evenementViewModel.Date_fin,
+                        Statut = evenementViewModel.Statut
+                    };
+                    db.Entry(evenement).State = EntityState.Modified;
                     db.SaveChanges();
                 }
-                catch (Exception)
+                catch (Exception error)
                 {
-                    
-
+                    TempData["Message"] = error.Message;
+                    return View(evenementViewModel);
                 }
-                
                 return RedirectToAction("Index");
             }
-            return View(evenement1);
+            return View(evenementViewModel);
         }
-        [HttpPost]
-        public ActionResult Createimg()
-        {
-            Evenements eve = new Evenements();
+
+        //[HttpPost]
+        //public ActionResult Createimg()
+        //{
+        //    Evenements eve = new Evenements();
             
-            return View();
-        }
+        //    return View();
+        //}
         // GET: Evenements/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -171,6 +202,7 @@ namespace MinisitreFin.Controllers
         // POST: Evenements/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             

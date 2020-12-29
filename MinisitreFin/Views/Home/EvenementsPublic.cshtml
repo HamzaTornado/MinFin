@@ -7,8 +7,7 @@
     ViewBag.Title = "Evenements";
     Layout = "~/Views/Shared/_LayoutSite.cshtml";
 }
-<div class="container">
-    <div id="content" class="row">
+
         <div class="col-md-12">
             <div class="title">
                 <h2>Evénements</h2>
@@ -16,7 +15,7 @@
         </div>
   
         @using (Html.BeginForm("EvenementsPublic", "Home", FormMethod.Get)){
-            <div class="input-group search-form" role="form">
+            <div class="input-group search-form col-3" role="form">
                 <label class="sr-only" for="subscribe-email">Search...</label>
                 <input type="text" class="form-control" name="chercher" id="chercher" value="" placeholder="Search...">
                 <span class="input-group-btn">
@@ -52,7 +51,5 @@
             <!-- Pagination -->
             <div class="visible-xs-block visible-sm-block pt20"></div>
         </div><!-- /main -->
-    </div><!-- /row -->
-</div><!-- /container -->
 
 

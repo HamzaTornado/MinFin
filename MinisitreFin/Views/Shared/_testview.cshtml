@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@model MinisitreFin.Models.Articles
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -12,10 +16,8 @@
     <!-- CSS
     ===============================================================-->
     <!-- Bootstrap Core CSS -->
-    @*<link href="~/RootAssets/css/bootstrap.min.css" rel="stylesheet" />*@
-    @*<link href="~/Content/bootstrapV4.3.1/css/bootstrap.min.css" rel="stylesheet" />*@
+    <link href="~/RootAssets/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Icons -->
-    <link href="~/Content/bootstrapV3.4.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/RootAssets/assets/css/font-awesome.min.css" rel="stylesheet" />
     <!-- Flex Slider -->
     <link rel="stylesheet" href="~/RootAssets/assets/css/flexslider.css" />
@@ -24,12 +26,9 @@
     <!-- Animation -->
     <link href="~/RootAssets/assets/css/animate.min.css" rel="stylesheet" />
     <!-- Slick Carousel -->
-
     <link href="~/RootAssets/assets/css/slick.css" rel="stylesheet" />
-    <link href="~/RootAssets/assets/css/bootstrap-select.min.css" rel="stylesheet" />
     <!-- Select Style -->
-    @*<link href="~/RootAssets/assets/css/bootstrap-select.min.css" rel="stylesheet" />*@
-
+    <link href="~/RootAssets/assets/css/bootstrap-select.min.css" rel="stylesheet" />
     <!-- JAVASCRIPT
     ===============================================================-->
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -42,11 +41,11 @@
 <body>
     <!-- PRELOADER
     ===============================================================-->
-    @*<div id="preloader">
+    <div id="preloader">
         <div class="cssload-container">
             <div class="cssload-double-torus"></div>
         </div>
-    </div>*@
+    </div>
 
     @Html.Partial("_NavbarSite")
     <!-- BREADCRUMB
@@ -59,64 +58,97 @@
             </ol>
         </div>
     </div>
-
     <!-- BLOG SIDEBAR
     ===============================================================-->
     <section class="bg-white">
         <div class="container">
             <div id="content" class="row">
-                @RenderBody()
+                <div class="col-md-12">
+                    <div class="title">
+                        <h2>Articles</h2>
+                    </div>
+                </div>
+                <!-- MAIN -->
+                <div id="main" class="col-md-8" role="main">
+                    <!-- Article -->
+                    <article>
+                        <header>
+                            <div class="post-thumbnail">
+                                <img src="~/AppImg/@Html.DisplayFor(model => model.Image)" alt="Post image">
+                            </div>
+                            <h2 class="entry-title">@Html.DisplayFor(model => model.Titre_article)</h2>
+                            <p class="author">
+                                <i class="fa fa-calendar"></i>
+                                @Html.FormatValue("yyy-MM-dd", Model.Date_creation.Value.Date.ToString("yyy-MM-dd")) <span>/</span> BY <a href=""><strong>MEF</strong></a>
+                            </p>
+                        </header>
+                        <div class="post_content">
+                            <p>@Html.Raw(Model.Description)</p>
 
+                            <p>@Html.Raw(Model.Contenu_article)</p>
+
+
+                        </div>
+                        <!-- Tags -->
+                        <!-- Author bio -->
+
+                    </article>
+                    <!-- Pagination -->
+                    <!-- COMMENTS -->
+                    <!-- /comments -->
+                    <!-- Comments form -->
+                    <!-- /comments form -->
+                </div><!-- /main -->
                 <!-- SIDEBAR -->
                 <aside class="col-md-4 sidebar sidebar-right">
                     <!-- Search form -->
                     @*<div class="well widget">
-                        <form method="get">
-                            <div class="input-group search-form" role="form">
-                                <label class="sr-only" for="subscribe-email">Search...</label>
-                                <input type="text" class="form-control" name="s" id="search" value="" placeholder="Search...">
-                                <span class="input-group-btn">
-                                    <button type="submit" class="btn"><i class="fa fa-search"></i></button>
-                                </span>
-                            </div>
-                        </form>
-                    </div>*@
+                            <form method="get">
+                                <div class="input-group search-form" role="form">
+                                    <label class="sr-only" for="subscribe-email">Search...</label>
+                                    <input type="text" class="form-control" name="s" id="search" value="" placeholder="Search...">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>*@
                     <!-- Categories -->
                     @*<div class="well widget">
-                        <h2>Blog Categories</h2>
-                        <ul class="list-unstyled">
-                            <li>
-                                <a href="#">Web Design <span class="badge">6</span></a>
-                            </li>
-                            <li>
-                                <a href="#">Bootstrap Templates <span class="badge">3</span></a>
-                            </li>
-                            <li>
-                                <a href="#">Corporate Template <span class="badge">9</span></a>
-                            </li>
-                            <li>
-                                <a href="#">Business Services <span class="badge">2</span></a>
-                            </li>
-                        </ul>
-                    </div>*@
+                            <h2>Blog Categories</h2>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="#">Web Design <span class="badge">6</span></a>
+                                </li>
+                                <li>
+                                    <a href="#">Bootstrap Templates <span class="badge">3</span></a>
+                                </li>
+                                <li>
+                                    <a href="#">Corporate Template <span class="badge">9</span></a>
+                                </li>
+                                <li>
+                                    <a href="#">Business Services <span class="badge">2</span></a>
+                                </li>
+                            </ul>
+                        </div>*@
                     <!-- Recent posts -->
                     @*<div class="well widget">
-                        <h2>Recent Post</h2>
-                        <ul class="list-unstyled">
-                            <li>
-                                <a href="#">Sed posuere malesuada ante</a>
-                            </li>
-                            <li>
-                                <a href="#">Cras tempus libero sit amet mauris</a>
-                            </li>
-                            <li>
-                                <a href="#">Cras eget quam volutpat luctus</a>
-                            </li>
-                            <li>
-                                <a href="#">Nunc ultrices euismod consequat</a>
-                            </li>
-                        </ul>
-                    </div>*@
+                            <h2>Recent Post</h2>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="#">Sed posuere malesuada ante</a>
+                                </li>
+                                <li>
+                                    <a href="#">Cras tempus libero sit amet mauris</a>
+                                </li>
+                                <li>
+                                    <a href="#">Cras eget quam volutpat luctus</a>
+                                </li>
+                                <li>
+                                    <a href="#">Nunc ultrices euismod consequat</a>
+                                </li>
+                            </ul>
+                        </div>*@
                     <!-- Tag Cloud -->
                     <!-- Calendar -->
                     <div class="well widget">
@@ -199,7 +231,7 @@
         </div><!-- /container -->
     </section><!-- /section -->
     <!-- FOOTER
-     ===============================================================-->
+    ===============================================================-->
     <footer>
         <div class="footer-top">
             <div class="container">
@@ -218,41 +250,41 @@
                     </div>
                     <div class="footer-widget col-sm-6 col-md-4">
                         <h3>Photo Gallery</h3>
-                        <a href="" class="gallery" title="Photo Gallery 1">
-                            <img src="" alt="Gallery thumbnail">
+                        <a href=" " class="gallery" title="Photo Gallery 1">
+                            <img src=" " alt="Gallery thumbnail">
                         </a>
-                        <a href="" class="gallery" title="Photo Gallery 2">
-                            <img src="" alt="Gallery thumbnail">
+                        <a href=" " class="gallery" title="Photo Gallery 2">
+                            <img src=" " alt="Gallery thumbnail">
                         </a>
-                        <a href="" class="gallery" title="Photo Gallery 3">
-                            <img src="" alt="Gallery thumbnail">
+                        <a href=" " class="gallery" title="Photo Gallery 3">
+                            <img src=" " alt="Gallery thumbnail">
                         </a>
-                        <a href="" class="gallery" title="Photo Gallery 4">
-                            <img src="" alt="Gallery thumbnail">
+                        <a href=" " class="gallery" title="Photo Gallery 4">
+                            <img src=" " alt="Gallery thumbnail">
                         </a>
-                        <a href="" class="gallery" title="Photo Gallery 5">
-                            <img src="" alt="Gallery thumbnail">
+                        <a href=" " class="gallery" title="Photo Gallery 5">
+                            <img src=" " alt="Gallery thumbnail">
                         </a>
-                        <a href="" class="gallery" title="Photo Gallery 6">
-                            <img src="" alt="Gallery thumbnail">
+                        <a href=" " class="gallery" title="Photo Gallery 6">
+                            <img src=" " alt="Gallery thumbnail">
                         </a>
-                        <a href="" class="gallery" title="Photo Gallery 7">
-                            <img src="" alt="Gallery thumbnail">
+                        <a href=" " class="gallery" title="Photo Gallery 7">
+                            <img src=" " alt="Gallery thumbnail">
                         </a>
-                        <a href="" class="gallery" title="Photo Gallery 8">
-                            <img src="" alt="Gallery thumbnail">
+                        <a href=" " class="gallery" title="Photo Gallery 8">
+                            <img src=" " alt="Gallery thumbnail">
                         </a>
-                        <a href="" class="gallery" title="Photo Gallery 9">
-                            <img src="" alt="Gallery thumbnail">
+                        <a href=" " class="gallery" title="Photo Gallery 9">
+                            <img src=" " alt="Gallery thumbnail">
                         </a>
-                        <a href="" class="gallery" title="Photo Gallery 10">
-                            <img src="" alt="Gallery thumbnail">
+                        <a href=" " class="gallery" title="Photo Gallery 10">
+                            <img src=" " alt="Gallery thumbnail">
                         </a>
-                        <a href="" class="gallery" title="Photo Gallery 11">
-                            <img src="" alt="Gallery thumbnail">
+                        <a href=" " class="gallery" title="Photo Gallery 11">
+                            <img src=" " alt="Gallery thumbnail">
                         </a>
-                        <a href="" class="gallery" title="Photo Gallery 12">
-                            <img src="" alt="Gallery thumbnail">
+                        <a href=" " class="gallery" title="Photo Gallery 12">
+                            <img src=" " alt="Gallery thumbnail">
                         </a>
                         <div class="visible-xs-block visible-sm-block pt20"></div>
                     </div>
@@ -311,16 +343,9 @@
     <!-- JAVASCRIPT
     ===============================================================-->
     <!-- JQuery -->
-
-
-
-
-    <script src="~/Content/bootstrapV3.4.1/jquery-3.3.1.js"></script>
-    <script src="~/Content/bootstrapV3.4.1/jquery-migrate-3.3.2.js"></script>
+    <script src="~/RootAssets/assets/js/jquery-1.12.4.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    @*<script src="~/RootAssets/js/bootstrap.min.js"></script>*@
-    @*<script src="~/Content/bootstrapV4.3.1/js/bootstrap.min.js"></script>*@
-    <script src="~/Content/bootstrapV3.4.1/js/bootstrap.min.js"></script>
+    <script src="~/RootAssets/js/bootstrap.min.js"></script>
     <!-- Vanillabox -->
     <script src="~/RootAssets/assets/js/jquery.vanillabox-0.1.7.min.js"></script>
     <!-- Slick Carousel -->
@@ -334,10 +359,13 @@
     <!-- Parallax -->
     <script src="~/RootAssets/assets/js/jquery.stellar.min.js"></script>
     <!-- Parallax -->
-
+    <script src="~/RootAssets/assets/js/jquery.stellar.min.js"></script>
     <!-- Animation -->
     <script src="~/RootAssets/assets/js/wow.min.js"></script>
     <!-- Main -->
     <script src="~/RootAssets/assets/js/main.js"></script>
 </body>
 </html>
+
+
+

@@ -1,4 +1,5 @@
 ﻿using MinisitreFin.Models;
+using MinisitreFin.ViewModels;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ using System.Web.Mvc;
 
 namespace MinisitreFin.Controllers
 {
-    [ValidateInput(false)]
     [Authorize(Roles = "Admin,BDF")]
     public class Initiatives1Controller : Controller
     {
@@ -36,8 +36,6 @@ namespace MinisitreFin.Controllers
                 var initiatives = db.Initiatives;
                 return View(initiatives.ToList().ToPagedList(page ?? 1, 3));
             }
-
-
         }
         // GET: Initiatives1/Details/5
         public ActionResult Details(int? id)
@@ -63,7 +61,6 @@ namespace MinisitreFin.Controllers
                 db.Entry(ini).State = EntityState.Modified;
                 db.SaveChanges();
             } catch (Exception) { }
-           
 
             return RedirectToAction("Index");
         }
@@ -79,26 +76,35 @@ namespace MinisitreFin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,UtilisateurID,Nom_init,Statu_init,Date_debu,Date_fin,Objectifs_generaux,Obgectifs_specifiques,Description_court,Description_detaillee,Budget,Approbateur,Cofinancement,Regions")] Initiatives initiative)
+        public ActionResult Create(InitiativesViewModel initiative)
         {
             if (ModelState.IsValid)
             {
                 try {
                     initiative.Statu_init = false;
-                    db.Initiatives.Add(initiative);
+                    Initiatives init = new Initiatives()
+                    {
+                        UtilisateurID = initiative.UtilisateurID,
+                        Nom_init = initiative.Nom_init,
+                        Statu_init = initiative.Statu_init,
+                        Date_debu = initiative.Date_debu,
+                        Date_fin = initiative.Date_fin,
+                        Objectifs_generaux = initiative.Objectifs_generaux,
+                        Obgectifs_specifiques = initiative.Obgectifs_specifiques,
+                        Description_court = initiative.Description_court,
+                        Description_detaillee = initiative.Description_detaillee,
+                        Budget = initiative.Budget,
+                        Approbateur = initiative.Approbateur,
+                        Cofinancement = initiative.Cofinancement,
+                        Regions = initiative.Regions,
+                    };
+                    db.Initiatives.Add(init);
                     db.SaveChanges();
                     return RedirectToAction("Index");
-                }catch (DbEntityValidationException DbExc)
+                }catch (Exception DbExc)
                 {
-                    string error = "";
-                    foreach (var er in DbExc.EntityValidationErrors)
-                    {
-                        foreach (var ve in er.ValidationErrors)
-                        {
-                            error += " - " + ve.ErrorMessage;
-                        }
-                    }
-                    TempData["Message"] = error;
+                    
+                    TempData["Message"] = DbExc;
                     ViewBag.UtilisateurID = new SelectList(db.Utilisateur, "ID", "UserId", initiative.UtilisateurID);
                     return View(initiative);
                 }
@@ -117,12 +123,28 @@ namespace MinisitreFin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Initiatives initiative = db.Initiatives.Find(id);
+            InitiativesViewModel init = new InitiativesViewModel()
+            {
+                UtilisateurID = initiative.UtilisateurID,
+                Nom_init = initiative.Nom_init,
+                Statu_init = initiative.Statu_init.Value,
+                Date_debu = initiative.Date_debu.Value,
+                Date_fin = initiative.Date_fin.Value,
+                Objectifs_generaux = initiative.Objectifs_generaux,
+                Obgectifs_specifiques = initiative.Obgectifs_specifiques,
+                Description_court = initiative.Description_court,
+                Description_detaillee = initiative.Description_detaillee,
+                Budget = initiative.Budget.Value,
+                Approbateur = initiative.Approbateur,
+                Cofinancement = initiative.Cofinancement,
+                Regions = initiative.Regions,
+            };
             if (initiative == null)
             {
                 return HttpNotFound();
             }
             ViewBag.UtilisateurID = new SelectList(db.Utilisateur, "ID", "UserId", initiative.UtilisateurID);
-            return View(initiative);
+            return View(init);
         }
 
         // POST: Initiatives1/Edit/5
@@ -130,36 +152,52 @@ namespace MinisitreFin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,UtilisateurID,Nom_init,Statu_init,Date_debu,Date_fin,Objectifs_generaux,Obgectifs_specifiques,Description_court,Description_detaillee,Budget,Approbateur,Cofinancement,Regions")] Initiatives initiative)
+        public ActionResult Edit(InitiativesViewModel initiative)
         {
             if (ModelState.IsValid)
             {
                 try {
-                    initiative.Statu_init = initiative.Statu_init;
-                    db.Entry(initiative).State = EntityState.Modified;
+                    //initiative.Statu_init = initiative.Statu_init;
+                    Initiatives init = new Initiatives()
+                    {
+                        ID=initiative.ID,
+                        UtilisateurID = initiative.UtilisateurID,
+                        Nom_init = initiative.Nom_init,
+                        Statu_init = initiative.Statu_init,
+                        Date_debu = initiative.Date_debu,
+                        Date_fin = initiative.Date_fin,
+                        Objectifs_generaux = initiative.Objectifs_generaux,
+                        Obgectifs_specifiques = initiative.Obgectifs_specifiques,
+                        Description_court = initiative.Description_court,
+                        Description_detaillee = initiative.Description_detaillee,
+                        Budget = initiative.Budget,
+                        Approbateur = initiative.Approbateur,
+                        Cofinancement = initiative.Cofinancement,
+                        Regions = initiative.Regions,
+                    };
+                    db.Entry(init).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (DbEntityValidationException DbExc)
+                catch (Exception DbExc)
                 {
-                    string error = "";
-                    foreach (var er in DbExc.EntityValidationErrors)
-                    {
-                        foreach (var ve in er.ValidationErrors)
-                        {
-                            error += " - " + ve.ErrorMessage;
-                        }
-                    }
-                    TempData["Message"] = error;
+                    //DbEntityValidationException
+                    //string error = "";
+                    //foreach (var er in DbExc.EntityValidationErrors)
+                    //{
+                    //    foreach (var ve in er.ValidationErrors)
+                    //    {
+                    //        error += " - " + ve.ErrorMessage;
+                    //    }
+                    //}
+                    TempData["Message"] = DbExc.Message;
                     ViewBag.UtilisateurID = new SelectList(db.Utilisateur, "ID", "UserId", initiative.UtilisateurID);
                     return View(initiative);
                 }
-
             }
             ViewBag.UtilisateurID = new SelectList(db.Utilisateur, "ID", "UserId", initiative.UtilisateurID);
             return View(initiative);
         }
-
         // GET: Initiatives1/Delete/5
         public ActionResult Delete(int? id)
         {
